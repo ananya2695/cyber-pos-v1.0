@@ -33,7 +33,6 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
-
 },{"./pages/home/home":2,"@angular/core":150,"ionic-angular":464,"ionic-native":491}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -47,32 +46,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-/*
-  Generated class for the RegisterPage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 var HomePage = (function () {
     function HomePage(navCtrl) {
         this.navCtrl = navCtrl;
-        this.items = [
-            { id_user: "#CS01", user_name: "Ananya", position: "Cashier", img: "image/alice.jpg" },
-            { id_user: "#CS02", user_name: "Sirintra", position: "Cashier", img: "image/andrew.jpg" },
-            { id_user: "#CS03", user_name: "Orapan", position: "Cashier", img: "image/carl.jpg" },
-            { id_user: "#CS04", user_name: "Nipaporn", position: "Cashier", img: "image/carl.jpg" },
-            { id_user: "#CS05", user_name: "Nucha", position: "Cashier", img: "image/carl.jpg" },
-            { id_user: "#CS06", user_name: "Satida", position: "Cashier", img: "image/carl.jpg" },
-            { id_user: "#MN01", user_name: "Aemika", position: "Manager", img: "image/carl.jpg" },
-        ];
     }
-    HomePage.prototype.addNewPersonal = function (newPersonalName) {
-        var newPersonalObject = { name: newPersonalName };
-        this.items.push(newPersonalObject);
-    };
-    HomePage.prototype.onPop = function () {
-        this.navCtrl.pop();
-    };
     HomePage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/home.html'
@@ -82,7 +59,6 @@ var HomePage = (function () {
     return HomePage;
 }());
 exports.HomePage = HomePage;
-
 },{"@angular/core":150,"ionic-angular":464}],3:[function(require,module,exports){
 /**
  * @license
