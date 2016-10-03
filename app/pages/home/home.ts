@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
 import { ProductSellPage } from '../productSell/productSell';
+import { PaymentPage } from '../payment/payment';
 
 /*
   Generated class for the RegisterPage page.
@@ -44,6 +45,8 @@ export class HomePage { items:any = [
   registerPage(){
     this.navCtrl.push(RegisterPage);
   }
-
+ PaymentPage(){
+   this.navCtrl.push(PaymentPage);
+ }
 
 }

@@ -50,6 +50,7 @@ var ionic_angular_1 = require('ionic-angular');
 var register_1 = require('../register/register');
 var table_1 = require('../table/table');
 var productSell_1 = require('../productSell/productSell');
+var payment_1 = require('../payment/payment');
 /*
   Generated class for the RegisterPage page.
 
@@ -85,6 +86,9 @@ var HomePage = (function () {
     HomePage.prototype.registerPage = function () {
         this.navCtrl.push(register_1.RegisterPage);
     };
+    HomePage.prototype.PaymentPage = function () {
+        this.navCtrl.push(payment_1.PaymentPage);
+    };
     HomePage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/home.html'
@@ -95,7 +99,7 @@ var HomePage = (function () {
 }());
 exports.HomePage = HomePage;
 
-},{"../productSell/productSell":4,"../register/register":5,"../table/table":6,"@angular/core":154,"ionic-angular":468}],3:[function(require,module,exports){
+},{"../payment/payment":3,"../productSell/productSell":4,"../register/register":5,"../table/table":6,"@angular/core":154,"ionic-angular":468}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
