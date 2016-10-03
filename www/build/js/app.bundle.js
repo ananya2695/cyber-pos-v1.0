@@ -34,7 +34,11 @@ var MyApp = (function () {
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
 
+<<<<<<< HEAD
 },{"./pages/home/home":2,"@angular/core":152,"ionic-angular":466,"ionic-native":493}],2:[function(require,module,exports){
+=======
+},{"./pages/home/home":2,"@angular/core":150,"ionic-angular":464,"ionic-native":491}],2:[function(require,module,exports){
+>>>>>>> 26cc10d795d26ec8891b023f71d68edc4df4119b
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -47,8 +51,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
+<<<<<<< HEAD
 var register_1 = require('../register/register');
 var table_1 = require('../table/table');
+=======
+>>>>>>> 26cc10d795d26ec8891b023f71d68edc4df4119b
 /*
   Generated class for the RegisterPage page.
 
@@ -75,12 +82,15 @@ var HomePage = (function () {
     HomePage.prototype.onPop = function () {
         this.navCtrl.pop();
     };
+<<<<<<< HEAD
     HomePage.prototype.tablePage = function () {
         this.navCtrl.push(table_1.TablePage);
     };
     HomePage.prototype.registerPage = function () {
         this.navCtrl.push(register_1.RegisterPage);
     };
+=======
+>>>>>>> 26cc10d795d26ec8891b023f71d68edc4df4119b
     HomePage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/home.html'
@@ -91,6 +101,7 @@ var HomePage = (function () {
 }());
 exports.HomePage = HomePage;
 
+<<<<<<< HEAD
 },{"../register/register":3,"../table/table":4,"@angular/core":152,"ionic-angular":466}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -168,6 +179,9 @@ var TablePage = (function () {
 exports.TablePage = TablePage;
 
 },{"@angular/core":152,"ionic-angular":466}],5:[function(require,module,exports){
+=======
+},{"@angular/core":150,"ionic-angular":464}],3:[function(require,module,exports){
+>>>>>>> 26cc10d795d26ec8891b023f71d68edc4df4119b
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
