@@ -33,7 +33,6 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
-
 },{"./pages/home/home":2,"@angular/core":150,"ionic-angular":464,"ionic-native":491}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -60,7 +59,6 @@ var HomePage = (function () {
     return HomePage;
 }());
 exports.HomePage = HomePage;
-
 },{"@angular/core":150,"ionic-angular":464}],3:[function(require,module,exports){
 /**
  * @license
