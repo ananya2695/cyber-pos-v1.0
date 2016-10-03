@@ -1,16 +1,30 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+<<<<<<< HEAD
+=======
 import { RegisterPage } from '../register/register';
 import { PaymentPage } from '../payment/payment';
 
+>>>>>>> 26cc10d795d26ec8891b023f71d68edc4df4119b
 
+/*
+  Generated class for the RegisterPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+*/
 @Component({
-  templateUrl: 'build/pages/home/home.html'
+  templateUrl: 'build/pages/register/register.html',
 })
-export class HomePage {
-  constructor(public navCtrl: NavController) {
+export class RegisterPage {
+
+  constructor(private navCtrl: NavController) {
 
   }
+<<<<<<< HEAD
+
+}
+=======
   Caramel = 0;
   clickOk(){
     this.navCtrl.push(RegisterPage);
@@ -26,3 +40,4 @@ export class HomePage {
 //   this.Caramel -= 1;
 // }
 }
+>>>>>>> 26cc10d795d26ec8891b023f71d68edc4df4119b
