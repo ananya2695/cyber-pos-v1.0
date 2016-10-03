@@ -2,12 +2,15 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
+import { ProductSellPage } from '../productSell/productSell';
+
 /*
   Generated class for the RegisterPage page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
@@ -23,6 +26,11 @@ export class HomePage { items:any = [
   constructor(private navCtrl: NavController) {
 
   }
+
+  ProductSell(){
+    this.navCtrl.push(ProductSellPage);
+  }
+
   addNewPersonal(newPersonalName){
     let newPersonalObject = {name : newPersonalName};
     this.items.push(newPersonalObject);
@@ -36,5 +44,6 @@ export class HomePage { items:any = [
   registerPage(){
     this.navCtrl.push(RegisterPage);
   }
+
 
 }
