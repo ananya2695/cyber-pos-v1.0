@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-
+import { RegisterPage } from '../register/register';
+import { TablePage } from '../table/table';
 /*
   Generated class for the RegisterPage page.
 
@@ -29,6 +30,11 @@ export class HomePage { items:any = [
   onPop(){
     this.navCtrl.pop();
   }
-  
+  tablePage(){
+    this.navCtrl.push(TablePage);
+  }
+  registerPage(){
+    this.navCtrl.push(RegisterPage);
+  }
 
 }

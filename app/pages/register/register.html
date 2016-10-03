@@ -1,5 +1,5 @@
 <!--
-  Generated template for the ListCoffeePage page.
+  Generated template for the RegisterPage page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
@@ -12,20 +12,49 @@
 
 </ion-header>
 
-<ion-content>
-    <ion-list inset>
-            <ion-item>
-                <!--<ion-label fiexd>Coffee's Name</ion-label>-->
-                <ion-input type="text" [(ngModel)]="newPersonalName"></ion-input>
-            </ion-item>
-            <!--<button block (click)="addNewCoffee(newCoffeName)">Add</button>-->
-    </ion-list>
-    <ion-list>
-        <ion-item *ngFor="let item of items" >
-            <h2>{{item.id_user}}</h2>
-            <p> {{item.user_name}}</p>
-            <p> {{item.position}}</p>
-        </ion-item>
-        <button block (click)="onPop()">OK</button>
-    </ion-list>
+
+<ion-content padding>
+<ion-list>
+ <ion-row>
+   <ion-col width-50>
+     <ion-item>
+    <ion-label floating>ชื่อ</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+   </ion-col>
+
+   <ion-col width-50>
+      <ion-item>
+    <ion-label floating>นามสกุล</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+   </ion-col>
+
+
+ </ion-row>
+  
+ 
+
+
+
+  <ion-item>
+    <ion-label floating>Username</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>รหัสผ่าน</ion-label>
+    <ion-input type="password"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>ยืนยันรหัสผ่าน</ion-label>
+    <ion-input type="password"></ion-input>
+  </ion-item>
+
+</ion-list>
+<ion-row > 
+  <button block ion-button >OK </button>
+</ion-row>
+
 </ion-content>

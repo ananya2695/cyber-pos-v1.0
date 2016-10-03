@@ -12,7 +12,7 @@
      <ion-item>
        <ion-grid>
          <ion-row>
-           <ion-col width-33 *ngFor="let item of items">
+           <ion-col width-33 *ngFor="let item of items" (click)="tablePage()">
              <ion-card>
             <ion-item>
               <ion-row>
@@ -21,9 +21,11 @@
                <ion-row>
              <label>{{item.position}}</label>
                </ion-row>
-       
-     </ion-item>
-   </ion-card>
+               <ion-col>
+                    <img src="{{item.img}}" style="width:30%;" align="right">
+                  </ion-col>   
+                </ion-item>
+                </ion-card>
            </ion-col>
          </ion-row>
           <ion-row>
@@ -36,35 +38,122 @@
                <ion-row>
              <label>{{item.position}}</label>
                </ion-row>
+               <ion-col>
+                    <img src="{{item.img}}" style="width:30%;" align="right">
+                  </ion-col>   
        
      </ion-item>
    </ion-card>
-           </ion-col>
-         </ion-row>
-          <ion-row>
-           <ion-col width-33 *ngFor="let item of items">
+  </ion-col>
+</ion-row>
+<ion-row>
+           <ion-col width-33 >
              <ion-card>
             <ion-item>
               <ion-row>
-             <h2>{{item.user_name}} {{item.id_user}}</h2>
+             <h2>Ananya #CH01</h2>
                </ion-row>
                <ion-row>
-             <label>{{item.position}}</label>
+             <label>Cashier</label>
                </ion-row>
+               <ion-col>
+                    <img src="image/alice.jpg" style="width:30%;" align="right">
+                  </ion-col>   
        
      </ion-item>
    </ion-card>
+  </ion-col>
+
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>Theerasak #MN01</h2>
+               </ion-row>
+               <ion-row>
+             <label>Manager</label>
+               </ion-row>
+               <ion-col>
+                    <img src="image/andrew.jpg" style="width:30%;" align="right">
+                  </ion-col>   
+       
+     </ion-item>
+   </ion-card>
+  </ion-col>
+
+           <ion-col width-33   (click)="registerPage()">
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>ADD PERSONAL</h2>
+               </ion-row>
+               <ion-row>
+             <!--<label>Cashier</label>-->
+               </ion-row>
+               <ion-col>
+                    <img src="image/add.jpg" style="width:45%;" align="right" >
+                  </ion-col>   
+       
+     </ion-item>
+   </ion-card>
+  </ion-col>
+</ion-row>
+          <!--<ion-row>
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>Nipapron CS#04</h2>
+               </ion-row>
+               <ion-row>
+             <label>Cashier</label>
+               </ion-row>
+               <ion-col>
+                <img src="image/alice.jpg" alt="">
+                  </ion-col>   
+     </ion-item>
+
+     </ion-card>
            </ion-col>
          </ion-row>
+          <ion-row>
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>Theerasak MN#01</h2>
+               </ion-row>
+               <ion-row>
+             <label>Cashier</label>
+               </ion-row>
+               <ion-col>
+                <img src="image/alice.jpg" alt="">
+                  </ion-col>   
+     </ion-item>
+
+     </ion-card>
+           </ion-col>
+         </ion-row>
+          <ion-row>
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>Nipapron CS#04</h2>
+               </ion-row>
+               <ion-row>
+             <label>Cashier</label>
+               </ion-row>
+               <ion-col>
+                 <img src="image/alice.jpg" alt="">
+                  </ion-col>   
+     </ion-item>
+   </ion-card>
+           </ion-col>
+         </ion-row>-->
        </ion-grid>
      </ion-item>
    </ion-card>
-    <!--<ion-list>
-        <ion-item *ngFor="let item of items" >
-            <h2>{{item.id_user}}</h2>
-            <p> {{item.user_name}}</p>
-            <p> {{item.position}}</p>
-        </ion-item>
-        <button block (click)="onPop()">OK</button>
-    </ion-list>-->
+
+    
 </ion-content>

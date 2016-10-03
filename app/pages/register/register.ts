@@ -1,22 +1,19 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { RegisterPage } from '../register/register';
 
+/*
+  Generated class for the RegisterPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+*/
 @Component({
-  templateUrl: 'build/pages/home/home.html'
+  templateUrl: 'build/pages/register/register.html',
 })
-export class HomePage {
-  constructor(public navCtrl: NavController) {
+export class RegisterPage {
+
+  constructor(private navCtrl: NavController) {
 
   }
-  Caramel = 0;
-  clickOk(){
-    this.navCtrl.push(RegisterPage);
-  }
-//   plusCoffi(){
-// this.Caramel += 1;
-//   }
-//   delCoffi(){
-//   this.Caramel -= 1;
-// }
+
 }
