@@ -42,6 +42,4 @@ export class HomePage { items:any = [
     this.navCtrl.push(RegisterPage);
   }
 
- 
-
 }
