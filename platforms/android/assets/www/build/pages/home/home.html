@@ -1,0 +1,153 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Log in
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+   <ion-card>
+     <ion-item>
+       <ion-grid>
+         <ion-row>
+           <ion-col width-33 *ngFor="let item of items" (click)="tablePage()">
+             <ion-card>
+            <ion-item style="background-color:#515151;">
+              <ion-row>
+             <h1 style="color:white;">{{item.user_name}} {{item.id_user}}</h1>
+               </ion-row>
+               <ion-row>
+             <label style="color:white;">{{item.position}}</label>
+               </ion-row>
+               <ion-col>
+                    <img src="{{item.img}}" style="width:30%;" align="right">
+                  </ion-col>   
+                </ion-item>
+                </ion-card>
+           </ion-col>
+         </ion-row>
+          <ion-row>
+           <ion-col width-33 *ngFor="let item of items" >
+             <ion-card>
+            <ion-item style="background-color:#515151;">
+              <ion-row>
+             <h1 style="color:white;">{{item.user_name}} {{item.id_user}}</h1>
+               </ion-row>
+               <ion-row>
+             <label style="color:white;">{{item.position}}</label>
+               </ion-row>
+               <ion-col>
+                    <img src="{{item.img}}" style="width:30%;" align="right">
+                  </ion-col>   
+     </ion-item>
+   </ion-card>
+  </ion-col>
+</ion-row>
+<ion-row>
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item style="background-color:#515151;">
+              <ion-row>
+             <h1 style="color:white;">Ananya #CH01</h1>
+               </ion-row>
+               <ion-row>
+             <label style="color:white;">Cashier</label>
+               </ion-row>
+               <ion-col>
+                    <img src="image/alice.jpg" style="width:30%;" align="right">
+                  </ion-col>   
+     </ion-item>
+   </ion-card>
+  </ion-col>
+
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item style="background-color:#515151;">
+              <ion-row>
+             <h1 style="color:white;">Theerasak #MN01</h1>
+               </ion-row>
+               <ion-row>
+             <label style="color:white;">Manager</label>
+               </ion-row>
+               <ion-col>
+                    <img src="image/andrew.jpg" style="width:30%;" align="right">
+                  </ion-col>   
+     </ion-item>
+   </ion-card>
+  </ion-col>
+
+           <ion-col width-33   (click)="registerPage()">
+             <ion-card>
+            <ion-item style="background-color:#515151;">
+              <ion-row>
+             <h1 style="color:white;">ADD PERSONAL</h1>
+               </ion-row>
+               <ion-row>
+             <!--<label>Cashier</label>-->
+               </ion-row>
+               <ion-col>
+                    <img src="image/add.jpg" style="width:46%;" align="right" >
+                  </ion-col>   
+     </ion-item>
+   </ion-card>
+  </ion-col>
+</ion-row>
+          <!--<ion-row>
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>Nipapron CS#04</h2>
+               </ion-row>
+               <ion-row>
+             <label>Cashier</label>
+               </ion-row>
+               <ion-col>
+                <img src="image/alice.jpg" alt="">
+                  </ion-col>   
+     </ion-item>
+
+     </ion-card>
+           </ion-col>
+         </ion-row>
+          <ion-row>
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>Theerasak MN#01</h2>
+               </ion-row>
+               <ion-row>
+             <label>Cashier</label>
+               </ion-row>
+               <ion-col>
+                <img src="image/alice.jpg" alt="">
+                  </ion-col>   
+     </ion-item>
+
+     </ion-card>
+           </ion-col>
+         </ion-row>
+          <ion-row>
+           <ion-col width-33 >
+             <ion-card>
+            <ion-item>
+              <ion-row>
+             <h2>Nipapron CS#04</h2>
+               </ion-row>
+               <ion-row>
+             <label>Cashier</label>
+               </ion-row>
+               <ion-col>
+                 <img src="image/alice.jpg" alt="">
+                  </ion-col>   
+     </ion-item>
+   </ion-card>
+           </ion-col>
+         </ion-row>-->
+       </ion-grid>
+     </ion-item>
+   </ion-card>
+</ion-content>
+
