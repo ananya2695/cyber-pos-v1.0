@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
+import { SettingPage } from '../setting/setting.ts';
 
 /*
   Generated class for the RegisterPage page.
@@ -41,5 +42,7 @@ export class HomePage { items:any = [
   registerPage(){
     this.navCtrl.push(RegisterPage);
   }
-
+  openSetting(){
+    this.navCtrl.push(SettingPage);
+  }
 }
