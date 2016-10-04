@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
-import { PaymentPage } from '../payment/payment';
 
 /*
   Generated class for the RegisterPage page.
@@ -27,9 +26,7 @@ export class HomePage { items:any = [
 
   }
 
-  ProductSell(){
-    this.navCtrl.push(ProductSellPage);
-  }
+
 
   addNewPersonal(newPersonalName){
     let newPersonalObject = {name : newPersonalName};
@@ -44,9 +41,7 @@ export class HomePage { items:any = [
   registerPage(){
     this.navCtrl.push(RegisterPage);
   }
- PaymentPage(){
-   this.navCtrl.push(PaymentPage);
- }
+
  
 
 }

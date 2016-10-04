@@ -33,6 +33,7 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
+
 },{"./pages/home/home":2,"@angular/core":154,"ionic-angular":468,"ionic-native":495}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -48,9 +49,6 @@ var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var register_1 = require('../register/register');
 var table_1 = require('../table/table');
-// import { ProductSellPage } from '../productSell/productSell';
-var payment_1 = require('../payment/payment');
-var productSell_1 = require('../productSell/productSell');
 /*
   Generated class for the RegisterPage page.
 
@@ -70,9 +68,6 @@ var HomePage = (function () {
             { id_user: "#MN01", user_name: "Aemika", position: "Manager", img: "image/carl.jpg" },
         ];
     }
-    HomePage.prototype.ProductSell = function () {
-        this.navCtrl.push(productSell_1.ProductSellPage);
-    };
     HomePage.prototype.addNewPersonal = function (newPersonalName) {
         var newPersonalObject = { name: newPersonalName };
         this.items.push(newPersonalObject);
@@ -86,12 +81,6 @@ var HomePage = (function () {
     HomePage.prototype.registerPage = function () {
         this.navCtrl.push(register_1.RegisterPage);
     };
-    HomePage.prototype.PaymentPage = function () {
-        this.navCtrl.push(payment_1.PaymentPage);
-    };
-    HomePage.prototype.ProductSellPage = function () {
-        this.navCtrl.push(productSell_1.ProductSellPage);
-    };
     HomePage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/home.html'
@@ -101,7 +90,8 @@ var HomePage = (function () {
     return HomePage;
 }());
 exports.HomePage = HomePage;
-},{"../payment/payment":3,"../productSell/productSell":4,"../register/register":5,"../table/table":6,"@angular/core":154,"ionic-angular":468}],3:[function(require,module,exports){
+
+},{"../register/register":5,"../table/table":6,"@angular/core":154,"ionic-angular":468}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -133,6 +123,7 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
+
 },{"@angular/core":154,"ionic-angular":468}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -146,10 +137,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
+var payment_1 = require('../payment/payment');
 var ProductSellPage = (function () {
     function ProductSellPage(navCtrl) {
         this.navCtrl = navCtrl;
     }
+    ProductSellPage.prototype.PaymentPage = function () {
+        this.navCtrl.push(payment_1.PaymentPage);
+    };
     ProductSellPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/productSell/productSell.html'
@@ -159,7 +154,8 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-},{"@angular/core":154,"ionic-angular":468}],5:[function(require,module,exports){
+
+},{"../payment/payment":3,"@angular/core":154,"ionic-angular":468}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -199,6 +195,7 @@ var RegisterPage = (function () {
     return RegisterPage;
 }());
 exports.RegisterPage = RegisterPage;
+
 },{"../payment/payment":3,"@angular/core":154,"ionic-angular":468}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -245,6 +242,7 @@ var TablePage = (function () {
     return TablePage;
 }());
 exports.TablePage = TablePage;
+
 },{"../productSell/productSell.ts":4,"@angular/core":154,"ionic-angular":468}],7:[function(require,module,exports){
 /**
  * @license
