@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-
+import { ProductSellPage } from '../productSell/productSell.ts';
 /*
   Generated class for the TablePage page.
 
@@ -24,5 +24,7 @@ export class TablePage {
   constructor(private navCtrl: NavController) {
 
   }
-
+ProductSellPage(){
+   this.navCtrl.push(ProductSellPage)
+ }
 }

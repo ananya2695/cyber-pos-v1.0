@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
-import { ProductSellPage } from '../productSell/productSell';
 import { PaymentPage } from '../payment/payment';
 
 /*
@@ -48,5 +47,6 @@ export class HomePage { items:any = [
  PaymentPage(){
    this.navCtrl.push(PaymentPage);
  }
+ 
 
 }
