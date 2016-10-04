@@ -15,114 +15,179 @@
 
 <ion-content padding>
 <ion-card> 
-    <ion-item> 
-      <ion-grid> 
-        <ion-row> 
-          <ion-col width-25 *ngFor="let item of tables"> 
-            <ion-card> 
-              <ion-item> 
-                <ion-row> 
-                  <label>{{item.id_table}}</label> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> เลขที่</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.name_tabel}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> ลูกค้า</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.id_cus}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> เวลา</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.time_cus}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> รวมจำนวน</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.total}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label>{{item.name_user}}</label> 
-                  </ion-col> 
-                  <ion-col width-50> 
-                    <img src="{{item.img_user}}" style="width:30%;" align="right"> 
-                  </ion-col> 
-                </ion-row> 
-              </ion-item> 
-            </ion-card> 
-          </ion-col> 
-        </ion-row> 
-        <ion-row> 
-          <ion-col width-25 *ngFor="let item of tables"> 
-            <ion-card> 
-              <ion-item> 
-                <ion-row> 
-                  <label>{{item.id_table}}</label> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> เลขที่</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.name_tabel}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> ลูกค้า</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.id_cus}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> เวลา</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.time_cus}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label> รวมจำนวน</label> 
-                  </ion-col> 
-                  <ion-col width-50 align="right"> 
-                    <label>{{item.total}}</label> 
-                  </ion-col> 
-                </ion-row> 
-                <ion-row> 
-                  <ion-col width-50> 
-                    <label>{{item.name_user}}</label> 
-                  </ion-col> 
-                  <ion-col width-50> 
-                    <img src="{{item.img_user}}" style="width:30%;" align="right"> 
-                  </ion-col> 
-                </ion-row> 
-              </ion-item> 
-            </ion-card> 
-          </ion-col> 
-        </ion-row> 
-      </ion-grid> 
-    </ion-item> 
+    
     <ion-row align="center"> 
       <ion-col width-50> 
+        <ion-item>
+    <ion-label>ตรวจสอบ เลขที่</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+<!--table-->
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>โต๊ะ</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label >ลูกค้า</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>ผู้ใช้</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+
+<!--order-->
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>รายการ</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label>จำนวน</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>ราคา</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+
+<!--order-detail-->
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>คาปูชิโน่</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label>1</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>100</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>น้ำส้ม</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label>1</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>100</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>มอคค่า</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label>1</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>100</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>อิตาเลี่ยนโซดา</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label>2</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>100</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>นมปั่น</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label>1</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>100</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>บลูเบอรี่</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-50>
+    <ion-item>
+    <ion-label>1</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col width-25>
+    <ion-item>
+    <ion-label>100</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+</ion-row>
+
         <button block ion-button color="danger">ยกเลิก</button> 
 
 
@@ -200,38 +265,68 @@
   <ion-col width-20 style="margin-left:-9px;">
 <button block style="height:55px;">1</button>
   </ion-col>
-
   <ion-col width-20 style="margin-left:-9px;">
 <button block style="height:55px;">2</button>
   </ion-col>
 
   
   <ion-col width-20 style="margin-left:-9px;">
-    <button block style="height:55px;">000</button>
+    <button block style="height:55px;">3</button>
   </ion-col>
 </ion-row>
 
 <ion-row style="margin-top:-17px;">
-  <ion-col width-20>
-    <button block style="height:55px;">-</button>
+  <ion-col width-25>
+    <button block style="height:55px;">000</button>
  
   </ion-col>
-  <ion-col width-20 style="margin-left:-9px;">
+  <ion-col width-25 style="margin-left:-9px;">
 <button block style="height:55px;">00</button>
   </ion-col>
 
-  <ion-col width-20 style="margin-left:-9px;">
+  <ion-col width-25 style="margin-left:-9px;">
 <button block style="height:55px;">0</button>
   </ion-col>
 
   
-  <ion-col width-20 style="margin-left:-9px;">
+  <ion-col width-10 style="margin-left:-9px;">
     <button block style="height:55px;">.</button>
   </ion-col>
-  <ion-col width-20 style="margin-left:-9px;">
+  <ion-col width-10  style="margin-left:-9px;">
 <button block style="height:55px;">C</button>
   </ion-col>
 </ion-row>
+
+<!--บัตรเครดิต-->
+<ion-row  >
+  <ion-col width-20  >
+    <button block style="height:55px;">บัตรเครดิต</button>
+ 
+  </ion-col>
+  <ion-col width-50 style="margin-left:-9px;">
+<button block style="height:55px;" >เงินสด</button>
+  </ion-col>
+
+  <ion-col width-20 style="margin-left:-9px;">
+<button block  style="height:55px;">คูปอง</button>
+  </ion-col>
+</ion-row>
+
+<!--ด้านล่าง-->
+<ion-row >
+  <ion-col width-25  >
+    <button block style="height:55px;">ย้อนหลัง</button>
+ 
+  </ion-col>
+  <ion-col width-50 style="margin-left:-9px;">
+<button block style="height:55px;" >พิพม์ใบเสร็จ</button>
+  </ion-col>
+
+  <ion-col width-25 style="margin-left:-9px;">
+<button block  style="height:55px;">ลบรายการ</button>
+  </ion-col>
+</ion-row>
+
 
 
 
