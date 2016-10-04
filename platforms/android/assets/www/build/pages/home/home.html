@@ -1,9 +1,14 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Log in
-    </ion-title>
-  </ion-navbar>
+ <ion-navbar>
+  <ion-title>
+    Log In
+  </ion-title>
+  <ion-buttons end (click)="openSetting()">
+    <button>
+      <ion-icon name="settings"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
 </ion-header>
 
 <ion-content>
@@ -60,6 +65,7 @@
               </ion-item>
             </ion-card>
           </ion-col>
+
 
           <ion-col width-33>
             <ion-card>
