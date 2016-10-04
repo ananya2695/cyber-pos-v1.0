@@ -33,6 +33,7 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
+
 },{"./pages/home/home":2,"@angular/core":154,"ionic-angular":468,"ionic-native":495}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -89,6 +90,7 @@ var HomePage = (function () {
     return HomePage;
 }());
 exports.HomePage = HomePage;
+
 },{"../register/register":5,"../table/table":6,"@angular/core":154,"ionic-angular":468}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -121,6 +123,7 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
+
 },{"@angular/core":154,"ionic-angular":468}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -151,6 +154,7 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
+
 },{"../payment/payment":3,"@angular/core":154,"ionic-angular":468}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -191,6 +195,7 @@ var RegisterPage = (function () {
     return RegisterPage;
 }());
 exports.RegisterPage = RegisterPage;
+
 },{"../payment/payment":3,"@angular/core":154,"ionic-angular":468}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -237,6 +242,7 @@ var TablePage = (function () {
     return TablePage;
 }());
 exports.TablePage = TablePage;
+
 },{"../productSell/productSell.ts":4,"@angular/core":154,"ionic-angular":468}],7:[function(require,module,exports){
 /**
  * @license
