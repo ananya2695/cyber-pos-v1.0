@@ -33,7 +33,6 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
-
 },{"./pages/home/home":2,"@angular/core":155,"ionic-angular":469,"ionic-native":496}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -94,7 +93,6 @@ var HomePage = (function () {
     return HomePage;
 }());
 exports.HomePage = HomePage;
-
 },{"../register/register":5,"../setting/setting.ts":6,"../table/table":7,"@angular/core":155,"ionic-angular":469}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -127,7 +125,6 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
-
 },{"@angular/core":155,"ionic-angular":469}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -142,12 +139,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var payment_1 = require('../payment/payment');
+var table_1 = require('../table/table');
 var ProductSellPage = (function () {
     function ProductSellPage(navCtrl) {
         this.navCtrl = navCtrl;
+        this.items = [
+            { namePro: "คาปูชิโน่", piece: 1, price: 100 },
+            { namePro: "เอสเปสโช่", piece: 1, price: 100 },
+            { namePro: "มอคค่า", piece: 3, price: 100 },
+            { namePro: "อาเมริกาโน่", piece: 1, price: 100 },
+            { namePro: "ลาเต้", piece: 1, price: 100 },
+            { namePro: "ชาเขียว", piece: 2, price: 100 },
+            { namePro: "ชานม", piece: 1, price: 100 },
+            { namePro: "นำ้ส้ม", piece: 1, price: 100 },
+            { namePro: "โอเลี้ยง", piece: 4, price: 100 },
+            { namePro: "โซดาไฟ", piece: 1, price: 100 },
+            { namePro: "เหล้าปั่น", piece: 6, price: 100 }
+        ];
+        this.mySlideOptions = {
+            pager: true
+        };
+        this.mySlideVertical = {
+            direction: 'vertical'
+        };
     }
     ProductSellPage.prototype.PaymentPage = function () {
         this.navCtrl.push(payment_1.PaymentPage);
+    };
+    ProductSellPage.prototype.TablePage = function () {
+        this.navCtrl.push(table_1.TablePage);
     };
     ProductSellPage = __decorate([
         core_1.Component({
@@ -158,8 +178,7 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-
-},{"../payment/payment":3,"@angular/core":155,"ionic-angular":469}],5:[function(require,module,exports){
+},{"../payment/payment":3,"../table/table":7,"@angular/core":155,"ionic-angular":469}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -199,7 +218,6 @@ var RegisterPage = (function () {
     return RegisterPage;
 }());
 exports.RegisterPage = RegisterPage;
-
 },{"../payment/payment":3,"@angular/core":155,"ionic-angular":469}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -241,7 +259,6 @@ var SettingPage = (function () {
     return SettingPage;
 }());
 exports.SettingPage = SettingPage;
-
 },{"@angular/core":155,"ionic-angular":469}],7:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -288,7 +305,6 @@ var TablePage = (function () {
     return TablePage;
 }());
 exports.TablePage = TablePage;
-
 },{"../productSell/productSell.ts":4,"@angular/core":155,"ionic-angular":469}],8:[function(require,module,exports){
 /**
  * @license
