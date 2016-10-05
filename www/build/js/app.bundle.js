@@ -142,6 +142,25 @@ var payment_1 = require('../payment/payment');
 var ProductSellPage = (function () {
     function ProductSellPage(navCtrl) {
         this.navCtrl = navCtrl;
+        this.items = [
+            { namePro: "คาปูชิโน่", piece: 1, price: 100 },
+            { namePro: "เอสเปสโช่", piece: 1, price: 100 },
+            { namePro: "มอคค่า", piece: 3, price: 100 },
+            { namePro: "อาเมริกาโน่", piece: 1, price: 100 },
+            { namePro: "ลาเต้", piece: 1, price: 100 },
+            { namePro: "ชาเขียว", piece: 2, price: 100 },
+            { namePro: "ชานม", piece: 1, price: 100 },
+            { namePro: "นำ้ส้ม", piece: 1, price: 100 },
+            { namePro: "โอเลี้ยง", piece: 4, price: 100 },
+            { namePro: "โซดาไฟ", piece: 1, price: 100 },
+            { namePro: "เหล้าปั่น", piece: 6, price: 100 }
+        ];
+        this.mySlideOptions = {
+            pager: true
+        };
+        this.mySlideVertical = {
+            direction: 'vertical'
+        };
     }
     ProductSellPage.prototype.PaymentPage = function () {
         this.navCtrl.push(payment_1.PaymentPage);
