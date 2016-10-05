@@ -33,6 +33,7 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
+
 },{"./pages/home/home":2,"@angular/core":155,"ionic-angular":469,"ionic-native":496}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -93,6 +94,7 @@ var HomePage = (function () {
     return HomePage;
 }());
 exports.HomePage = HomePage;
+
 },{"../register/register":5,"../setting/setting.ts":6,"../table/table":7,"@angular/core":155,"ionic-angular":469}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -125,6 +127,7 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
+
 },{"@angular/core":155,"ionic-angular":469}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -155,6 +158,7 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
+
 },{"../payment/payment":3,"@angular/core":155,"ionic-angular":469}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -195,6 +199,7 @@ var RegisterPage = (function () {
     return RegisterPage;
 }());
 exports.RegisterPage = RegisterPage;
+
 },{"../payment/payment":3,"@angular/core":155,"ionic-angular":469}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -236,6 +241,7 @@ var SettingPage = (function () {
     return SettingPage;
 }());
 exports.SettingPage = SettingPage;
+
 },{"@angular/core":155,"ionic-angular":469}],7:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -282,6 +288,7 @@ var TablePage = (function () {
     return TablePage;
 }());
 exports.TablePage = TablePage;
+
 },{"../productSell/productSell.ts":4,"@angular/core":155,"ionic-angular":469}],8:[function(require,module,exports){
 /**
  * @license
