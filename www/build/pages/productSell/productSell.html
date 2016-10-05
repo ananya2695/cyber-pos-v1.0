@@ -135,7 +135,7 @@
 
           <ion-row style="margin-top:20px;">
             <ion-col width-33>
-              <button block>พักการขาย</button>
+              <button block (click)="TablePage()">พักการขาย</button>
 
             </ion-col>
             <ion-col width-33>
@@ -371,7 +371,8 @@
           </ion-row>
 
 
-          <button block ion-button color="danger" style="margin-top:-10px;">ยกเลิก</button>
+          <button block  (click)="TablePage()" ion-button color="danger" style="margin-top:-10px;">ยกเลิก</button>
+           <!--<button block (click)="PaymentPage()">ชำระเงิน</button>-->
 
 
 
