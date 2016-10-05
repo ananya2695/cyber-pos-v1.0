@@ -1,3 +1,17 @@
 .home-page {
-  
+  .grid-full ion-row{
+     height: 100%;
+     padding: 0;
+     flex-wrap: wrap;
+
+ }
+.grid-full ion-col{
+    flex: 0 0 33%;
+    max-width: 33%;
+    text-align: center;
+    padding: 0;
+}
+.picHome{
+    width:30%;
+}
 }
