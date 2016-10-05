@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, Slides } from 'ionic-angular';
 import { PaymentPage } from '../payment/payment';
+import { TablePage } from'../table/table';
 
 @Component({
   templateUrl: 'build/pages/productSell/productSell.html'
@@ -32,5 +33,8 @@ export class ProductSellPage {
   }
   PaymentPage() {
     this.navCtrl.push(PaymentPage);
+  }
+ TablePage() {
+    this.navCtrl.push(TablePage);
   }
 }

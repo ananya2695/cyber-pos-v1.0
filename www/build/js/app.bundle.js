@@ -130,6 +130,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
+var productSell_1 = require('../productSell/productSell');
+var table_1 = require('../table/table');
 /*
   Generated class for the PaymentPage page.
 
@@ -140,6 +142,12 @@ var PaymentPage = (function () {
     function PaymentPage(navCtrl) {
         this.navCtrl = navCtrl;
     }
+    PaymentPage.prototype.ProductSell = function () {
+        this.navCtrl.pop(productSell_1.ProductSellPage);
+    };
+    PaymentPage.prototype.BackTable = function () {
+        this.navCtrl.push(table_1.TablePage);
+    };
     PaymentPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/payment/payment.html',
@@ -149,7 +157,7 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
-},{"@angular/core":154,"ionic-angular":468}],4:[function(require,module,exports){
+},{"../productSell/productSell":4,"../table/table":6,"@angular/core":154,"ionic-angular":468}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -163,6 +171,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var payment_1 = require('../payment/payment');
+var table_1 = require('../table/table');
 var ProductSellPage = (function () {
     function ProductSellPage(navCtrl) {
         this.navCtrl = navCtrl;
@@ -189,6 +198,9 @@ var ProductSellPage = (function () {
     ProductSellPage.prototype.PaymentPage = function () {
         this.navCtrl.push(payment_1.PaymentPage);
     };
+    ProductSellPage.prototype.TablePage = function () {
+        this.navCtrl.push(table_1.TablePage);
+    };
     ProductSellPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/productSell/productSell.html'
@@ -198,7 +210,7 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-},{"../payment/payment":3,"@angular/core":154,"ionic-angular":468}],5:[function(require,module,exports){
+},{"../payment/payment":3,"../table/table":6,"@angular/core":154,"ionic-angular":468}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
