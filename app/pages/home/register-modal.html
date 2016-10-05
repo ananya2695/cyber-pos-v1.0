@@ -18,14 +18,14 @@
       <ion-col width-50>
         <ion-item>
           <ion-label floating>ชื่อ</ion-label>
-          <ion-input type="text" ></ion-input>
+          <ion-input type="text" [(ngModel)]="firstname"></ion-input>
         </ion-item>
       </ion-col>
 
       <ion-col width-50>
         <ion-item>
           <ion-label floating>นามสกุล</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-input type="text" [(ngModel)]="lastname"></ion-input>
         </ion-item>
       </ion-col>
 
@@ -59,17 +59,17 @@
 
     <ion-item>
       <ion-label floating>รหัสผ่าน</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>ยืนยันรหัสผ่าน</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="repassword"></ion-input>
     </ion-item>
 
   </ion-list>
   <ion-row>
-    <button block ion-button (click)="regisSuccess(user_name,id_user,position)">OK </button>
+    <button block ion-button (click)="regisSuccess(user_name,id_user,position,firstname,lastname,password,repassword)">OK </button>
   </ion-row>
 
 </ion-content>
