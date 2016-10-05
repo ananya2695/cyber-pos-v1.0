@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController , ModalController  ,ViewController} from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
 import { SettingPage } from '../setting/setting.ts';
@@ -18,12 +18,12 @@ export class HomePage { items:any = [
     {id_user: "#CS01" , user_name: "Ananya" , position:"Cashier" , img: "image/alice.jpg"},
     {id_user: "#CS02" , user_name: "Sirintra" , position:"Cashier",img: "image/andrew.jpg"},
     {id_user: "#CS03" , user_name: "Orapan" , position:"Cashier",img: "image/carl.jpg"},
-    {id_user: "#CS04" , user_name: "Nipaporn" , position:"Cashier",img: "image/carl.jpg"},
-    {id_user: "#CS05" , user_name: "Nucha" , position:"Cashier",img: "image/carl.jpg"},
-    {id_user: "#CS06" , user_name: "Satida" , position:"Cashier",img: "image/carl.jpg"},
-    {id_user: "#MN01" , user_name: "Aemika" , position:"Manager",img: "image/carl.jpg"},
+    {id_user: "#CS04" , user_name: "Nipaporn" , position:"Cashier",img: "image/garry.jpg"},
+    {id_user: "#CS05" , user_name: "Nucha" , position:"Cashier",img: "image/james.jpg"},
+    {id_user: "#CS06" , user_name: "Satida" , position:"Cashier",img: "image/joyce.jpg"},
+    {id_user: "#MN01" , user_name: "Theerasak" , position:"Manager",img: "image/vincent.jpg"},
   ]
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController, public modalCtrl: ModalController , public viewController: ViewController) {
 
   }
 
@@ -40,9 +40,29 @@ export class HomePage { items:any = [
     this.navCtrl.push(TablePage);
   }
   registerPage(){
-    this.navCtrl.push(RegisterPage);
+       let modal = this.modalCtrl.create(RegisterPage1);
+       modal.onDidDismiss(data => {
+     this.items.push(data);
+   });
+    modal.present();
   }
   openSetting(){
     this.navCtrl.push(SettingPage);
   }
+}
+
+
+@Component({
+  templateUrl: 'build/pages/home/register-modal.html',
+})
+export class RegisterPage1 {
+
+  constructor(private navCtrl: NavController, public modalCtrl: ModalController , public viewController: ViewController) {
+
+  }
+  regisSuccess(user_name,id_user,position){
+    this.viewController.dismiss({"user_name":user_name, "id_user":id_user,"position":position,"img":"image/alice.jpg" });
+  }
+ 
+
 }
