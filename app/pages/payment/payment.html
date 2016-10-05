@@ -293,7 +293,7 @@
 <!--ด้านล่าง-->
 <ion-row style="margin-top:-12px;">
   <ion-col width-25  >
-    <button block large ion-button color="danger" >ย้อนกลับ</button>
+    <button block large ion-button color="danger" (click)="ProductSell()">ย้อนกลับ</button>
  
   </ion-col>
   <ion-col width-50 style="margin-left:-9px;">
@@ -301,7 +301,7 @@
   </ion-col>
 
   <ion-col width-25 style="margin-left:-9px;">
-<button block large ion-button color="dark" >ลบรายการ</button>
+<button block  large ion-button color="dark" (click)="BackTable()" >ยกเลิก</button>
   </ion-col>
 </ion-row>
   </ion-card-content>
