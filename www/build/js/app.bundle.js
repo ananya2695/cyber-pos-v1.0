@@ -205,8 +205,12 @@ var table_1 = require('../table/table');
   Ionic pages and navigation.
 */
 var PaymentPage = (function () {
-    function PaymentPage(navCtrl) {
+    function PaymentPage(navCtrl, navParam) {
         this.navCtrl = navCtrl;
+        this.navParam = navParam;
+        this.totalprice = 0.00;
+        this.basket = navParam.get("basket");
+        this.totalprice = navParam.get("totalprice");
     }
     PaymentPage.prototype.ProductSell = function () {
         this.navCtrl.pop(productSell_1.ProductSellPage);
@@ -218,7 +222,7 @@ var PaymentPage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/payment/payment.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams])
     ], PaymentPage);
     return PaymentPage;
 }());
@@ -241,19 +245,22 @@ var table_1 = require('../table/table');
 var ProductSellPage = (function () {
     function ProductSellPage(navCtrl) {
         this.navCtrl = navCtrl;
-        this.items = [
-            { namePro: "คาปูชิโน่", piece: 1, price: 100 },
-            { namePro: "เอสเปสโช่", piece: 1, price: 100 },
-            { namePro: "มอคค่า", piece: 3, price: 100 },
-            { namePro: "อาเมริกาโน่", piece: 1, price: 100 },
-            { namePro: "ลาเต้", piece: 1, price: 100 },
-            { namePro: "ชาเขียว", piece: 2, price: 100 },
-            { namePro: "ชานม", piece: 1, price: 100 },
-            { namePro: "นำ้ส้ม", piece: 1, price: 100 },
-            { namePro: "โอเลี้ยง", piece: 4, price: 100 },
-            { namePro: "โซดาไฟ", piece: 1, price: 100 },
-            { namePro: "เหล้าปั่น", piece: 6, price: 100 }
+        this.products = [
+            { id: "1", namePro: "คาปูชิโน่", price: 100 },
+            { id: "2", namePro: "เอสเปสโช่", price: 100 },
+            { id: "3", namePro: "มอคค่า", price: 100 },
+            { id: "4", namePro: "อาเมริกาโน่", price: 100 },
+            { id: "5", namePro: "ลาเต้", price: 100 },
+            { id: "6", namePro: "ชาเขียว", price: 100 },
+            { id: "7", namePro: "ชานม", price: 100 },
+            { id: "8", namePro: "น้ำส้ม", price: 100 },
+            { id: "9", namePro: "โอเลี้ยง", price: 100 },
+            { id: "10", namePro: "โซดาไฟ", price: 100 },
+            { id: "11", namePro: "โซดา", price: 100 },
+            { id: "12", namePro: "เหล้าปั่น", price: 100 }
         ];
+        this.basket = [];
+        this.totalprice = 0.00;
         this.mySlideOptions = {
             pager: true
         };
@@ -262,10 +269,35 @@ var ProductSellPage = (function () {
         };
     }
     ProductSellPage.prototype.PaymentPage = function () {
-        this.navCtrl.push(payment_1.PaymentPage);
+        this.navCtrl.push(payment_1.PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
     };
     ProductSellPage.prototype.TablePage = function () {
         this.navCtrl.push(table_1.TablePage);
+    };
+    ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
+        var result = -1;
+        myArr.forEach(function (idx) {
+            if (idx.id == key.id)
+                result++;
+        });
+        return result;
+    };
+    ProductSellPage.prototype.chooseProduct = function (item) {
+        if (this.arrayIndexOf(this.basket, item) != -1) {
+            var selected = this.basket.filter(function (itm) {
+                return itm.id == item.id;
+            })[0];
+            selected.piece++;
+            selected.totalPrice = selected.price;
+            selected.price = selected.price * selected.piece;
+            this.totalprice += selected.totalPrice;
+        }
+        else {
+            item.piece = 1;
+            item.totalPrice = item.price * item.piece;
+            this.totalprice += item.totalPrice;
+            this.basket.push(item);
+        }
     };
     ProductSellPage = __decorate([
         core_1.Component({
