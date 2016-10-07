@@ -33,7 +33,6 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
-
 },{"./pages/home/home":2,"@angular/core":153,"ionic-angular":467,"ionic-native":494}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -184,7 +183,6 @@ var SettingUser = (function () {
     return SettingUser;
 }());
 exports.SettingUser = SettingUser;
-
 },{"../table/table":5,"@angular/core":153,"ionic-angular":467}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -331,7 +329,6 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
-
 },{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"ionic-angular":467}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -441,7 +438,6 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-
 },{"../payment/payment":3,"../table/table":5,"@angular/core":153,"ionic-angular":467}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -488,7 +484,6 @@ var TablePage = (function () {
     return TablePage;
 }());
 exports.TablePage = TablePage;
-
 },{"../productSell/productSell.ts":4,"@angular/core":153,"ionic-angular":467}],6:[function(require,module,exports){
 /**
  * @license

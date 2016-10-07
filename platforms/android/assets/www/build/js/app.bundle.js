@@ -205,8 +205,25 @@ var table_1 = require('../table/table');
   Ionic pages and navigation.
 */
 var PaymentPage = (function () {
-    function PaymentPage(navCtrl) {
+    function PaymentPage(navCtrl, navParam) {
         this.navCtrl = navCtrl;
+        this.navParam = navParam;
+        this.totalprice = 0.00;
+        this.cash = 0.00;
+        this.money = [];
+        this.nine = "";
+        this.eight = "";
+        this.seven = "";
+        this.six = "";
+        this.five = "";
+        this.four = "";
+        this.three = "";
+        this.two = "";
+        this.one = "";
+        this.zero = "";
+        this.zeroTwo = "";
+        this.basket = navParam.get("basket");
+        this.totalprice = navParam.get("totalprice");
     }
     PaymentPage.prototype.ProductSell = function () {
         this.navCtrl.pop(productSell_1.ProductSellPage);
@@ -214,11 +231,100 @@ var PaymentPage = (function () {
     PaymentPage.prototype.BackTable = function () {
         this.navCtrl.push(table_1.TablePage);
     };
+    PaymentPage.prototype.Cnine = function () {
+        this.nine = 9;
+        this.money.push(this.nine);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Ceight = function () {
+        this.eight = 8;
+        this.money.push(this.eight);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cseven = function () {
+        this.seven = 7;
+        this.money.push(this.seven);
+        //var sv = this.money.toString();
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+        // this.money.replace(',','');
+    };
+    PaymentPage.prototype.Csix = function () {
+        this.six = 6;
+        this.money.push(this.six);
+        //var sx = this.money.toString();
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+        //  this.money.replace(',','');
+    };
+    PaymentPage.prototype.Cfive = function () {
+        this.five = 5;
+        this.money.push(this.five);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cfour = function () {
+        this.four = 4;
+        this.money.push(this.four);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cthree = function () {
+        this.three = 3;
+        this.money.push(this.three);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Ctwo = function () {
+        this.two = 2;
+        this.money.push(this.two);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cone = function () {
+        this.one = 1;
+        this.money.push(this.one);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Czero = function () {
+        this.zero = 0;
+        this.money.push(this.zero);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.CzeroTwo = function () {
+        this.zeroTwo = "00";
+        this.money.push(this.zeroTwo);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.cancel = function () {
+        console.log(this.money);
+        var str = this.money;
+        str.pop();
+        console.log(str);
+        this.cash = str.join("");
+        console.log(this.cash);
+    };
     PaymentPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/payment/payment.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams])
     ], PaymentPage);
     return PaymentPage;
 }());
@@ -241,31 +347,87 @@ var table_1 = require('../table/table');
 var ProductSellPage = (function () {
     function ProductSellPage(navCtrl) {
         this.navCtrl = navCtrl;
-        this.items = [
-            { namePro: "คาปูชิโน่", piece: 1, price: 100 },
-            { namePro: "เอสเปสโช่", piece: 1, price: 100 },
-            { namePro: "มอคค่า", piece: 3, price: 100 },
-            { namePro: "อาเมริกาโน่", piece: 1, price: 100 },
-            { namePro: "ลาเต้", piece: 1, price: 100 },
-            { namePro: "ชาเขียว", piece: 2, price: 100 },
-            { namePro: "ชานม", piece: 1, price: 100 },
-            { namePro: "นำ้ส้ม", piece: 1, price: 100 },
-            { namePro: "โอเลี้ยง", piece: 4, price: 100 },
-            { namePro: "โซดาไฟ", piece: 1, price: 100 },
-            { namePro: "เหล้าปั่น", piece: 6, price: 100 }
+        this.products = [
+            { id: "1", namePro: "คาปูชิโน่", price: 89 },
+            { id: "2", namePro: "เอสเปสโช่", price: 89 },
+            { id: "3", namePro: "มอคค่า", price: 89 },
+            { id: "4", namePro: "อาเมริกาโน่", price: 89 },
+            { id: "5", namePro: "ลาเต้", price: 89 },
+            { id: "6", namePro: "ชาเขียว", price: 59 },
+            { id: "7", namePro: "ชาสมุนไพร", price: 59 },
+            { id: "8", namePro: "น้ำส้ม", price: 59 },
+            { id: "9", namePro: "ช็อคโกแลตร้อน", price: 89 },
+            { id: "10", namePro: "น้ำมะเขือเทศ", price: 59 },
+            { id: "11", namePro: "น้ำแร่", price: 15 },
+            { id: "12", namePro: "ชาผลไม้", price: 59 },
+            { id: "13", namePro: "กีวี่ บลิซ", price: 89 },
+            { id: "14", namePro: "น้ำส้ม 100%", price: 59 },
+            { id: "15", namePro: "บลูเบอรี่ สทริป", price: 89 },
+            { id: "16", namePro: "สตรอเบอร์รี่ บริ้งค์", price: 85 },
+            { id: "17", namePro: "แมงโก้ แทงโก้", price: 85 },
+            { id: "18", namePro: "วิปครีม", price: 15 },
+            { id: "19", namePro: "น้ำเชื่อมกลิ่นต่างๆ", price: 15 },
+            { id: "20", namePro: "เค้กกล้วยหอมช็อคโกแล็ต", price: 69 },
+            { id: "21", namePro: "คัสตาร์ดเค้ก", price: 49 },
+            { id: "22", namePro: "เค้กนมสด", price: 49 },
+            { id: "23", namePro: "มูสเค้กช็อคโกแล็ต", price: 69 },
+            { id: "24", namePro: "เค้กใบเตย", price: 59 }
         ];
+        this.basket = [];
+        this.totalprice = 0.00;
+        this.total = 0.00;
+        this.box = [];
         this.mySlideOptions = {
             pager: true
         };
         this.mySlideVertical = {
             direction: 'vertical'
         };
+        var productPerPage = 12;
+        var page = Math.ceil(this.products.length / productPerPage);
+        var ii = 0;
+        for (var i = 0; i < page; i++) {
+            var pp = { page: i, products: [] };
+            for (var j = 0; j < productPerPage; j++) {
+                if (this.products[ii])
+                    pp.products.push(this.products[ii]);
+                ii++;
+            }
+            this.box.push(pp);
+        }
+        console.log(this.box);
     }
     ProductSellPage.prototype.PaymentPage = function () {
-        this.navCtrl.push(payment_1.PaymentPage);
+        this.navCtrl.push(payment_1.PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
     };
     ProductSellPage.prototype.TablePage = function () {
         this.navCtrl.push(table_1.TablePage);
+    };
+    ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
+        var result = -1;
+        myArr.forEach(function (idx) {
+            if (idx.id == key.id)
+                result++;
+        });
+        return result;
+    };
+    ProductSellPage.prototype.chooseProduct = function (item) {
+        if (this.arrayIndexOf(this.basket, item) != -1) {
+            var selected = this.basket.filter(function (itm) {
+                return itm.id == item.id;
+            })[0];
+            selected.piece++;
+            this.totalprice += selected.totalPrice;
+            this.total = selected.toTal;
+        }
+        else {
+            item.piece = 1;
+            item.totalPrice = item.price * item.piece;
+            this.totalprice += item.totalPrice;
+            this.basket.push(item);
+        }
+    };
+    ProductSellPage.prototype.slideProduct = function () {
     };
     ProductSellPage = __decorate([
         core_1.Component({

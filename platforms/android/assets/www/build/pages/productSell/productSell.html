@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ProductSale</ion-title>
+    <ion-title>Product Sale</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -90,7 +90,7 @@
             </ion-list>
           </ion-content>-->
           <ion-scroll scrollY="true" style="height:400px;">
-             <ion-row *ngFor="let item of items">
+             <ion-row *ngFor="let item of basket">
             <ion-col width-25>
               <ion-item>
                 <ion-label>{{item.namePro}}</ion-label>
@@ -98,13 +98,12 @@
               </ion-item>
             </ion-col>
             <ion-col width-50>
-              <ion-item>
-                <ion-input type="number" value="{{item.piece}}"></ion-input>
-              </ion-item>
+                <input type="number" value="{{item.piece}}" style="text-align:center; border-style:none; margin-top:12px;">
+              
             </ion-col>
             <ion-col width-25>
               <ion-item>
-                <ion-label>{{item.price}}</ion-label>
+                <ion-label>{{item.piece * item.price}}</ion-label>
 
               </ion-item>
             </ion-col>
@@ -120,14 +119,14 @@
 
 
     <ion-col width-50>
-      <ion-card>
+      <ion-card >
         <ion-card-content>
           <ion-row>
             <ion-col width-50 align="left">
               <label>รวมทั้งหมด</label>
             </ion-col>
             <ion-col width-50 align="right">
-              <label>2888</label>
+              <label>{{totalprice}}</label>
             </ion-col>
           </ion-row>
 
@@ -148,9 +147,16 @@
           </ion-row>
           <ion-row>
 
-            <ion-slides pager [options]="mySlideOptions" style="height:350px; margin-top:-40px;">
+            <ion-slides pager [options]="mySlideOptions" style="height:350px; margin-top:-40px;" >
+              <ion-slide *ngFor="let page of box" >
+                <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
+                  <ion-col style="flex: 0 0 48%;  max-width: 48%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of page.products" (click)="chooseProduct(item)">
+                    <button block ion-button color="dark"  >{{item.namePro}} <br> {{item.price}}</button>
+                  </ion-col>
+                </ion-row>
+              </ion-slide>
 
-              <ion-slide>
+              <!--<ion-slide>
                 <ion-row>
                   <ion-col width-50>
                     <button block ion-button color="dark">กาแฟ (ร้อน) <br> 110 B.</button>
@@ -263,7 +269,7 @@
                   </ion-col>
                 </ion-row>
 
-              </ion-slide>
+              </ion-slide>-->
 
 
 
