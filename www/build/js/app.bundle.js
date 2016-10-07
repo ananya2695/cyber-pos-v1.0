@@ -314,6 +314,14 @@ var PaymentPage = (function () {
         this.cash = str;
         console.log(str);
     };
+    PaymentPage.prototype.cancel = function () {
+        console.log(this.money);
+        var str = this.money;
+        str.pop();
+        console.log(str);
+        this.cash = str.join("");
+        console.log(this.cash);
+    };
     PaymentPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/payment/payment.html',
