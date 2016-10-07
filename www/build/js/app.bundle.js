@@ -351,7 +351,7 @@ var ProductSellPage = (function () {
     function ProductSellPage(navCtrl) {
         this.navCtrl = navCtrl;
         this.products = [
-            { id: "1", namePro: "คาปูชิโน่", price: 889 },
+            { id: "1", namePro: "คาปูชิโน่", price: 89 },
             { id: "2", namePro: "เอสเปสโช่", price: 89 },
             { id: "3", namePro: "มอคค่า", price: 89 },
             { id: "4", namePro: "อาเมริกาโน่", price: 89 },
