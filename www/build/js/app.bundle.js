@@ -211,6 +211,19 @@ var PaymentPage = (function () {
         this.navCtrl = navCtrl;
         this.navParam = navParam;
         this.totalprice = 0.00;
+        this.cash = 0.00;
+        this.money = [];
+        this.nine = "";
+        this.eight = "";
+        this.seven = "";
+        this.six = "";
+        this.five = "";
+        this.four = "";
+        this.three = "";
+        this.two = "";
+        this.one = "";
+        this.zero = "";
+        this.zeroTwo = "";
         this.basket = navParam.get("basket");
         this.totalprice = navParam.get("totalprice");
     }
@@ -219,6 +232,87 @@ var PaymentPage = (function () {
     };
     PaymentPage.prototype.BackTable = function () {
         this.navCtrl.push(table_1.TablePage);
+    };
+    PaymentPage.prototype.Cnine = function () {
+        this.nine = 9;
+        this.money.push(this.nine);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Ceight = function () {
+        this.eight = 8;
+        this.money.push(this.eight);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cseven = function () {
+        this.seven = 7;
+        this.money.push(this.seven);
+        //var sv = this.money.toString();
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+        // this.money.replace(',','');
+    };
+    PaymentPage.prototype.Csix = function () {
+        this.six = 6;
+        this.money.push(this.six);
+        //var sx = this.money.toString();
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+        //  this.money.replace(',','');
+    };
+    PaymentPage.prototype.Cfive = function () {
+        this.five = 5;
+        this.money.push(this.five);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cfour = function () {
+        this.four = 4;
+        this.money.push(this.four);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cthree = function () {
+        this.three = 3;
+        this.money.push(this.three);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Ctwo = function () {
+        this.two = 2;
+        this.money.push(this.two);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Cone = function () {
+        this.one = 1;
+        this.money.push(this.one);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.Czero = function () {
+        this.zero = 0;
+        this.money.push(this.zero);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
+    };
+    PaymentPage.prototype.CzeroTwo = function () {
+        this.zeroTwo = "00";
+        this.money.push(this.zeroTwo);
+        var str = this.money.join("");
+        this.cash = str;
+        console.log(str);
     };
     PaymentPage = __decorate([
         core_1.Component({
@@ -250,7 +344,7 @@ var ProductSellPage = (function () {
         this.navCtrl = navCtrl;
         this.products = [
             { id: "1", namePro: "คาปูชิโน่", price: 100 },
-            { id: "2", namePro: "เอสเปสโช่", price: 100 },
+            { id: "2", namePro: "เอสเปสโช่", price: 199 },
             { id: "3", namePro: "มอคค่า", price: 100 },
             { id: "4", namePro: "อาเมริกาโน่", price: 100 },
             { id: "5", namePro: "ลาเต้", price: 100 },
@@ -260,16 +354,35 @@ var ProductSellPage = (function () {
             { id: "9", namePro: "โอเลี้ยง", price: 100 },
             { id: "10", namePro: "โซดาไฟ", price: 100 },
             { id: "11", namePro: "โซดา", price: 100 },
-            { id: "12", namePro: "เหล้าปั่น", price: 100 }
+            { id: "12", namePro: "เหล้าปั่น", price: 100 },
+            { id: "13", namePro: "แสงโสม", price: 100 },
+            { id: "14", namePro: "เบน285", price: 100 },
+            { id: "15", namePro: "สไมนอฟ", price: 100 },
+            { id: "16", namePro: "ฟลูมูน", price: 100 }
         ];
         this.basket = [];
         this.totalprice = 0.00;
+        this.total = 0.00;
+        this.box = [];
         this.mySlideOptions = {
             pager: true
         };
         this.mySlideVertical = {
             direction: 'vertical'
         };
+        var productPerPage = 12;
+        var page = Math.ceil(this.products.length / productPerPage);
+        var ii = 0;
+        for (var i = 0; i < page; i++) {
+            var pp = { page: i, products: [] };
+            for (var j = 0; j < productPerPage; j++) {
+                if (this.products[ii])
+                    pp.products.push(this.products[ii]);
+                ii++;
+            }
+            this.box.push(pp);
+        }
+        console.log(this.box);
     }
     ProductSellPage.prototype.PaymentPage = function () {
         this.navCtrl.push(payment_1.PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
@@ -291,9 +404,8 @@ var ProductSellPage = (function () {
                 return itm.id == item.id;
             })[0];
             selected.piece++;
-            selected.totalPrice = selected.price;
-            selected.price = selected.price * selected.piece;
             this.totalprice += selected.totalPrice;
+            this.total = selected.toTal;
         }
         else {
             item.piece = 1;
@@ -301,6 +413,8 @@ var ProductSellPage = (function () {
             this.totalprice += item.totalPrice;
             this.basket.push(item);
         }
+    };
+    ProductSellPage.prototype.slideProduct = function () {
     };
     ProductSellPage = __decorate([
         core_1.Component({

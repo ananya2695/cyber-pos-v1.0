@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>payment</ion-title>
+    <ion-title>Payment</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -117,7 +117,7 @@
   </ion-col>
 
    <ion-col width-50 align="right">
-    <label>0</label>
+    <label>{{cash}}</label>
   </ion-col>
 </ion-row>
 <ion-row>
@@ -126,7 +126,7 @@
   </ion-col>
 
    <ion-col width-50 align="right">
-    <label>0</label>
+    <label>{{cash - totalprice}}</label>
   </ion-col>
 </ion-row>
 
@@ -138,16 +138,16 @@
  
   </ion-col>
   <ion-col width-25 style="margin-left:-9px;">
-<button block large ion-button color="dark">7</button>
+<button block large ion-button color="dark" (click)="Cseven()">7</button>
   </ion-col>
 
   <ion-col width-25 style="margin-left:-9px;">
-<button block  large ion-button color="dark" >8</button>
+<button block  large ion-button color="dark"  (click)="Ceight()">8</button>
   </ion-col>
 
   
   <ion-col width-25 style="margin-left:-9px;">
-    <button block large  ion-button color="dark" >9</button>
+    <button block large  ion-button color="dark" (click)="Cnine()">9</button>
   </ion-col>
 </ion-row>
 
@@ -157,16 +157,16 @@
  
   </ion-col>
   <ion-col width-25 style="margin-left:-9px;">
-<button block large ion-button color="dark" >4</button>
+<button block large ion-button color="dark"  (click)="Cfour()">4</button>
   </ion-col>
 
   <ion-col width-25 style="margin-left:-9px;">
-<button block large ion-button color="dark" >5</button>
+<button block large ion-button color="dark"  (click)="Cfive()">5</button>
   </ion-col>
 
   
   <ion-col width-25 style="margin-left:-9px;">
-    <button block large ion-button color="dark" >6</button>
+    <button block large ion-button color="dark" (click)="Csix()">6</button>
   </ion-col>
 </ion-row>
 
@@ -176,26 +176,26 @@
  
   </ion-col>
   <ion-col width-25 style="margin-left:-9px;">
-<button block large ion-button color="dark" >1</button>
+<button block large ion-button color="dark"  (click)="Cone()">1</button>
   </ion-col>
   <ion-col width-25 style="margin-left:-9px;">
-<button block large ion-button color="dark" >2</button>
+<button block large ion-button color="dark"  (click)="Ctwo()">2</button>
   </ion-col>
 
   
   <ion-col width-25 style="margin-left:-9px;">
-    <button block large ion-button color="dark" >3</button>
+    <button block large ion-button color="dark"  (click)="Cthree()">3</button>
   </ion-col>
 </ion-row>
 
 <ion-row style="margin-top:-17px;">
  
   <ion-col width-25 >
-<button block  large ion-button color="light" >00</button>
+<button block  large ion-button color="light" (click)="CzeroTwo()" >00</button>
   </ion-col>
 
   <ion-col width-25 style="margin-left:-9px;">
-<button block large ion-button color="dark" >0</button>
+<button block large ion-button color="dark"  (click)="Czero()">0</button>
   </ion-col>
 
   

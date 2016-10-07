@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ProductSale</ion-title>
+    <ion-title>Product Sale</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -103,7 +103,7 @@
             </ion-col>
             <ion-col width-25>
               <ion-item>
-                <ion-label>{{item.price}}</ion-label>
+                <ion-label>{{item.piece * item.price}}</ion-label>
 
               </ion-item>
             </ion-col>
@@ -147,11 +147,11 @@
           </ion-row>
           <ion-row>
 
-            <ion-slides pager [options]="mySlideOptions" style="height:350px; margin-top:-40px;">
-              <ion-slide >
+            <ion-slides pager [options]="mySlideOptions" style="height:350px; margin-top:-40px;" >
+              <ion-slide *ngFor="let page of box" >
                 <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
-                  <ion-col style="flex: 0 0 48%;  max-width: 48%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of products" (click)="chooseProduct(item)">
-                    <button block ion-button color="dark">{{item.namePro}} <br> {{item.price}}</button>
+                  <ion-col style="flex: 0 0 48%;  max-width: 48%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of page.products" (click)="chooseProduct(item)">
+                    <button block ion-button color="dark"  >{{item.namePro}} <br> {{item.price}}</button>
                   </ion-col>
                 </ion-row>
               </ion-slide>
