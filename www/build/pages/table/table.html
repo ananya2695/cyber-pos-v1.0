@@ -17,8 +17,8 @@
   <ion-card>
     <ion-item>
       <ion-grid>
-        <ion-row>
-          <ion-col width-25 *ngFor="let item of tables" (click)="ProductSellPage()">
+        <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
+          <ion-col style="flex: 0 0 24%;  max-width: 24%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of tables" (click)="ProductSellPage()">
             <ion-card>
               <ion-item>
                 <ion-row>
@@ -69,55 +69,7 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col width-25 *ngFor="let item of tables">
-            <ion-card>
-              <ion-item>
-                <ion-row>
-                  <label>{{item.id_table}}</label>
-                </ion-row>
-                <ion-row>
-                  <ion-col width-50>
-                    <label> เลขที่</label>
-                  </ion-col>
-                  <ion-col width-50 align="right">
-                    <label>{{item.name_tabel}}</label>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col width-50>
-                    <label> ลูกค้า</label>
-                  </ion-col>
-                  <ion-col width-50 align="right">
-                    <label>{{item.id_cus}}</label>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col width-50>
-                    <label> เวลา</label>
-                  </ion-col>
-                  <ion-col width-50 align="right">
-                    <label>{{item.time_cus}}</label>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col width-50>
-                    <label> รวมจำนวน</label>
-                  </ion-col>
-                  <ion-col width-50 align="right">
-                    <label>{{item.total}}</label>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col width-50>
-                    <label>{{item.name_user}}</label>
-                  </ion-col>
-                  <ion-col width-50>
-                    <img src="{{item.img_user}}" style="width:30%;" align="right">
-                  </ion-col>
-                </ion-row>
-              </ion-item>
-            </ion-card>
-          </ion-col>
+          
         </ion-row>
       </ion-grid>
     </ion-item>

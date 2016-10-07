@@ -64,96 +64,28 @@
 
 <!--order-detail-->
 
-<ion-row>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>คาปูชิโน่</ion-label>
-  </ion-item>
-  </ion-col>
-  <ion-col width-50 align="center">
-    <ion-label>1</ion-label>
-  </ion-col>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>100</ion-label>
-  </ion-item>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>น้ำส้ม</ion-label> 
-  </ion-item>
-  </ion-col>
-  <ion-col width-50 align="center">
-    <ion-label>1</ion-label>
-  </ion-col>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>100</ion-label> 
-  </ion-item>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>มอคค่า</ion-label>
-  </ion-item>
-  </ion-col>
-  <ion-col width-50 align="center">
-    <ion-label>1</ion-label>
-  </ion-col>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>100</ion-label>
-  </ion-item>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>อิตาเลี่ยนโซดา</ion-label>
-  </ion-item>
-  </ion-col>
-  <ion-col width-50 align="center">
-    <ion-label>2</ion-label>
-  </ion-col>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>100</ion-label>
-  </ion-item>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>นมปั่น</ion-label>
-  </ion-item>
-  </ion-col>
-  <ion-col width-50 align="center">
-    <ion-label>1</ion-label>
-  </ion-col>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>100</ion-label>
-  </ion-item>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>บลูเบอรี่</ion-label>
-  </ion-item>
-  </ion-col>
-  <ion-col width-50 align="center">
-    <ion-label>1</ion-label>
-  </ion-col>
-  <ion-col width-25>
-    <ion-item>
-    <ion-label>100</ion-label>
-  </ion-item>
-  </ion-col>
-</ion-row>
+   <ion-scroll scrollY="true" style="height:400px;">
+             <ion-row *ngFor="let item of basket">
+            <ion-col width-25>
+              <ion-item>
+                <ion-label>{{item.namePro}}</ion-label>
+
+              </ion-item>
+            </ion-col>
+            <ion-col width-50 align="center">
+              
+                 <ion-label>{{item.piece}}</ion-label>
+              
+            </ion-col>
+            <ion-col width-25>
+              <ion-item>
+                <ion-label>{{item.price}}</ion-label>
+
+              </ion-item>
+            </ion-col>
+          </ion-row>
+   
+          </ion-scroll>
    </ion-card-content>
 </ion-card>
         
@@ -176,7 +108,7 @@
     <label>รวมทั้งหมด</label>
   </ion-col>
    <ion-col width-50 align="right">
-    <label>600</label>
+    <label>{{totalprice}}</label>
   </ion-col>
 </ion-row>
 <ion-row>
@@ -185,7 +117,7 @@
   </ion-col>
 
    <ion-col width-50 align="right">
-    <label>1000</label>
+    <label>0</label>
   </ion-col>
 </ion-row>
 <ion-row>
@@ -194,7 +126,7 @@
   </ion-col>
 
    <ion-col width-50 align="right">
-    <label>400</label>
+    <label>0</label>
   </ion-col>
 </ion-row>
 
