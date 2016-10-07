@@ -90,185 +90,26 @@
             </ion-list>
           </ion-content>-->
           <ion-scroll scrollY="true" style="height:400px;">
-             <ion-row>
+             <ion-row *ngFor="let item of items">
             <ion-col width-25>
               <ion-item>
-                <ion-label>คาปูชิโน่</ion-label>
+                <ion-label>{{item.namePro}}</ion-label>
 
               </ion-item>
             </ion-col>
             <ion-col width-50>
               <ion-item>
-                <ion-input type="number"></ion-input>
+                <ion-input type="number" value="{{item.piece}}"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col width-25>
               <ion-item>
-                <ion-label>100</ion-label>
+                <ion-label>{{item.price}}</ion-label>
 
               </ion-item>
             </ion-col>
           </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>น้ำส้ม</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>มอคค่า</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>อิตาเลี่ยนโซดา</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>นมปั่น</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>บลูเบอรี่</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>สตอเบอรรี่</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>ชานม</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>ชาเย็น</ion-label>
-
-              </ion-item>
-            </ion-col>
-            <ion-col width-50>
-              <ion-item>
-
-                <ion-input type="number"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col width-25>
-              <ion-item>
-                <ion-label>100</ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ion-row>
+   
           </ion-scroll>
         </ion-card-content>
       </ion-card>
@@ -294,7 +135,7 @@
 
           <ion-row style="margin-top:20px;">
             <ion-col width-33>
-              <button block>พักการขาย</button>
+              <button block (click)="TablePage()">พักการขาย</button>
 
             </ion-col>
             <ion-col width-33>
@@ -530,7 +371,8 @@
           </ion-row>
 
 
-          <button block ion-button color="danger" style="margin-top:-10px;">ยกเลิก</button>
+          <button block  (click)="TablePage()" ion-button color="danger" style="margin-top:-10px;">ยกเลิก</button>
+           <!--<button block (click)="PaymentPage()">ชำระเงิน</button>-->
 
 
 

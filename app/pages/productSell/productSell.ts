@@ -8,20 +8,24 @@ import { TablePage } from'../table/table';
 })
 
 export class ProductSellPage {
-   items:any = [
-    {namePro:"คาปูชิโน่",piece:1,price:100},
-    {namePro:"เอสเปสโช่",piece:1,price:100},
-    {namePro:"มอคค่า",piece:3,price:100},
-    {namePro:"อาเมริกาโน่",piece:1,price:100},
-    {namePro:"ลาเต้",piece:1,price:100},
-    {namePro:"ชาเขียว",piece:2,price:100},
-    {namePro:"ชานม",piece:1,price:100},
-    {namePro:"นำ้ส้ม",piece:1,price:100},
-    {namePro:"โอเลี้ยง",piece:4,price:100},
-    {namePro:"โซดาไฟ",piece:1,price:100},
-    {namePro:"เหล้าปั่น",piece:6,price:100}
+   products:any = [
+    {id:"1",namePro:"คาปูชิโน่",price:100},
+    {id:"2",namePro:"เอสเปสโช่",price:100},
+    {id:"3",namePro:"มอคค่า",price:100},
+    {id:"4",namePro:"อาเมริกาโน่",price:100},
+    {id:"5",namePro:"ลาเต้",price:100},
+    {id:"6",namePro:"ชาเขียว",price:100},
+    {id:"7",namePro:"ชานม",price:100},
+    {id:"8",namePro:"น้ำส้ม",price:100},
+    {id:"9",namePro:"โอเลี้ยง",price:100},
+    {id:"10",namePro:"โซดาไฟ",price:100},
+    {id:"11",namePro:"โซดา",price:100},
+    {id:"12",namePro:"เหล้าปั่น",price:100}
     
-  ]
+  ];
+  basket:any = [];
+  totalprice:any = 0.00;
+ 
   mySlideOptions = {
     pager: true
   };
@@ -32,9 +36,35 @@ export class ProductSellPage {
   
   }
   PaymentPage() {
-    this.navCtrl.push(PaymentPage);
+    this.navCtrl.push(PaymentPage,{"basket":this.basket, "totalprice":this.totalprice});
   }
  TablePage() {
     this.navCtrl.push(TablePage);
+  }
+  arrayIndexOf(myArr, key) {
+    let result = -1;
+    myArr.forEach(function (idx) {
+      if (idx.id == key.id) result++;
+    });
+    return result;
+  }
+
+  chooseProduct(item){
+    if (this.arrayIndexOf(this.basket, item) != -1) {
+        let selected = this.basket.filter(function(itm){
+          return itm.id == item.id;
+        })[0];
+
+        selected.piece++;
+        selected.totalPrice = selected.price ;
+        selected.price = selected.price * selected.piece;
+        this.totalprice += selected.totalPrice;
+      } else {
+        item.piece = 1;
+        item.totalPrice = item.price * item.piece;
+        this.totalprice += item.totalPrice;
+        this.basket.push(item);
+      }
+
   }
 }
