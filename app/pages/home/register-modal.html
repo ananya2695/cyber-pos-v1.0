@@ -32,12 +32,12 @@
 
     </ion-row>
 
-  <ion-row>
+    <ion-row>
       <ion-col width-50>
-         <ion-item>
-        <ion-label floating>รหัสพนักงาน</ion-label>
-        <ion-input type="text" [(ngModel)]="id_user"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label floating>รหัสพนักงาน</ion-label>
+          <ion-input type="text" [(ngModel)]="id_user"></ion-input>
+        </ion-item>
       </ion-col>
 
       <ion-col width-50>
@@ -66,6 +66,13 @@
       <ion-label floating>ยืนยันรหัสผ่าน</ion-label>
       <ion-input type="password" [(ngModel)]="repassword"></ion-input>
     </ion-item>
+
+
+    <button block (click)="takePicture()">Upload Image</button>
+
+    <img [src]="base64Image" *ngIf="base64Image" />
+
+
 
   </ion-list>
   <ion-row>

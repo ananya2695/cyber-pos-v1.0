@@ -45,6 +45,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var ionic_native_1 = require('ionic-native');
 var ionic_angular_1 = require('ionic-angular');
 var table_1 = require('../table/table');
 /*
@@ -105,8 +106,22 @@ var RegisterPage1 = (function () {
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
     }
+    RegisterPage1.prototype.takePicture = function () {
+        var _this = this;
+        ionic_native_1.Camera.getPicture({
+            destinationType: ionic_native_1.Camera.DestinationType.DATA_URL,
+            targetWidth: 1000,
+            targetHeight: 1000
+        }).then(function (imageData) {
+            // imageData is a base64 encoded string
+            _this.base64Image = "data:image/jpeg;base64," + imageData;
+            console.log(_this.base64Image);
+        }, function (err) {
+            console.log(err);
+        });
+    };
     RegisterPage1.prototype.regisSuccess = function (user_name, id_user, position, firstname, lastname, password, repassword) {
-        this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname": firstname, "lastname": lastname, "password": password, "repassword": repassword, "position": position, "img": "image/alice.jpg" });
+        this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname": firstname, "lastname": lastname, "password": password, "repassword": repassword, "position": position, "img": this.base64Image });
     };
     RegisterPage1 = __decorate([
         core_1.Component({
@@ -183,7 +198,7 @@ var SettingUser = (function () {
     return SettingUser;
 }());
 exports.SettingUser = SettingUser;
-},{"../table/table":5,"@angular/core":153,"ionic-angular":467}],3:[function(require,module,exports){
+},{"../table/table":5,"@angular/core":153,"ionic-angular":467,"ionic-native":494}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

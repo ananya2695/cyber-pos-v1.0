@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Camera} from 'ionic-native';
 import { NavController, ModalController, ViewController, NavParams} from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
@@ -15,6 +16,8 @@ import { SettingPage } from '../setting/setting.ts';
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
+ 
+
     items: any = [
       { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
       { id_user: "#CS02", user_name: "Sirintra", firstname : "Sirintra",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/andrew.jpg" },
@@ -60,12 +63,25 @@ export class HomePage {
   templateUrl: 'build/pages/home/register-modal.html',
 })
 export class RegisterPage1 {
-
+   public base64Image: string;
   constructor(private navCtrl: NavController, public modalCtrl: ModalController, public viewController: ViewController) {
 
   }
+   takePicture(){
+    Camera.getPicture({
+        destinationType: Camera.DestinationType.DATA_URL,
+        targetWidth: 1000,
+        targetHeight: 1000
+    }).then((imageData) => {
+      // imageData is a base64 encoded string
+        this.base64Image = "data:image/jpeg;base64," + imageData;
+        console.log(this.base64Image);
+    }, (err) => {
+        console.log(err);
+    });
+  }
   regisSuccess(user_name, id_user, position,firstname,lastname,password,repassword) {
-    this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": "image/alice.jpg" });
+    this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
   }
 
 
