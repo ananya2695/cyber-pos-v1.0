@@ -18,14 +18,14 @@
       <ion-col width-50>
         <ion-item>
           <ion-label floating>ชื่อ</ion-label>
-          <ion-input type="text" [(ngModel)]="firstname"></ion-input>
+          <ion-input type="text" [(ngModel)]="user_firstname"></ion-input>
         </ion-item>
       </ion-col>
 
       <ion-col width-50>
         <ion-item>
           <ion-label floating>นามสกุล</ion-label>
-          <ion-input type="text" [(ngModel)]="lastname"></ion-input>
+          <ion-input type="text" [(ngModel)]="user_lastname"></ion-input>
         </ion-item>
       </ion-col>
 
@@ -36,7 +36,7 @@
       <ion-col width-50>
          <ion-item>
         <ion-label floating>รหัสพนักงาน</ion-label>
-        <ion-input type="text" [(ngModel)]="id_user" disabled="true"></ion-input>
+        <ion-input type="text" [(ngModel)]="user_id" disabled="true"></ion-input>
       </ion-item>
       </ion-col>
 
@@ -64,12 +64,12 @@
 
     <ion-item>
       <ion-label floating>ยืนยันรหัสผ่าน</ion-label>
-      <ion-input type="password" [(ngModel)]="repassword"></ion-input>
+      <ion-input type="password" [(ngModel)]="confirmpassword"></ion-input>
     </ion-item>
 
   </ion-list>
   <ion-row>
-    <button block ion-button (click)="editSuccess(user_name,id_user,position,firstname,lastname,password,repassword)">OK </button>
+    <button block ion-button (click)="editSuccess(user_name,user_id,position,user_firstname,user_lastname,password,confirmpassword)">OK </button>
   </ion-row>
 
 </ion-content>

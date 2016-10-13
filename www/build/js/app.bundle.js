@@ -48,6 +48,8 @@ var core_1 = require('@angular/core');
 var ionic_native_1 = require('ionic-native');
 var ionic_angular_1 = require('ionic-angular');
 var table_1 = require('../table/table');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 /*
   Generated class for the RegisterPage page.
 
@@ -55,19 +57,29 @@ var table_1 = require('../table/table');
   Ionic pages and navigation.
 */
 var HomePage = (function () {
-    function HomePage(navCtrl, modalCtrl, viewController) {
+    // items: any = [
+    //   { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
+    //   { id_user: "#CS02", user_name: "Sirintra", firstname : "Sirintra",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/andrew.jpg" },
+    //   { id_user: "#CS03", user_name: "Orapan", firstname : "Orapan",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/carl.jpg" },
+    //   { id_user: "#CS04", user_name: "Nipaporn",firstname : "Nipaporn",lastname:"Thogthai",password:"123456",repassword:"123456" , position: "Cashier", img: "image/garry.jpg" },
+    //   { id_user: "#CS05", user_name: "Nucha", firstname : "Nucha",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/james.jpg" },
+    //   { id_user: "#CS06", user_name: "Satida", firstname : "Satida",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/joyce.jpg" },
+    //   { id_user: "#MN01", user_name: "Theerasak", firstname : "Theerasak",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Manager", img: "image/vincent.jpg" },
+    // ]
+    function HomePage(navCtrl, modalCtrl, viewController, http) {
+        var _this = this;
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
-        this.items = [
-            { id_user: "#CS01", user_name: "Ananya", firstname: "Ananya", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/alice.jpg" },
-            { id_user: "#CS02", user_name: "Sirintra", firstname: "Sirintra", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/andrew.jpg" },
-            { id_user: "#CS03", user_name: "Orapan", firstname: "Orapan", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/carl.jpg" },
-            { id_user: "#CS04", user_name: "Nipaporn", firstname: "Nipaporn", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/garry.jpg" },
-            { id_user: "#CS05", user_name: "Nucha", firstname: "Nucha", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/james.jpg" },
-            { id_user: "#CS06", user_name: "Satida", firstname: "Satida", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/joyce.jpg" },
-            { id_user: "#MN01", user_name: "Theerasak", firstname: "Theerasak", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Manager", img: "image/vincent.jpg" },
-        ];
+        this.http = http;
+        this.items = [];
+        this.http.get('https://cyber-pos.herokuapp.com/users').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.items = data;
+        });
     }
     HomePage.prototype.addNewPersonal = function (newPersonalName) {
         var newPersonalObject = { name: newPersonalName };
@@ -95,16 +107,18 @@ var HomePage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/home/home.html'
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], HomePage);
     return HomePage;
 }());
 exports.HomePage = HomePage;
 var RegisterPage1 = (function () {
-    function RegisterPage1(navCtrl, modalCtrl, viewController) {
+    function RegisterPage1(navCtrl, modalCtrl, viewController, http) {
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
+        this.http = http;
+        this.returnMessage = "";
     }
     RegisterPage1.prototype.takePicture = function () {
         var _this = this;
@@ -120,60 +134,102 @@ var RegisterPage1 = (function () {
             console.log(err);
         });
     };
-    RegisterPage1.prototype.regisSuccess = function (user_name, id_user, position, firstname, lastname, password, repassword) {
-        this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname": firstname, "lastname": lastname, "password": password, "repassword": repassword, "position": position, "img": this.base64Image });
+    RegisterPage1.prototype.regisSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
+        var _this = this;
+        //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
+        var body = { 'user_name': user_name, 'user_id': user_id, 'position': position,
+            'user_firstname': user_firstname, 'user_lastname': user_lastname,
+            'password': password, 'confirmpassword': confirmpassword, "img_user": this.base64Image };
+        this.viewController.dismiss(body);
+        console.dir(body);
+        this.http.post('https://cyber-pos.herokuapp.com/users', body).map(function (res) {
+            // console.log('Result in mapping method:');
+            // console.dir(res);
+            return res.json();
+        }).subscribe(function (data) {
+            // console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.returnMessage = data.message;
+            console.log(_this.returnMessage);
+        });
     };
     RegisterPage1 = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/register-modal.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], RegisterPage1);
     return RegisterPage1;
 }());
 exports.RegisterPage1 = RegisterPage1;
 var EditUser = (function () {
-    function EditUser(navParams, navCtrl, modalCtrl, viewController) {
+    function EditUser(navParams, navCtrl, modalCtrl, viewController, http) {
         this.navParams = navParams;
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
+        this.http = http;
+        this.returnMsg = "";
         var user = navParams.get('user');
-        this.id_user = user.id_user;
+        this._id = user._id;
+        console.log(this._id);
+        this.user_id = user.user_id;
+        console.log(this.user_id);
         this.user_name = user.user_name;
-        this.firstname = user.firstname;
-        this.lastname = user.lastname;
+        this.user_firstname = user.user_firstname;
+        this.user_lastname = user.user_lastname;
         this.password = user.password;
-        this.repassword = user.repassword;
+        this.confirmpassword = user.confirmpassword;
+        console.log(this.confirmpassword);
         this.position = user.position;
-        this.img = user.img;
+        this.img_user = user.img_user;
     }
-    EditUser.prototype.editSuccess = function (user_name, id_user, position, firstname, lastname, password, repassword) {
-        this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname": firstname, "lastname": lastname, "password": password, "repassword": repassword, "position": position, "img": "image/alice.jpg" });
+    EditUser.prototype.editSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
+        //this.viewController.dismiss({  "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": "image/alice.jpg" });
+        var _this = this;
+        var body = { '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
+            'user_firstname': user_firstname, 'user_lastname': user_lastname,
+            'password': password, 'confirmpassword': confirmpassword };
+        console.log(body);
+        this.viewController.dismiss(body);
+        console.dir(body);
+        this.http.put('https://cyber-pos.herokuapp.com/users/' + this._id, body).map(function (res) {
+            // console.log('Result in mapping method:');
+            // console.dir(res);
+            return res.json();
+        }).subscribe(function (data) {
+            // console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.returnMsg = data.message;
+        });
     };
     EditUser = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/edit-modal.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], EditUser);
     return EditUser;
 }());
 exports.EditUser = EditUser;
 var SettingUser = (function () {
-    function SettingUser(navParams, navCtrl, modalCtrl, viewController) {
+    function SettingUser(navParams, navCtrl, modalCtrl, viewController, http) {
         this.navParams = navParams;
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
+        this.http = http;
+        this.returnMsg = "";
         this.items = navParams.get('items');
+        console.log(this.items);
     }
     SettingUser.prototype.editUser = function (item) {
         var _this = this;
         var modal = this.modalCtrl.create(EditUser, { 'user': item });
         modal.onDidDismiss(function (data) {
+            console.log(data);
             for (var i = 0; i < _this.items.length; i++) {
-                if (_this.items[i].id_user == data.id_user) {
+                if (_this.items[i]._id == data._id) {
                     _this.items[i] = data;
                     break;
                 }
@@ -182,8 +238,18 @@ var SettingUser = (function () {
         modal.present();
     };
     SettingUser.prototype.delUser = function (item) {
+        var _this = this;
+        this.http.delete('https://cyber-pos.herokuapp.com/users/' + item._id).map(function (res) {
+            // console.log('Result in mapping method:');
+            // console.dir(res);
+            return res.json();
+        }).subscribe(function (data) {
+            // console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.returnMsg = data.message;
+        });
         for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].id_user == item.id_user) {
+            if (this.items[i]._id == item._id) {
                 this.items.splice(i, 1);
                 break;
             }
@@ -193,12 +259,12 @@ var SettingUser = (function () {
         core_1.Component({
             templateUrl: 'build/pages/home/setting-modal.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], SettingUser);
     return SettingUser;
 }());
 exports.SettingUser = SettingUser;
-},{"../table/table":5,"@angular/core":153,"ionic-angular":467,"ionic-native":494}],3:[function(require,module,exports){
+},{"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"ionic-native":494,"rxjs/add/operator/map":580}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -467,6 +533,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var productSell_ts_1 = require('../productSell/productSell.ts');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 /*
   Generated class for the TablePage page.
 
@@ -474,18 +542,28 @@ var productSell_ts_1 = require('../productSell/productSell.ts');
   Ionic pages and navigation.
 */
 var TablePage = (function () {
-    function TablePage(navCtrl) {
+    //  tables:any = [
+    //     {id_table: "#01", name_tabel: "01",id_cus : "0111" ,time_cus : "00:57", total:500 ,name_user: "Ananya",img_user : "image/alice.jpg"},
+    //     {id_table: "#02", name_tabel: "02",id_cus : "0112" ,time_cus : "01:57", total:1500 ,name_user: "Barramee" ,img_user : "image/andrew.jpg"},
+    //     {id_table: "#03", name_tabel: "03",id_cus : "0113" ,time_cus : "00:27", total:2500 ,name_user: "Sirintra" ,img_user : "image/carl.jpg"},
+    //     {id_table: "#04", name_tabel: "04",id_cus : "0114" ,time_cus : "00:50", total:3500 ,name_user: "Apassara" ,img_user : "image/garry.jpg"},
+    //     {id_table: "#05", name_tabel: "05",id_cus : "0115" ,time_cus : "02:07", total:2500 ,name_user: "Pornpan" ,img_user : "image/james.jpg"},
+    //     {id_table: "#06", name_tabel: "06",id_cus : "0116" ,time_cus : "01:01", total:500 ,name_user: "Meechai" ,img_user : "image/jane.jpg"},
+    //     {id_table: "#07", name_tabel: "07",id_cus : "0117" ,time_cus : "00:09", total:2500 ,name_user: "Attapon" ,img_user : "image/joyce.jpg"},
+    //     {id_table: "#08", name_tabel: "08",id_cus : "0118" ,time_cus : "00:08", total:7500 ,name_user: "Deelan" ,img_user : "image/vincent.jpg"}
+    //   ]
+    function TablePage(navCtrl, http) {
+        var _this = this;
         this.navCtrl = navCtrl;
-        this.tables = [
-            { id_table: "#01", name_tabel: "01", id_cus: "0111", time_cus: "00:57", total: 500, name_user: "Ananya", img_user: "image/alice.jpg" },
-            { id_table: "#02", name_tabel: "02", id_cus: "0112", time_cus: "01:57", total: 1500, name_user: "Barramee", img_user: "image/andrew.jpg" },
-            { id_table: "#03", name_tabel: "03", id_cus: "0113", time_cus: "00:27", total: 2500, name_user: "Sirintra", img_user: "image/carl.jpg" },
-            { id_table: "#04", name_tabel: "04", id_cus: "0114", time_cus: "00:50", total: 3500, name_user: "Apassara", img_user: "image/garry.jpg" },
-            { id_table: "#05", name_tabel: "05", id_cus: "0115", time_cus: "02:07", total: 2500, name_user: "Pornpan", img_user: "image/james.jpg" },
-            { id_table: "#06", name_tabel: "06", id_cus: "0116", time_cus: "01:01", total: 500, name_user: "Meechai", img_user: "image/jane.jpg" },
-            { id_table: "#07", name_tabel: "07", id_cus: "0117", time_cus: "00:09", total: 2500, name_user: "Attapon", img_user: "image/joyce.jpg" },
-            { id_table: "#08", name_tabel: "08", id_cus: "0118", time_cus: "00:08", total: 7500, name_user: "Deelan", img_user: "image/vincent.jpg" }
-        ];
+        this.http = http;
+        this.tables = [];
+        this.http.get('https://cyber-pos.herokuapp.com/tables').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.tables = data;
+        });
     }
     TablePage.prototype.ProductSellPage = function () {
         this.navCtrl.push(productSell_ts_1.ProductSellPage);
@@ -494,12 +572,12 @@ var TablePage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/table/table.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http])
     ], TablePage);
     return TablePage;
 }());
 exports.TablePage = TablePage;
-},{"../productSell/productSell.ts":4,"@angular/core":153,"ionic-angular":467}],6:[function(require,module,exports){
+},{"../productSell/productSell.ts":4,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],6:[function(require,module,exports){
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1582,7 +1660,7 @@ var EventEmitter = (function (_super) {
 }(Subject_1.Subject));
 exports.EventEmitter = EventEmitter;
 
-},{"./lang":23,"./promise":24,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],18:[function(require,module,exports){
+},{"./lang":23,"./promise":24,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],18:[function(require,module,exports){
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -11128,7 +11206,7 @@ var SimpleExpressionChecker = (function () {
 
 },{"../chars":79,"../facade/collection":91,"../facade/exceptions":93,"../facade/lang":94,"../interpolation_config":108,"./ast":86,"./lexer":87,"@angular/core":153}],89:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":94,"./promise":96,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],90:[function(require,module,exports){
+},{"./lang":94,"./promise":96,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],90:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],91:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -30267,7 +30345,7 @@ function _createDependency(token /** TODO #9100 */, optional /** TODO #9100 */, 
 
 },{"../facade/collection":194,"../facade/lang":197,"../reflection/reflection":229,"./forward_ref":182,"./metadata":184,"./provider":186,"./provider_util":187,"./reflective_exceptions":188,"./reflective_key":190}],192:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":197,"./promise":199,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],193:[function(require,module,exports){
+},{"./lang":197,"./promise":199,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],193:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],194:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -39594,7 +39672,7 @@ exports.PatternValidator = PatternValidator;
 
 },{"../facade/lang":272,"../validators":278,"@angular/core":153}],267:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":272,"./promise":273,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],268:[function(require,module,exports){
+},{"./lang":272,"./promise":273,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],268:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],269:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -43547,7 +43625,7 @@ exports.bootstrapWorkerApp = bootstrapWorkerApp;
 
 },{"./core_private":300,"./src/facade/async":302,"./src/facade/lang":307,"./src/xhr/xhr_cache":309,"./src/xhr/xhr_impl":310,"@angular/common":6,"@angular/compiler":72,"@angular/core":153,"@angular/platform-browser":312}],302:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":307,"./promise":308,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],303:[function(require,module,exports){
+},{"./lang":307,"./promise":308,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],303:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],304:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -46383,7 +46461,7 @@ exports.WebAnimationsPlayer = WebAnimationsPlayer;
 
 },{"../facade/lang":343}],337:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":343,"./promise":344,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],338:[function(require,module,exports){
+},{"./lang":343,"./promise":344,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],338:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],339:[function(require,module,exports){
 /**
@@ -94278,7 +94356,7 @@ var Observable = (function () {
 }());
 exports.Observable = Observable;
 
-},{"./symbol/observable":582,"./util/root":590,"./util/toSubscriber":592}],575:[function(require,module,exports){
+},{"./symbol/observable":584,"./util/root":592,"./util/toSubscriber":594}],575:[function(require,module,exports){
 "use strict";
 exports.empty = {
     isUnsubscribed: true,
@@ -94494,7 +94572,7 @@ var SubjectObservable = (function (_super) {
     return SubjectObservable;
 }(Observable_1.Observable));
 
-},{"./Observable":574,"./SubjectSubscription":577,"./Subscriber":578,"./Subscription":579,"./symbol/rxSubscriber":583,"./util/ObjectUnsubscribedError":584,"./util/throwError":591}],577:[function(require,module,exports){
+},{"./Observable":574,"./SubjectSubscription":577,"./Subscriber":578,"./Subscription":579,"./symbol/rxSubscriber":585,"./util/ObjectUnsubscribedError":586,"./util/throwError":593}],577:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -94787,7 +94865,7 @@ var SafeSubscriber = (function (_super) {
     return SafeSubscriber;
 }(Subscriber));
 
-},{"./Observer":575,"./Subscription":579,"./symbol/rxSubscriber":583,"./util/isFunction":588}],579:[function(require,module,exports){
+},{"./Observer":575,"./Subscription":579,"./symbol/rxSubscriber":585,"./util/isFunction":590}],579:[function(require,module,exports){
 "use strict";
 var isArray_1 = require('./util/isArray');
 var isObject_1 = require('./util/isObject');
@@ -94938,7 +95016,13 @@ var Subscription = (function () {
 }());
 exports.Subscription = Subscription;
 
-},{"./util/UnsubscriptionError":585,"./util/errorObject":586,"./util/isArray":587,"./util/isFunction":588,"./util/isObject":589,"./util/tryCatch":593}],580:[function(require,module,exports){
+},{"./util/UnsubscriptionError":587,"./util/errorObject":588,"./util/isArray":589,"./util/isFunction":590,"./util/isObject":591,"./util/tryCatch":595}],580:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
+var map_1 = require('../../operator/map');
+Observable_1.Observable.prototype.map = map_1.map;
+
+},{"../../Observable":574,"../../operator/map":582}],581:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -95044,7 +95128,94 @@ function dispatchError(arg) {
     }
 }
 
-},{"../Observable":574,"../util/root":590}],581:[function(require,module,exports){
+},{"../Observable":574,"../util/root":592}],582:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = require('../Subscriber');
+/**
+ * Applies a given `project` function to each value emitted by the source
+ * Observable, and emits the resulting values as an Observable.
+ *
+ * <span class="informal">Like [Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map),
+ * it passes each source value through a transformation function to get
+ * corresponding output values.</span>
+ *
+ * <img src="./img/map.png" width="100%">
+ *
+ * Similar to the well known `Array.prototype.map` function, this operator
+ * applies a projection to each value and emits that projection in the output
+ * Observable.
+ *
+ * @example <caption>Map every every click to the clientX position of that click</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var positions = clicks.map(ev => ev.clientX);
+ * positions.subscribe(x => console.log(x));
+ *
+ * @see {@link mapTo}
+ * @see {@link pluck}
+ *
+ * @param {function(value: T, index: number): R} project The function to apply
+ * to each `value` emitted by the source Observable. The `index` parameter is
+ * the number `i` for the i-th emission that has happened since the
+ * subscription, starting from the number `0`.
+ * @param {any} [thisArg] An optional argument to define what `this` is in the
+ * `project` function.
+ * @return {Observable<R>} An Observable that emits the values from the source
+ * Observable transformed by the given `project` function.
+ * @method map
+ * @owner Observable
+ */
+function map(project, thisArg) {
+    if (typeof project !== 'function') {
+        throw new TypeError('argument is not a function. Are you looking for `mapTo()`?');
+    }
+    return this.lift(new MapOperator(project, thisArg));
+}
+exports.map = map;
+var MapOperator = (function () {
+    function MapOperator(project, thisArg) {
+        this.project = project;
+        this.thisArg = thisArg;
+    }
+    MapOperator.prototype.call = function (subscriber, source) {
+        return source._subscribe(new MapSubscriber(subscriber, this.project, this.thisArg));
+    };
+    return MapOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MapSubscriber = (function (_super) {
+    __extends(MapSubscriber, _super);
+    function MapSubscriber(destination, project, thisArg) {
+        _super.call(this, destination);
+        this.project = project;
+        this.count = 0;
+        this.thisArg = thisArg || this;
+    }
+    // NOTE: This looks unoptimized, but it's actually purposefully NOT
+    // using try/catch optimizations.
+    MapSubscriber.prototype._next = function (value) {
+        var result;
+        try {
+            result = this.project.call(this.thisArg, value, this.count++);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    return MapSubscriber;
+}(Subscriber_1.Subscriber));
+
+},{"../Subscriber":578}],583:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 /**
@@ -95073,7 +95244,7 @@ function toPromise(PromiseCtor) {
 }
 exports.toPromise = toPromise;
 
-},{"../util/root":590}],582:[function(require,module,exports){
+},{"../util/root":592}],584:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 var Symbol = root_1.root.Symbol;
@@ -95095,14 +95266,14 @@ else {
     exports.$$observable = '@@observable';
 }
 
-},{"../util/root":590}],583:[function(require,module,exports){
+},{"../util/root":592}],585:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 var Symbol = root_1.root.Symbol;
 exports.$$rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
     Symbol.for('rxSubscriber') : '@@rxSubscriber';
 
-},{"../util/root":590}],584:[function(require,module,exports){
+},{"../util/root":592}],586:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -95128,7 +95299,7 @@ var ObjectUnsubscribedError = (function (_super) {
 }(Error));
 exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 
-},{}],585:[function(require,module,exports){
+},{}],587:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -95151,30 +95322,30 @@ var UnsubscriptionError = (function (_super) {
 }(Error));
 exports.UnsubscriptionError = UnsubscriptionError;
 
-},{}],586:[function(require,module,exports){
+},{}],588:[function(require,module,exports){
 "use strict";
 // typeof any so that it we don't have to cast when comparing a result to the error object
 exports.errorObject = { e: {} };
 
-},{}],587:[function(require,module,exports){
+},{}],589:[function(require,module,exports){
 "use strict";
 exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],588:[function(require,module,exports){
+},{}],590:[function(require,module,exports){
 "use strict";
 function isFunction(x) {
     return typeof x === 'function';
 }
 exports.isFunction = isFunction;
 
-},{}],589:[function(require,module,exports){
+},{}],591:[function(require,module,exports){
 "use strict";
 function isObject(x) {
     return x != null && typeof x === 'object';
 }
 exports.isObject = isObject;
 
-},{}],590:[function(require,module,exports){
+},{}],592:[function(require,module,exports){
 (function (global){
 "use strict";
 var objectTypes = {
@@ -95196,12 +95367,12 @@ if (freeGlobal && (freeGlobal.global === freeGlobal || freeGlobal.window === fre
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],591:[function(require,module,exports){
+},{}],593:[function(require,module,exports){
 "use strict";
 function throwError(e) { throw e; }
 exports.throwError = throwError;
 
-},{}],592:[function(require,module,exports){
+},{}],594:[function(require,module,exports){
 "use strict";
 var Subscriber_1 = require('../Subscriber');
 var rxSubscriber_1 = require('../symbol/rxSubscriber');
@@ -95218,7 +95389,7 @@ function toSubscriber(nextOrObserver, error, complete) {
 }
 exports.toSubscriber = toSubscriber;
 
-},{"../Subscriber":578,"../symbol/rxSubscriber":583}],593:[function(require,module,exports){
+},{"../Subscriber":578,"../symbol/rxSubscriber":585}],595:[function(require,module,exports){
 "use strict";
 var errorObject_1 = require('./errorObject');
 var tryCatchTarget;
@@ -95238,9 +95409,9 @@ function tryCatch(fn) {
 exports.tryCatch = tryCatch;
 ;
 
-},{"./errorObject":586}],594:[function(require,module,exports){
+},{"./errorObject":588}],596:[function(require,module,exports){
 
-},{}]},{},[1,594])
+},{}]},{},[1,596])
 
 
 //# sourceMappingURL=app.bundle.js.map
