@@ -1,53 +1,22 @@
 import { Component } from '@angular/core';
-import { NavController, Slides } from 'ionic-angular';
+import { NavController, Slides, NavParams } from 'ionic-angular';
 import { PaymentPage } from '../payment/payment';
 import { TablePage } from'../table/table';
+import {Http} from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Component({
   templateUrl: 'build/pages/productSell/productSell.html'
 })
 
 export class ProductSellPage {
- 
-  products: any = [
-    { id: "1", namePro: "คาปูชิโน่", price: 89 },
-    { id: "2", namePro: "เอสเปสโช่", price: 89 },
-    { id: "3", namePro: "มอคค่า", price: 89 },
-    { id: "4", namePro: "อาเมริกาโน่", price: 89 },
-    { id: "5", namePro: "ลาเต้", price: 89 },
-    { id: "6", namePro: "ชาเขียว", price: 59 },
-    { id: "7", namePro: "ชาสมุนไพร", price: 59 },
-    { id: "8", namePro: "น้ำส้ม", price: 59 },
-    { id: "9", namePro: "ช็อคโกแลตร้อน", price: 89 },
-    { id: "10", namePro: "น้ำมะเขือเทศ", price: 59 },
-    { id: "11", namePro: "น้ำแร่", price: 15},
-    { id: "12", namePro: "ชาผลไม้", price: 59 },
-    { id: "13", namePro: "กีวี่ บลิซ", price: 89 },
-    { id: "14", namePro: "น้ำส้ม 100%", price: 59 },
-    { id: "15", namePro: "บลูเบอรี่ สทริป", price: 89 },
-    { id: "16", namePro: "สตรอเบอร์รี่ บริ้งค์", price: 85 },
-{ id: "17", namePro: "แมงโก้ แทงโก้", price: 85 },
-{ id: "18", namePro: "วิปครีม", price: 15 },
-{ id: "19", namePro: "น้ำเชื่อมกลิ่นต่างๆ", price: 15 },
-{ id: "20", namePro: "เค้กกล้วยหอมช็อคโกแล็ต", price: 69 },
-{ id: "21", namePro: "คัสตาร์ดเค้ก", price: 49 },
-{ id: "22", namePro: "เค้กนมสด", price: 49 },
-{ id: "23", namePro: "มูสเค้กช็อคโกแล็ต", price: 69 },
-{ id: "24", namePro: "เค้กใบเตย", price: 59 }
-    
-    
-    
+  name_table: any;
 
-    // { id: "17", namePro: "เหล้าปั่น", price: 100 },
-    // { id: "18", namePro: "แสงโสม", price: 100 },
-    // { id: "19", namePro: "เบน285", price: 100 },
-    // { id: "20", namePro: "สไมนอฟ", price: 100 },
-    // { id: "21", namePro: "ฟลูมูน", price: 100 },
-    // { id: "22", namePro: "บรีสเซอร", price: 100 },
-    // { id: "23", namePro: "โฮลกาเด้น", price: 100 },
-    // { id: "24", namePro: "บรีสเซอร", price: 100 },
-    // { id: "25", namePro: "โฮลกาเด้น", price: 100 }
-  ];
+  id_cus: any;
+  user_name: any;
+  fillterOrder: any = [];
+  orders: any;
+  products: any = [];
   basket: any = [];
   totalprice: any = 0.00;
   total: any = 0.00;
@@ -58,49 +27,95 @@ export class ProductSellPage {
   mySlideVertical = {
     direction: 'vertical'
   };
-  constructor(public navCtrl: NavController) {
-    let productPerPage = 12;
-    let page = Math.ceil(this.products.length / productPerPage);
-    let ii = 0;
-    for (let i = 0; i < page; i++) {
-      let pp = { page: i, products: [] };
+  constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams) {
+    this.http.get('https://cyber-pos.herokuapp.com/products').map(res => {
 
-      for (let j = 0; j < productPerPage; j++) {
-        if (this.products[ii]) pp.products.push(this.products[ii]);
-        ii++;
+      return res.json();
+
+    }).subscribe(data => {
+
+      console.log('Data object in subscribe method:');
+      console.dir(data);
+      this.products = data;
+      console.log(this.products);
+      let productPerPage = 12;
+      let page = Math.ceil(this.products.length / productPerPage);
+      let ii = 0;
+      for (let i = 0; i < page; i++) {
+        let pp = { page: i, products: [] };
+
+        for (let j = 0; j < productPerPage; j++) {
+          if (this.products[ii]) pp.products.push(this.products[ii]);
+          ii++;
+        }
+        this.box.push(pp);
       }
-      this.box.push(pp);
-    }
-    console.log(this.box);
+      console.log(this.box);
+    });
+
+
+    //   this.name_table = navParam.get("name_table");
+    //   this.id_cus = navParam.get("id_cus");
+    //   this.user_name = navParam.get("user_name");
+    // console.log(this.name_table);
+    this.orders = navParam.get("item");
+    console.log(this.orders.order);
+    //this.fillterOrder =  this.orders.order;
+    //console.log(this.fillterOrder);
+
+    //  this.http.get('https://cyber-pos.herokuapp.com/orders').map(res => {
+
+    //   return res.json();
+
+    // }).subscribe(data => {
+
+    //   console.log('Data object in subscribe method:');
+    //   console.dir(data);
+    //   this.orders = data;
+    //   console.log(this.orders);
+    //   for(let i =0;i< this.orders.length;i++){
+    //     if(this.name_table == this.orders[i].name_table){
+    //       this.fillterOrder.push(this.orders[i]);
+    //     }
+
+    //   }
+    //   console.dir(this.fillterOrder);
+    // });
+
+
   }
   PaymentPage() {
     this.navCtrl.push(PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
   }
   TablePage() {
-    this.navCtrl.push(TablePage);
+    //this.navCtrl.push(TablePage);
+    this.navCtrl.pop();
   }
   arrayIndexOf(myArr, key) {
     let result = -1;
     myArr.forEach(function (idx) {
-      if (idx.id == key.id) result++;
+      if (idx.id_pro == key.id_pro) result++;
     });
     return result;
   }
 
   chooseProduct(item) {
-    if (this.arrayIndexOf(this.basket, item) != -1) {
-      let selected = this.basket.filter(function (itm) {
-        return itm.id == item.id;
+    console.log(item);
+    if (this.arrayIndexOf(this.orders.order.list_order, item) != -1) {
+      let selected = this.orders.order.list_order.filter(function (itm) {
+        return itm.id_pro == item.id_pro;
       })[0];
 
       selected.piece++;
       this.totalprice += selected.totalPrice;
       this.total = selected.toTal;
     } else {
+      
       item.piece = 1;
       item.totalPrice = item.price * item.piece;
       this.totalprice += item.totalPrice;
-      this.basket.push(item);
+      this.orders.order.list_order.push(item);
+      console.log(this.orders.order.list_order);
     }
 
   }

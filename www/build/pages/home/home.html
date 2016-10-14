@@ -16,7 +16,7 @@
     <ion-item>
     
         <ion-row >
-          <ion-col *ngFor="let item of items" (click)="tablePage()">
+          <ion-col *ngFor="let item of items" (click)="tablePage(item)">
             <ion-card>
               <ion-item style="background-color:#515151;">
                
@@ -24,7 +24,7 @@
                 
                   <label style="color:white;">{{item.position}}</label>
                 
-                  <img src="{{item.img}}"  class="picHome" align="right">
+                  <img src="{{item.img_user}}"  class="picHome" align="right">
                
               </ion-item>
             </ion-card>

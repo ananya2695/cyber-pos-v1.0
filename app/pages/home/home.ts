@@ -18,7 +18,6 @@ import 'rxjs/add/operator/map';
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
- 
   items = [];
     // items: any = [
     //   { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
@@ -31,6 +30,8 @@ export class HomePage {
     // ]
   constructor(private navCtrl: NavController, public modalCtrl: ModalController,
     public viewController: ViewController, public http: Http) {
+    
+
       this.http.get('https://cyber-pos.herokuapp.com/users').map(res => {
 
       return res.json();
@@ -54,8 +55,9 @@ export class HomePage {
   onPop() {
     this.navCtrl.pop();
   }
-  tablePage() {
-    this.navCtrl.push(TablePage);
+  tablePage(item) {
+    this.navCtrl.push(TablePage , { "user_name": item.user_name});
+    console.log(item.user_name);
   }
   registerPage() {
     let modal = this.modalCtrl.create(RegisterPage1);
