@@ -19,8 +19,8 @@
       <ion-card>
         <ion-card-content >
           <ion-item>
-            <ion-label>ตรวจสอบ เลขที่</ion-label>
-
+            <ion-label>ตรวจสอบ เลขที่ {{orders.order.id_order}}</ion-label>
+             
           </ion-item>
           <!--table-->
           <ion-row>
@@ -120,7 +120,7 @@
               <label>รวมทั้งหมด</label>
             </ion-col>
             <ion-col width-50 align="right">
-              <label>{{totalprice}}</label>
+              <label>{{orders.order.totalPrice}}</label>
             </ion-col>
           </ion-row>
 

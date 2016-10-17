@@ -71,11 +71,20 @@ export class TablePage {
   }
 
   ProductSellPage(_item) {
+    
+   //let totalprice= localStorage.getItem('totalprice');
+
+  
     if(!_item.order)
     {
        _item.order = {
-              user_name : 'eleme',
+              user_name : this.user_name,
               name_table: _item.name_table,
+              totalPrice:_item.totalPrice,
+              id_cus : _item.id_cus,
+              id_order:_item.id_order,
+              time_cus:_item.time_cus,
+              _id : _item._id,
               list_order: []
             };
     }

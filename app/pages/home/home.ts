@@ -155,8 +155,7 @@ export class EditUser {
     this.img_user = user.img_user;
   }
   editSuccess(user_name, user_id, position,user_firstname,user_lastname,password,confirmpassword) {
-    //this.viewController.dismiss({  "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": "image/alice.jpg" });
-        
+       
         let body = {'_id':this._id ,'user_name' : user_name , 'user_id' : user_id, 'position' : position,
                      'user_firstname':user_firstname,'user_lastname':user_lastname,
                       'password':password,'confirmpassword':confirmpassword };

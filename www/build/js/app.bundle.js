@@ -186,7 +186,6 @@ var EditUser = (function () {
         this.img_user = user.img_user;
     }
     EditUser.prototype.editSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
-        //this.viewController.dismiss({  "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": "image/alice.jpg" });
         var _this = this;
         var body = { '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
@@ -304,7 +303,7 @@ var PaymentPage = (function () {
         this.one = "";
         this.zero = "";
         this.zeroTwo = "";
-        this.basket = navParam.get("basket");
+        this.orders = navParam.get("orders");
         this.totalprice = navParam.get("totalprice");
     }
     PaymentPage.prototype.ProductSell = function () {
@@ -429,6 +428,10 @@ var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 var ProductSellPage = (function () {
     function ProductSellPage(navCtrl, http, navParam) {
+        // this.totalprice = navParam.get('totalprice');
+        //  if(navParam.get('status') == 'Pause'){
+        //     this.totalprice = navParam.get('totalprice');
+        //  }
         var _this = this;
         this.navCtrl = navCtrl;
         this.http = http;
@@ -436,7 +439,7 @@ var ProductSellPage = (function () {
         this.fillterOrder = [];
         this.products = [];
         this.basket = [];
-        this.totalprice = 0.00;
+        this.totalPrice = 0.00;
         this.total = 0.00;
         this.box = [];
         this.mySlideOptions = {
@@ -488,12 +491,20 @@ var ProductSellPage = (function () {
         //   }
         //   console.dir(this.fillterOrder);
         // });
+        this.id_cus = "test";
+        this.orders.order.id_cus = this.id_cus;
+        this.id_order = 'O-' + this.orders._id.slice(0, 9);
+        console.log(this.id_order);
+        this.orders.order.id_order = this.id_order;
+        this.time_cus = Date();
+        this.orders.order.time_cus = this.time_cus;
     }
     ProductSellPage.prototype.PaymentPage = function () {
-        this.navCtrl.push(payment_1.PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
+        this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
     };
     ProductSellPage.prototype.TablePage = function () {
         //this.navCtrl.push(TablePage);
+        //localStorage.setItem('totalprice',this.totalprice);
         this.navCtrl.pop();
     };
     ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
@@ -511,13 +522,17 @@ var ProductSellPage = (function () {
                 return itm.id_pro == item.id_pro;
             })[0];
             selected.piece++;
-            this.totalprice += selected.totalPrice;
+            this.totalPrice += selected.totalprice;
+            this.orders.order.totalPrice = this.totalPrice;
+            console.log(this.orders.order.totalPrice);
             this.total = selected.toTal;
         }
         else {
             item.piece = 1;
-            item.totalPrice = item.price * item.piece;
-            this.totalprice += item.totalPrice;
+            item.totalprice = item.price * item.piece;
+            this.totalPrice += item.totalprice;
+            this.orders.order.totalPrice = this.totalPrice;
+            console.log(this.orders.order.totalPrice);
             this.orders.order.list_order.push(item);
             console.log(this.orders.order.list_order);
         }
@@ -604,10 +619,16 @@ var TablePage = (function () {
         });
     }
     TablePage.prototype.ProductSellPage = function (_item) {
+        //let totalprice= localStorage.getItem('totalprice');
         if (!_item.order) {
             _item.order = {
-                user_name: 'eleme',
+                user_name: this.user_name,
                 name_table: _item.name_table,
+                totalPrice: _item.totalPrice,
+                id_cus: _item.id_cus,
+                id_order: _item.id_order,
+                time_cus: _item.time_cus,
+                _id: _item._id,
                 list_order: []
             };
         }

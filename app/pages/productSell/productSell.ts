@@ -14,12 +14,15 @@ export class ProductSellPage {
 
   id_cus: any;
   user_name: any;
+  id_order: any;
+  time_cus: any;
   fillterOrder: any = [];
   orders: any;
   products: any = [];
   basket: any = [];
-  totalprice: any = 0.00;
+  totalPrice: any = 0.00;
   total: any = 0.00;
+  _id:any;
   box: any = [];
   mySlideOptions = {
     pager: true
@@ -28,6 +31,11 @@ export class ProductSellPage {
     direction: 'vertical'
   };
   constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams) {
+    // this.totalprice = navParam.get('totalprice');
+    //  if(navParam.get('status') == 'Pause'){
+    //     this.totalprice = navParam.get('totalprice');
+    //  }
+
     this.http.get('https://cyber-pos.herokuapp.com/products').map(res => {
 
       return res.json();
@@ -81,14 +89,24 @@ export class ProductSellPage {
     //   }
     //   console.dir(this.fillterOrder);
     // });
+    this.id_cus = "test";
+    this.orders.order.id_cus = this.id_cus;
+    
+    this.id_order = 'O-' + this.orders._id.slice(0, 9) ;
+    console.log( this.id_order);
+    this.orders.order.id_order = this.id_order;
+
+    this.time_cus = Date();
+    this.orders.order.time_cus = this.time_cus;
 
 
   }
   PaymentPage() {
-    this.navCtrl.push(PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
+    this.navCtrl.push(PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
   }
   TablePage() {
     //this.navCtrl.push(TablePage);
+    //localStorage.setItem('totalprice',this.totalprice);
     this.navCtrl.pop();
   }
   arrayIndexOf(myArr, key) {
@@ -107,13 +125,17 @@ export class ProductSellPage {
       })[0];
 
       selected.piece++;
-      this.totalprice += selected.totalPrice;
+      this.totalPrice += selected.totalprice;
+      this.orders.order.totalPrice = this.totalPrice;
+      console.log(this.orders.order.totalPrice);
       this.total = selected.toTal;
     } else {
-      
+
       item.piece = 1;
-      item.totalPrice = item.price * item.piece;
-      this.totalprice += item.totalPrice;
+      item.totalprice = item.price * item.piece;
+      this.totalPrice += item.totalprice;
+      this.orders.order.totalPrice = this.totalPrice;
+      console.log(this.orders.order.totalPrice);
       this.orders.order.list_order.push(item);
       console.log(this.orders.order.list_order);
     }
