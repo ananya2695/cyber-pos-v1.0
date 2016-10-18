@@ -13,7 +13,7 @@ import { TablePage } from '../table/table';
   templateUrl: 'build/pages/payment/payment.html',
 })
 export class PaymentPage {
-  basket: any;
+  orders: any;
   totalprice: any = 0.00;
   cash: any = 0.00;
   money: any = [];
@@ -29,7 +29,7 @@ export class PaymentPage {
   zero: any = "";
   zeroTwo: any = "";
   constructor(private navCtrl: NavController, public navParam: NavParams) {
-    this.basket = navParam.get("basket");
+    this.orders = navParam.get("orders");
     this.totalprice = navParam.get("totalprice");
 
   }

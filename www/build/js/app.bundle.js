@@ -89,8 +89,9 @@ var HomePage = (function () {
     HomePage.prototype.onPop = function () {
         this.navCtrl.pop();
     };
-    HomePage.prototype.tablePage = function () {
-        this.navCtrl.push(table_1.TablePage);
+    HomePage.prototype.tablePage = function (item) {
+        this.navCtrl.push(table_1.TablePage, { "user_name": item.user_name });
+        console.log(item.user_name);
     };
     HomePage.prototype.registerPage = function () {
         var _this = this;
@@ -186,7 +187,6 @@ var EditUser = (function () {
         this.img_user = user.img_user;
     }
     EditUser.prototype.editSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
-        //this.viewController.dismiss({  "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": "image/alice.jpg" });
         var _this = this;
         var body = { '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
@@ -305,7 +305,7 @@ var PaymentPage = (function () {
         this.one = "";
         this.zero = "";
         this.zeroTwo = "";
-        this.basket = navParam.get("basket");
+        this.orders = navParam.get("orders");
         this.totalprice = navParam.get("totalprice");
     }
     PaymentPage.prototype.ProductSell = function () {
@@ -427,38 +427,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var payment_1 = require('../payment/payment');
-var table_1 = require('../table/table');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 var ProductSellPage = (function () {
-    function ProductSellPage(navCtrl) {
+    function ProductSellPage(navCtrl, http, navParam) {
+        // this.totalprice = navParam.get('totalprice');
+        //  if(navParam.get('status') == 'Pause'){
+        //     this.totalprice = navParam.get('totalprice');
+        //  }
+        var _this = this;
         this.navCtrl = navCtrl;
-        this.products = [
-            { id: "1", namePro: "คาปูชิโน่", price: 89 },
-            { id: "2", namePro: "เอสเปสโช่", price: 89 },
-            { id: "3", namePro: "มอคค่า", price: 89 },
-            { id: "4", namePro: "อาเมริกาโน่", price: 89 },
-            { id: "5", namePro: "ลาเต้", price: 89 },
-            { id: "6", namePro: "ชาเขียว", price: 59 },
-            { id: "7", namePro: "ชาสมุนไพร", price: 59 },
-            { id: "8", namePro: "น้ำส้ม", price: 59 },
-            { id: "9", namePro: "ช็อคโกแลตร้อน", price: 89 },
-            { id: "10", namePro: "น้ำมะเขือเทศ", price: 59 },
-            { id: "11", namePro: "น้ำแร่", price: 15 },
-            { id: "12", namePro: "ชาผลไม้", price: 59 },
-            { id: "13", namePro: "กีวี่ บลิซ", price: 89 },
-            { id: "14", namePro: "น้ำส้ม 100%", price: 59 },
-            { id: "15", namePro: "บลูเบอรี่ สทริป", price: 89 },
-            { id: "16", namePro: "สตรอเบอร์รี่ บริ้งค์", price: 85 },
-            { id: "17", namePro: "แมงโก้ แทงโก้", price: 85 },
-            { id: "18", namePro: "วิปครีม", price: 15 },
-            { id: "19", namePro: "น้ำเชื่อมกลิ่นต่างๆ", price: 15 },
-            { id: "20", namePro: "เค้กกล้วยหอมช็อคโกแล็ต", price: 69 },
-            { id: "21", namePro: "คัสตาร์ดเค้ก", price: 49 },
-            { id: "22", namePro: "เค้กนมสด", price: 49 },
-            { id: "23", namePro: "มูสเค้กช็อคโกแล็ต", price: 69 },
-            { id: "24", namePro: "เค้กใบเตย", price: 59 }
-        ];
+        this.http = http;
+        this.navParam = navParam;
+        this.fillterOrder = [];
+        this.products = [];
         this.basket = [];
-        this.totalprice = 0.00;
+        this.totalPrice = 0.00;
         this.total = 0.00;
         this.box = [];
         this.mySlideOptions = {
@@ -467,48 +451,93 @@ var ProductSellPage = (function () {
         this.mySlideVertical = {
             direction: 'vertical'
         };
-        var productPerPage = 12;
-        var page = Math.ceil(this.products.length / productPerPage);
-        var ii = 0;
-        for (var i = 0; i < page; i++) {
-            var pp = { page: i, products: [] };
-            for (var j = 0; j < productPerPage; j++) {
-                if (this.products[ii])
-                    pp.products.push(this.products[ii]);
-                ii++;
+        this.http.get('https://cyber-pos.herokuapp.com/products').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.products = data;
+            console.log(_this.products);
+            var productPerPage = 12;
+            var page = Math.ceil(_this.products.length / productPerPage);
+            var ii = 0;
+            for (var i = 0; i < page; i++) {
+                var pp = { page: i, products: [] };
+                for (var j = 0; j < productPerPage; j++) {
+                    if (_this.products[ii])
+                        pp.products.push(_this.products[ii]);
+                    ii++;
+                }
+                _this.box.push(pp);
             }
-            this.box.push(pp);
-        }
-        console.log(this.box);
+            console.log(_this.box);
+        });
+        //   this.name_table = navParam.get("name_table");
+        //   this.id_cus = navParam.get("id_cus");
+        //   this.user_name = navParam.get("user_name");
+        // console.log(this.name_table);
+        this.orders = navParam.get("item");
+        console.log(this.orders.order);
+        //this.fillterOrder =  this.orders.order;
+        //console.log(this.fillterOrder);
+        //  this.http.get('https://cyber-pos.herokuapp.com/orders').map(res => {
+        //   return res.json();
+        // }).subscribe(data => {
+        //   console.log('Data object in subscribe method:');
+        //   console.dir(data);
+        //   this.orders = data;
+        //   console.log(this.orders);
+        //   for(let i =0;i< this.orders.length;i++){
+        //     if(this.name_table == this.orders[i].name_table){
+        //       this.fillterOrder.push(this.orders[i]);
+        //     }
+        //   }
+        //   console.dir(this.fillterOrder);
+        // });
+        this.id_cus = "test";
+        this.orders.order.id_cus = this.id_cus;
+        this.id_order = 'O-' + this.orders._id.slice(0, 9);
+        console.log(this.id_order);
+        this.orders.order.id_order = this.id_order;
+        this.time_cus = Date();
+        this.orders.order.time_cus = this.time_cus;
     }
     ProductSellPage.prototype.PaymentPage = function () {
-        this.navCtrl.push(payment_1.PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
+        this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
     };
     ProductSellPage.prototype.TablePage = function () {
-        this.navCtrl.push(table_1.TablePage);
+        //this.navCtrl.push(TablePage);
+        //localStorage.setItem('totalprice',this.totalprice);
+        this.navCtrl.pop();
     };
     ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
         var result = -1;
         myArr.forEach(function (idx) {
-            if (idx.id == key.id)
+            if (idx.id_pro == key.id_pro)
                 result++;
         });
         return result;
     };
     ProductSellPage.prototype.chooseProduct = function (item) {
-        if (this.arrayIndexOf(this.basket, item) != -1) {
-            var selected = this.basket.filter(function (itm) {
-                return itm.id == item.id;
+        console.log(item);
+        if (this.arrayIndexOf(this.orders.order.list_order, item) != -1) {
+            var selected = this.orders.order.list_order.filter(function (itm) {
+                return itm.id_pro == item.id_pro;
             })[0];
             selected.piece++;
-            this.totalprice += selected.totalPrice;
+            this.totalPrice += selected.totalprice;
+            this.orders.order.totalPrice = this.totalPrice;
+            console.log(this.orders.order.totalPrice);
             this.total = selected.toTal;
         }
         else {
             item.piece = 1;
-            item.totalPrice = item.price * item.piece;
-            this.totalprice += item.totalPrice;
-            this.basket.push(item);
+            item.totalprice = item.price * item.piece;
+            this.totalPrice += item.totalprice;
+            this.orders.order.totalPrice = this.totalPrice;
+            console.log(this.orders.order.totalPrice);
+            this.orders.order.list_order.push(item);
+            console.log(this.orders.order.list_order);
         }
     };
     ProductSellPage.prototype.slideProduct = function () {
@@ -517,13 +546,13 @@ var ProductSellPage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/productSell/productSell.html'
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams])
     ], ProductSellPage);
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
 
-},{"../payment/payment":3,"../table/table":5,"@angular/core":153,"ionic-angular":467}],5:[function(require,module,exports){
+},{"../payment/payment":3,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -556,27 +585,65 @@ var TablePage = (function () {
     //     {id_table: "#07", name_tabel: "07",id_cus : "0117" ,time_cus : "00:09", total:2500 ,name_user: "Attapon" ,img_user : "image/joyce.jpg"},
     //     {id_table: "#08", name_tabel: "08",id_cus : "0118" ,time_cus : "00:08", total:7500 ,name_user: "Deelan" ,img_user : "image/vincent.jpg"}
     //   ]
-    function TablePage(navCtrl, http) {
+    function TablePage(navCtrl, http, navParam) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.http = http;
+        this.navParam = navParam;
+        this.fillterTable = [];
         this.tables = [];
+        this.user_name = navParam.get("user_name");
+        console.log(this.user_name);
         this.http.get('https://cyber-pos.herokuapp.com/tables').map(function (res) {
             return res.json();
         }).subscribe(function (data) {
             console.log('Data object in subscribe method:');
             console.dir(data);
             _this.tables = data;
+            console.log(_this.tables);
+            // for(let i =0;i< this.tables.length;i++){
+            //   if(this.user_name == this.tables[i].user_name){
+            //     this.fillterTable.push(this.tables[i]);
+            //   }
+            // }
+            _this.tables.forEach(function (element) {
+                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    console.log('Data object in subscribe method:');
+                    console.dir(data);
+                    if (data) {
+                        element.order = data;
+                    }
+                });
+                console.log(element);
+                _this.fillterTable.push(element);
+            });
+            console.log(_this.fillterTable);
         });
     }
-    TablePage.prototype.ProductSellPage = function () {
-        this.navCtrl.push(productSell_ts_1.ProductSellPage);
+    TablePage.prototype.ProductSellPage = function (_item) {
+        //let totalprice= localStorage.getItem('totalprice');
+        if (!_item.order) {
+            _item.order = {
+                user_name: this.user_name,
+                name_table: _item.name_table,
+                totalPrice: _item.totalPrice,
+                id_cus: _item.id_cus,
+                id_order: _item.id_order,
+                time_cus: _item.time_cus,
+                _id: _item._id,
+                list_order: []
+            };
+        }
+        this.navCtrl.push(productSell_ts_1.ProductSellPage, { 'item': _item });
+        console.log(_item);
     };
     TablePage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/table/table.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams])
     ], TablePage);
     return TablePage;
 }());

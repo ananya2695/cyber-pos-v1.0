@@ -17,30 +17,24 @@
   <ion-row align="center">
     <ion-col width-50>
       <ion-card>
-        <ion-card-content>
+        <ion-card-content >
           <ion-item>
-            <ion-label>ตรวจสอบ เลขที่</ion-label>
-
+            <ion-label>ตรวจสอบ เลขที่ {{orders.order.id_order}}</ion-label>
+             
           </ion-item>
           <!--table-->
           <ion-row>
             <ion-col width-25>
-              <ion-item>
                 <ion-label>โต๊ะ</ion-label>
-
-              </ion-item>
+                <ion-label>{{orders.order.name_table}}</ion-label>
             </ion-col>
             <ion-col width-50>
-
               <ion-label>ลูกค้า</ion-label>
-
-
+              <ion-label>{{orders.order.id_cus}}</ion-label>
             </ion-col>
             <ion-col width-25>
-              <ion-item>
                 <ion-label>ผู้ใช้</ion-label>
-
-              </ion-item>
+                <ion-label>{{orders.order.user_name}}</ion-label>
             </ion-col>
           </ion-row>
 
@@ -90,7 +84,7 @@
             </ion-list>
           </ion-content>-->
           <ion-scroll scrollY="true" style="height:400px;">
-             <ion-row *ngFor="let item of basket">
+             <ion-row *ngFor="let item of orders.order.list_order" >
             <ion-col width-25>
               <ion-item>
                 <ion-label>{{item.namePro}}</ion-label>
@@ -126,7 +120,7 @@
               <label>รวมทั้งหมด</label>
             </ion-col>
             <ion-col width-50 align="right">
-              <label>{{totalprice}}</label>
+              <label>{{orders.order.totalPrice}}</label>
             </ion-col>
           </ion-row>
 
