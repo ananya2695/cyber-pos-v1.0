@@ -101,7 +101,7 @@ export class RegisterPage1 {
     //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
        let body = { 'user_name' : user_name , 'user_id' : user_id, 'position' : position,
                      'user_firstname':user_firstname,'user_lastname':user_lastname,
-                      'password':password,'confirmpassword':confirmpassword,"img_user": this.base64Image };
+                      'password':password,'confirmpassword':confirmpassword,"img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
       this.viewController.dismiss(body);
     console.dir(body);
 
@@ -158,7 +158,7 @@ export class EditUser {
        
         let body = {'_id':this._id ,'user_name' : user_name , 'user_id' : user_id, 'position' : position,
                      'user_firstname':user_firstname,'user_lastname':user_lastname,
-                      'password':password,'confirmpassword':confirmpassword };
+                      'password':password,'confirmpassword':confirmpassword ,"img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png"};
                       console.log(body);
       this.viewController.dismiss(body);
     console.dir(body)
