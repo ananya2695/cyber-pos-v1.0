@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ProductSellPage }  from'../productSell/productSell';
 import { TablePage } from '../table/table';
+import { HomePage } from '../home/home';
+import {Http} from '@angular/http';
+import 'rxjs/add/operator/map';
 
 /*
   Generated class for the PaymentPage page.
@@ -13,9 +16,11 @@ import { TablePage } from '../table/table';
   templateUrl: 'build/pages/payment/payment.html',
 })
 export class PaymentPage {
+  returnMessage = "";
   orders: any;
   totalprice: any = 0.00;
   cash: any = 0.00;
+  change: any = 0.00;
   money: any = [];
   nine: any = "";
   eight: any = "";
@@ -28,9 +33,11 @@ export class PaymentPage {
   one: any = "";
   zero: any = "";
   zeroTwo: any = "";
-  constructor(private navCtrl: NavController, public navParam: NavParams) {
+  constructor(private navCtrl: NavController, public navParam: NavParams, public http: Http) {
     this.orders = navParam.get("orders");
     this.totalprice = navParam.get("totalprice");
+   //this.change = this.cash - this.orders.order.totalPrice;
+   //console.log(this.change);
 
   }
   ProductSell() {
@@ -128,5 +135,32 @@ export class PaymentPage {
     this.cash = str.join("");
     console.log(this.cash);
   }
+  printSlip(){
+    console.log(this.orders);
+    
+    let product = this.orders.order.list_order;
+    console.log(product);
+     let body = { 'id_cus' : this.orders.order.id_cus , 'id_order' : this.orders.order.id_order, 
+                  'name_table' : this.orders.order.name_table,'time_cus':this.orders.order.time_cus,
+                     'totalPrice':this.orders.order.totalPrice,'user_name':this.orders.order.user_name,
+                    'list_order' : product,'cash':this.cash,'change': (this.cash) - (this.orders.order.totalPrice),
+                    'paid':true};
+     
+    console.dir(body);
+        this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(res => {
+      
+      // console.log('Result in mapping method:');
+      // console.dir(res);
+      return res.json();
 
+    }).subscribe(data => {
+      
+      // console.log('Data object in subscribe method:');
+      console.dir(data);
+      this.returnMessage = data.message;
+      console.log(this.returnMessage);
+    
+    });
+  this.navCtrl.push(HomePage);
+  }
 }

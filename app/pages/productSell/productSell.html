@@ -8,6 +8,7 @@
 
   <ion-navbar>
     <ion-title>Product Sale</ion-title>
+     
   </ion-navbar>
 
 </ion-header>
@@ -144,7 +145,7 @@
             <ion-slides pager [options]="mySlideOptions" style="height:350px; margin-top:-40px;" >
               <ion-slide *ngFor="let page of box" >
                 <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
-                  <ion-col style="flex: 0 0 48%;  max-width: 48%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of page.products" (click)="chooseProduct(item)">
+                  <ion-col style="flex: 0 0 48%;  max-width: 48%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of page.basket" (click)="chooseProduct(item)">
                     <button block ion-button color="dark"  >{{item.namePro}} <br> {{item.price}}</button>
                   </ion-col>
                 </ion-row>
@@ -274,95 +275,11 @@
           <ion-row>
             <ion-slides pager [options]="mySlideOptions" style="height:160px; margin-top:-50px;">
 
-              <ion-slide>
-                <ion-row>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">เครื่องดื่ม</button>
-
-                  </ion-col>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">เค้กวนิลา</button>
-                  </ion-col>
-
-                  <ion-col width-33>
-                    <button block ion-button color="dark">เค้กช็อคโกแลต</button>
-                  </ion-col>
-                </ion-row>
-
-
-                <ion-row style="margin-top:-17px;">
-                  <ion-col width-33>
-                    <button block ion-button color="dark">แคปเค้ก</button>
-
-                  </ion-col>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">เค้กโลว</button>
-                  </ion-col>
-
-                  <ion-col width-33>
-                    <button block ion-button color="dark">คัพเค้ก</button>
-                  </ion-col>
-                </ion-row>
-              </ion-slide>
-
-              <ion-slide>
-                <ion-row>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">เค้กธัญพืช</button>
-
-                  </ion-col>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">เจลลี่พาเฟ่</button>
-                  </ion-col>
-
-                  <ion-col width-33>
-                    <button block ion-button color="dark">สลัด</button>
-                  </ion-col>
-                </ion-row>
-
-
-                <ion-row style="margin-top:-17px;">
-                  <ion-col width-33>
-                    <button block ion-button color="dark">ฟุตสลัด</button>
-
-                  </ion-col>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">ไอศครีม</button>
-                  </ion-col>
-
-                  <ion-col width-33>
-                    <button block ion-button color="dark">พาสต้า</button>
-                  </ion-col>
-                </ion-row>
-              </ion-slide>
-
-              <ion-slide>
-                <ion-row>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">สปาเก็ตตี้</button>
-
-                  </ion-col>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">สเต็ก</button>
-                  </ion-col>
-
-                  <ion-col width-33>
-                    <button block ion-button color="dark">พิซซ่า</button>
-                  </ion-col>
-                </ion-row>
-
-
-                <ion-row style="margin-top:-17px;">
-                  <ion-col width-33>
-                    <button block ion-button color="dark">แก้วน้ำ</button>
-
-                  </ion-col>
-                  <ion-col width-33>
-                    <button block ion-button color="dark">กระเป๋า</button>
-                  </ion-col>
-
-                  <ion-col width-33>
-                    <button block ion-button color="dark">พวงกุญแจ</button>
+             <ion-slide *ngFor="let page of boxcate" >
+                <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
+                  <ion-col style="flex: 0 0 32%;  max-width: 32%; text-align: center; padding: 0; margin-left:6px;" 
+                  *ngFor="let cate of page.fillterCate" (click)="chooseCate(cate)">
+                    <button block ion-button color="dark"  >{{cate}}</button>
                   </ion-col>
                 </ion-row>
               </ion-slide>

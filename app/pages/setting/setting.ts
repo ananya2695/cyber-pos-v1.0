@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController,Page ,MenuController} from 'ionic-angular';
 
 /*
   Generated class for the SettingPage page.
@@ -7,8 +7,9 @@ import { NavController } from 'ionic-angular';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
-@Component({
-  templateUrl: 'build/pages/setting/setting.html',
+@Page({
+    templateUrl: 'build/pages/setting/setting.html',
+    selector:'app-menu'
 })
 export class SettingPage {items:any = [
     {id_user: "#CS01" , user_name: "Ananya" , position:"Cashier" , img: "image/alice.jpg"},
@@ -20,8 +21,10 @@ export class SettingPage {items:any = [
     {id_user: "#MN01" , user_name: "Aemika" , position:"Manager",img: "image/carl.jpg"},
   ]
 
-  constructor(private navCtrl: NavController) {
-
+  constructor(private navCtrl: NavController ,public menu: MenuController) {
+    this.menu = menu;
   }
-
+  openMenu() {
+   this.menu.open();
+ }
 }
