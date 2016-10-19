@@ -23,7 +23,7 @@ export class ProductSellPage {
   products: any = [];
   basket: any = [];
   totalPrice: any = 0.00;
-  totalprice :any = 0.00;
+  totalprice: any = 0.00;
   total: any = 0.00;
   _id: any;
   box: any = [];
@@ -145,35 +145,72 @@ export class ProductSellPage {
   }
 
   PaymentPage() {
+    this.orders.order.list_order.forEach(element => {
+      element.totalprice = element.piece * element.price;
+      console.log(element.totalprice);
+
+    });
+    // console.log('amout'+this.orders.order.list_order[0].piece * this.orders.order.list_order[0].price);
     this.navCtrl.push(PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
   }
   TablePage() {
     //this.navCtrl.push(TablePage);
     //localStorage.setItem('totalprice',this.totalprice);
-    let product = this.orders.order.list_order;
-    console.log(product);
-    let body = {
-      'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
-      'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
-      'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
-      'list_order': product, 'paid': false
-    };
+    if (!this.orders.order._id) {
+      let product = this.orders.order.list_order;
+      console.log(product);
+      let body = {
+        'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+        'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+        'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+        'list_order': product, 'paid': false
+      };
 
-    console.dir(body);
-    this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(res => {
+      console.dir(body);
+      this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(res => {
 
-      // console.log('Result in mapping method:');
-      // console.dir(res);
-      return res.json();
+        // console.log('Result in mapping method:');
+        // console.dir(res);
+        return res.json();
 
-    }).subscribe(data => {
+      }).subscribe(data => {
 
-      // console.log('Data object in subscribe method:');
-      console.dir(data);
-      this.returnMessage = data.message;
-      console.log(this.returnMessage);
+        // console.log('Data object in subscribe method:');
+        console.dir(data);
+        this.returnMessage = data.message;
+        console.log(this.returnMessage);
 
-    });
+      });
+
+    } else if (this.orders.order._id) {
+      let product = this.orders.order.list_order;
+      console.log(product);
+      let body = {
+        '_id': this.orders.order._id,'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+        'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+        'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+        'list_order': product, 'paid': false
+      };
+
+      console.dir(body);
+      this.http.put('https://cyber-pos.herokuapp.com/orders/'+this.orders.order._id, body).map(res => {
+
+        // console.log('Result in mapping method:');
+        // console.dir(res);
+        return res.json();
+
+      }).subscribe(data => {
+
+        // console.log('Data object in subscribe method:');
+        console.dir(data);
+        this.returnMessage = data.message;
+        console.log(this.returnMessage);
+
+      });
+
+    }
+
+
     this.navCtrl.push(TablePage);
     console.log(this.orders);
 
@@ -195,25 +232,26 @@ export class ProductSellPage {
     console.log(item);
     // this.totalprice = item.price * item.piece;
     // console.log(this.totalprice);
-    
+
     obj = this.orders.order.totalPrice;
     console.log(obj);
-
     if (obj) {
       if (this.arrayIndexOf(this.orders.order.list_order, item) != -1) {
         let selected = this.orders.order.list_order.filter(function (itm) {
           return itm.id_pro == item.id_pro;
         })[0];
-
         selected.piece++;
+        // item.totalprice = item.price * item.piece;
         obj += selected.totalprice;
         this.orders.order.totalPrice = obj;
-        console.log(this.orders.order.totalPrice);
+        // console.log(this.orders.order.totalPrice);
         this.total = selected.toTal;
-      } else {
+        console.log(selected.totalprice);
 
+      } else {
         item.piece = 1;
         item.totalprice = item.price * item.piece;
+        console.log(item.totalprice);
         obj += item.totalprice;
         this.orders.order.totalPrice = obj;
         console.log(this.orders.order.totalPrice);
@@ -225,17 +263,18 @@ export class ProductSellPage {
         let selected = this.orders.order.list_order.filter(function (itm) {
           return itm.id_pro == item.id_pro;
         })[0];
-
         selected.piece++;
-       // item.totalprice = item.price * item.piece;
+        // item.totalprice = item.price * item.piece;
         this.totalPrice += selected.totalprice;
         this.orders.order.totalPrice = this.totalPrice;
-        console.log(this.orders.order.totalPrice);
+        // console.log(this.orders.order.totalPrice);
         this.total = selected.toTal;
-      } else {
+        console.log(selected.totalprice);
 
+      } else {
         item.piece = 1;
         item.totalprice = item.price * item.piece;
+        console.log(item.totalprice);
         this.totalPrice += item.totalprice;
         this.orders.order.totalPrice = this.totalPrice;
         console.log(this.orders.order.totalPrice);
@@ -245,15 +284,21 @@ export class ProductSellPage {
     }
 
 
+
+
   }
   delOrder(item) {
     let OrderItm = this.orders.order.list_order;
     console.log(OrderItm);
-     for (var i = 0; i < OrderItm.length; i++) {
+    for (var i = 0; i < OrderItm.length; i++) {
       if (OrderItm[i]._id == item._id) {
-         this.orders.order.totalPrice = this.orders.order.totalPrice - OrderItm[i].totalprice;
+        this.orders.order.totalPrice = this.orders.order.totalPrice - (OrderItm[i].totalprice * OrderItm[i].piece);
+        // OrderItm.totalprice = OrderItm[i].totalprice * OrderItm[i].piece;
+        // console.log(OrderItm.totalprice);
+        this.totalPrice = this.orders.order.totalPrice;
         OrderItm.splice(i, 1);
-      
+
+
         break;
       }
     }
