@@ -128,8 +128,11 @@
     <label>เงินทอน</label>
   </ion-col>
 
-   <ion-col width-50 align="right">
+   <ion-col width-50 align="right" *ngIf="cash !=0">
     <label>{{cash - orders.order.totalPrice}}</label>
+  </ion-col>
+  <ion-col width-50 align="right" *ngIf="cash ==0">
+    <label>0</label>
   </ion-col>
 </ion-row>
 
