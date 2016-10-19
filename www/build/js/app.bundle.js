@@ -279,7 +279,6 @@ var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var productSell_1 = require('../productSell/productSell');
 var table_1 = require('../table/table');
-var home_1 = require('../home/home');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 /*
@@ -468,7 +467,7 @@ var PaymentPage = (function () {
                 console.log(_this.returnMessage);
             });
         }
-        this.navCtrl.push(home_1.HomePage);
+        this.navCtrl.push(table_1.TablePage, { "user_name": this.orders.order.user_name, });
     };
     PaymentPage = __decorate([
         core_1.Component({
@@ -479,7 +478,7 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
-},{"../home/home":2,"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
+},{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

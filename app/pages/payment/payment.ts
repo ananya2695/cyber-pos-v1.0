@@ -210,6 +210,6 @@ export class PaymentPage {
     }
 
 
-    this.navCtrl.push(HomePage);
+    this.navCtrl.push(TablePage,{"user_name":this.orders.order.user_name,});
   }
 }
