@@ -16,6 +16,8 @@ export class TablePage {
   fillterTable: any = [];
   user_name: any;
   tables = [];
+  paid:any = false;
+  fillData: any = [];
   constructor(private navCtrl: NavController, public http: Http, public navParam: NavParams) {
 
     this.user_name = navParam.get("user_name");
@@ -38,24 +40,37 @@ export class TablePage {
       // }
       this.tables.forEach(element => {
         console.log(element);
-        this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/false').map(res => {
+        this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/' + this.paid).map(res => {
 
           return res.json();
 
 
         }).subscribe(data => {
 
-          console.log('Data object in subscribe method:');
+          // console.log('Data object in subscribe method:');
           console.dir(data);
           if (data) {
             element.order = data;
           }
 
         });
-        console.log(element);
-        this.fillterTable.push(element);
+
+
+         this.fillData = element;
+        console.log(this.fillData.order);
+          // if(this.fillData.order){
+           this.fillterTable.push(this.fillData);
+          // console.log(this.fillterTable);
+          // }
+        
+       
+
+
+
+
       });
 
+      //  this.fillterTable.push(this.fillData);
       console.log(this.fillterTable);
     });
   }
@@ -79,13 +94,13 @@ export class TablePage {
         id_cus: _item.id_cus,
         id_order: _item.id_order,
         time_cus: _item.time_cus,
-        paid: false,
+        paid: this.paid,
         list_order: []
       };
     }
-    this.navCtrl.push(ProductSellPage, { 'item': _item ,'uuid':uuid});
+    this.navCtrl.push(ProductSellPage, { 'item': _item, 'uuid': uuid });
     console.log(_item);
 
-    
+
   }
 }

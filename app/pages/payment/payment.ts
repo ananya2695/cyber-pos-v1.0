@@ -36,15 +36,30 @@ export class PaymentPage {
   constructor(private navCtrl: NavController, public navParam: NavParams, public http: Http) {
     this.orders = navParam.get("orders");
     this.totalprice = navParam.get("totalprice");
-   //this.change = this.cash - this.orders.order.totalPrice;
-   //console.log(this.change);
+    //this.change = this.cash - this.orders.order.totalPrice;
+    console.log(this.orders);
 
   }
   ProductSell() {
     this.navCtrl.pop(ProductSellPage);
   }
   BackTable() {
-    this.navCtrl.push(TablePage);
+       if (this.orders.order._id) {
+      this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+
+        return res.json();
+
+      }).subscribe(data => {
+
+        // console.log('Data object in subscribe method:');
+        console.dir(data);
+        // this.returnMsg = data.message;
+
+      });
+    }
+
+    console.log(this.orders.order);
+    this.navCtrl.push(TablePage,{'user_name':this.orders.order.user_name});
   }
   Cnine() {
     this.nine = 9;
@@ -135,32 +150,66 @@ export class PaymentPage {
     this.cash = str.join("");
     console.log(this.cash);
   }
-  printSlip(){
+  printSlip() {
     console.log(this.orders);
-    
-    let product = this.orders.order.list_order;
-    console.log(product);
-     let body = { 'id_cus' : this.orders.order.id_cus , 'id_order' : this.orders.order.id_order, 
-                  'name_table' : this.orders.order.name_table,'time_cus':this.orders.order.time_cus,
-                     'totalPrice':this.orders.order.totalPrice,'user_name':this.orders.order.user_name,
-                    'list_order' : product,'cash':this.cash,'change': (this.cash) - (this.orders.order.totalPrice),
-                    'paid':true};
-     
-    console.dir(body);
-        this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(res => {
-      
-      // console.log('Result in mapping method:');
-      // console.dir(res);
-      return res.json();
 
-    }).subscribe(data => {
-      
-      // console.log('Data object in subscribe method:');
-      console.dir(data);
-      this.returnMessage = data.message;
-      console.log(this.returnMessage);
-    
-    });
-  this.navCtrl.push(HomePage);
+    if (!this.orders.order._id) {
+      console.log(this.orders.order._id);
+      let product = this.orders.order.list_order;
+      console.log(product);
+      let body = {
+        'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+        'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+        'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+        'list_order': product, 'cash': this.cash, 'change': (this.cash) - (this.orders.order.totalPrice),
+        'paid': true
+      };
+
+      console.dir(body);
+      this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(res => {
+
+        // console.log('Result in mapping method:');
+        // console.dir(res);
+        return res.json();
+
+      }).subscribe(data => {
+
+        // console.log('Data object in subscribe method:');
+        console.dir(data);
+        this.returnMessage = data.message;
+        console.log(this.returnMessage);
+
+      });
+    } else if(this.orders.order._id) {
+      console.log(this.orders.order._id);
+      let product = this.orders.order.list_order;
+      console.log(product);
+      let body = {
+        '_id': this.orders.order._id, 'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+        'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+        'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+        'list_order': product, 'cash': this.cash, 'change': (this.cash) - (this.orders.order.totalPrice),
+        'paid': true
+      };
+
+      console.dir(body);
+      this.http.put('https://cyber-pos.herokuapp.com/orders/'+ this.orders.order._id, body).map(res => {
+
+        // console.log('Result in mapping method:');
+        // console.dir(res);
+        return res.json();
+
+      }).subscribe(data => {
+
+        // console.log('Data object in subscribe method:');
+        console.dir(data);
+        this.returnMessage = data.message;
+        console.log(this.returnMessage);
+
+      });
+    }
+
+
+    this.navCtrl.push(HomePage);
   }
 }

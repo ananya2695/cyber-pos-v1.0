@@ -312,13 +312,23 @@ var PaymentPage = (function () {
         this.orders = navParam.get("orders");
         this.totalprice = navParam.get("totalprice");
         //this.change = this.cash - this.orders.order.totalPrice;
-        //console.log(this.change);
+        console.log(this.orders);
     }
     PaymentPage.prototype.ProductSell = function () {
         this.navCtrl.pop(productSell_1.ProductSellPage);
     };
     PaymentPage.prototype.BackTable = function () {
-        this.navCtrl.push(table_1.TablePage);
+        if (this.orders.order._id) {
+            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                // this.returnMsg = data.message;
+            });
+        }
+        console.log(this.orders.order);
+        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
     };
     PaymentPage.prototype.Cnine = function () {
         this.nine = 9;
@@ -412,24 +422,52 @@ var PaymentPage = (function () {
     PaymentPage.prototype.printSlip = function () {
         var _this = this;
         console.log(this.orders);
-        var product = this.orders.order.list_order;
-        console.log(product);
-        var body = { 'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
-            'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
-            'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
-            'list_order': product, 'cash': this.cash, 'change': (this.cash) - (this.orders.order.totalPrice),
-            'paid': true };
-        console.dir(body);
-        this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
-            // console.log('Result in mapping method:');
-            // console.dir(res);
-            return res.json();
-        }).subscribe(function (data) {
-            // console.log('Data object in subscribe method:');
-            console.dir(data);
-            _this.returnMessage = data.message;
-            console.log(_this.returnMessage);
-        });
+        if (!this.orders.order._id) {
+            console.log(this.orders.order._id);
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'cash': this.cash, 'change': (this.cash) - (this.orders.order.totalPrice),
+                'paid': true
+            };
+            console.dir(body);
+            this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
+        else if (this.orders.order._id) {
+            console.log(this.orders.order._id);
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                '_id': this.orders.order._id, 'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'cash': this.cash, 'change': (this.cash) - (this.orders.order.totalPrice),
+                'paid': true
+            };
+            console.dir(body);
+            this.http.put('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id, body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
         this.navCtrl.push(home_1.HomePage);
     };
     PaymentPage = __decorate([
@@ -455,6 +493,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var payment_1 = require('../payment/payment');
+var table_1 = require('../table/table');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 var ProductSellPage = (function () {
@@ -463,11 +502,13 @@ var ProductSellPage = (function () {
         this.navCtrl = navCtrl;
         this.http = http;
         this.navParam = navParam;
+        this.returnMessage = "";
         this.fillterCate = [];
         this.fillterOrder = [];
         this.products = [];
         this.basket = [];
         this.totalPrice = 0.00;
+        this.totalprice = 0.00;
         this.total = 0.00;
         this.box = [];
         this.boxcate = [];
@@ -541,13 +582,46 @@ var ProductSellPage = (function () {
         this.time_cus = Date();
         this.orders.order.time_cus = this.time_cus;
     }
+    ProductSellPage.prototype.CancelOrder = function () {
+        if (this.orders.order._id) {
+            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                // this.returnMsg = data.message;
+            });
+        }
+        console.log(this.orders.order);
+        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
+    };
     ProductSellPage.prototype.PaymentPage = function () {
         this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
     };
-    ProductSellPage.prototype.TablePage = function (searchTerm) {
+    ProductSellPage.prototype.TablePage = function () {
+        var _this = this;
         //this.navCtrl.push(TablePage);
         //localStorage.setItem('totalprice',this.totalprice);
-        this.navCtrl.pop();
+        var product = this.orders.order.list_order;
+        console.log(product);
+        var body = {
+            'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+            'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+            'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+            'list_order': product, 'paid': false
+        };
+        console.dir(body);
+        this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
+            // console.log('Result in mapping method:');
+            // console.dir(res);
+            return res.json();
+        }).subscribe(function (data) {
+            // console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.returnMessage = data.message;
+            console.log(_this.returnMessage);
+        });
+        this.navCtrl.push(table_1.TablePage);
         console.log(this.orders);
     };
     ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
@@ -560,6 +634,8 @@ var ProductSellPage = (function () {
     };
     ProductSellPage.prototype.chooseProduct = function (item, obj) {
         console.log(item);
+        // this.totalprice = item.price * item.piece;
+        // console.log(this.totalprice);
         obj = this.orders.order.totalPrice;
         console.log(obj);
         if (obj) {
@@ -589,6 +665,7 @@ var ProductSellPage = (function () {
                     return itm.id_pro == item.id_pro;
                 })[0];
                 selected.piece++;
+                // item.totalprice = item.price * item.piece;
                 this.totalPrice += selected.totalprice;
                 this.orders.order.totalPrice = this.totalPrice;
                 console.log(this.orders.order.totalPrice);
@@ -604,6 +681,18 @@ var ProductSellPage = (function () {
                 console.log(this.orders.order.list_order);
             }
         }
+    };
+    ProductSellPage.prototype.delOrder = function (item) {
+        var OrderItm = this.orders.order.list_order;
+        console.log(OrderItm);
+        for (var i = 0; i < OrderItm.length; i++) {
+            if (OrderItm[i]._id == item._id) {
+                this.orders.order.totalPrice = this.orders.order.totalPrice - OrderItm[i].totalprice;
+                OrderItm.splice(i, 1);
+                break;
+            }
+        }
+        console.log(OrderItm);
     };
     ProductSellPage.prototype.chooseCate = function (cate) {
         console.log(this.orders.order);
@@ -636,7 +725,7 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-},{"../payment/payment":3,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
+},{"../payment/payment":3,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -666,6 +755,8 @@ var TablePage = (function () {
         this.navParam = navParam;
         this.fillterTable = [];
         this.tables = [];
+        this.paid = false;
+        this.fillData = [];
         this.user_name = navParam.get("user_name");
         console.log(this.user_name);
         this.http.get('https://cyber-pos.herokuapp.com/tables').map(function (res) {
@@ -682,18 +773,23 @@ var TablePage = (function () {
             // }
             _this.tables.forEach(function (element) {
                 console.log(element);
-                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/false').map(function (res) {
+                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/' + _this.paid).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
-                    console.log('Data object in subscribe method:');
+                    // console.log('Data object in subscribe method:');
                     console.dir(data);
                     if (data) {
                         element.order = data;
                     }
                 });
-                console.log(element);
-                _this.fillterTable.push(element);
+                _this.fillData = element;
+                console.log(_this.fillData.order);
+                // if(this.fillData.order){
+                _this.fillterTable.push(_this.fillData);
+                // console.log(this.fillterTable);
+                // }
             });
+            //  this.fillterTable.push(this.fillData);
             console.log(_this.fillterTable);
         });
     }
@@ -715,7 +811,7 @@ var TablePage = (function () {
                 id_cus: _item.id_cus,
                 id_order: _item.id_order,
                 time_cus: _item.time_cus,
-                paid: false,
+                paid: this.paid,
                 list_order: []
             };
         }

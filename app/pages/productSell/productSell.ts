@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 })
 
 export class ProductSellPage {
+  returnMessage = "";
   fillterCate = [];
   name_table: any;
   uuid: any;
@@ -22,6 +23,7 @@ export class ProductSellPage {
   products: any = [];
   basket: any = [];
   totalPrice: any = 0.00;
+  totalprice :any = 0.00;
   total: any = 0.00;
   _id: any;
   box: any = [];
@@ -32,9 +34,9 @@ export class ProductSellPage {
   mySlideVertical = {
     direction: 'vertical'
   };
-  constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams ) {
+  constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams) {
     this.uuid = navParam.get('uuid');
-    
+
     //  if(navParam.get('status') == 'Pause'){
     //     this.totalprice = navParam.get('totalprice');
     //  }
@@ -117,14 +119,62 @@ export class ProductSellPage {
     this.orders.order.time_cus = this.time_cus;
 
   }
+  CancelOrder() {
+    if (this.orders.order._id) {
+      this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+
+        return res.json();
+
+      }).subscribe(data => {
+
+        // console.log('Data object in subscribe method:');
+        console.dir(data);
+        // this.returnMsg = data.message;
+
+      });
+      // for (var i = 0; i < this.orders.order.length; i++) {
+      //   if (this.orders.order[i]._id == this.orders.order._id) {
+      //     this.orders.order.splice(i, 1);
+      //     break;
+      //   }
+      // }
+    }
+
+    console.log(this.orders.order);
+    this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+  }
 
   PaymentPage() {
     this.navCtrl.push(PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
   }
-  TablePage(searchTerm) {
+  TablePage() {
     //this.navCtrl.push(TablePage);
     //localStorage.setItem('totalprice',this.totalprice);
-    this.navCtrl.pop();
+    let product = this.orders.order.list_order;
+    console.log(product);
+    let body = {
+      'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+      'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+      'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+      'list_order': product, 'paid': false
+    };
+
+    console.dir(body);
+    this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(res => {
+
+      // console.log('Result in mapping method:');
+      // console.dir(res);
+      return res.json();
+
+    }).subscribe(data => {
+
+      // console.log('Data object in subscribe method:');
+      console.dir(data);
+      this.returnMessage = data.message;
+      console.log(this.returnMessage);
+
+    });
+    this.navCtrl.push(TablePage);
     console.log(this.orders);
 
 
@@ -143,6 +193,9 @@ export class ProductSellPage {
 
   chooseProduct(item, obj) {
     console.log(item);
+    // this.totalprice = item.price * item.piece;
+    // console.log(this.totalprice);
+    
     obj = this.orders.order.totalPrice;
     console.log(obj);
 
@@ -174,6 +227,7 @@ export class ProductSellPage {
         })[0];
 
         selected.piece++;
+       // item.totalprice = item.price * item.piece;
         this.totalPrice += selected.totalprice;
         this.orders.order.totalPrice = this.totalPrice;
         console.log(this.orders.order.totalPrice);
@@ -191,6 +245,19 @@ export class ProductSellPage {
     }
 
 
+  }
+  delOrder(item) {
+    let OrderItm = this.orders.order.list_order;
+    console.log(OrderItm);
+     for (var i = 0; i < OrderItm.length; i++) {
+      if (OrderItm[i]._id == item._id) {
+         this.orders.order.totalPrice = this.orders.order.totalPrice - OrderItm[i].totalprice;
+        OrderItm.splice(i, 1);
+      
+        break;
+      }
+    }
+    console.log(OrderItm);
   }
   chooseCate(cate) {
     console.log(this.orders.order);
