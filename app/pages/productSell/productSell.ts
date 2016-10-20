@@ -156,9 +156,15 @@ export class ProductSellPage {
     this.navCtrl.push(PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
   }
   TablePage() {
+      
     //this.navCtrl.push(TablePage);
     //localStorage.setItem('totalprice',this.totalprice);
     if (!this.orders.order._id) {
+       this.orders.order.list_order.forEach(element => {
+      element.totalprice = element.piece * element.price;
+      console.log(element.totalprice);
+
+    });
       let product = this.orders.order.list_order;
       console.log(product);
       let body = {
@@ -185,6 +191,11 @@ export class ProductSellPage {
       });
 
     } else if (this.orders.order._id) {
+       this.orders.order.list_order.forEach(element => {
+      element.totalprice = element.piece * element.price;
+      console.log(element.totalprice);
+
+    });
       let product = this.orders.order.list_order;
       console.log(product);
       let body = {

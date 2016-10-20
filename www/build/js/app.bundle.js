@@ -666,6 +666,10 @@ var ProductSellPage = (function () {
         //this.navCtrl.push(TablePage);
         //localStorage.setItem('totalprice',this.totalprice);
         if (!this.orders.order._id) {
+            this.orders.order.list_order.forEach(function (element) {
+                element.totalprice = element.piece * element.price;
+                console.log(element.totalprice);
+            });
             var product = this.orders.order.list_order;
             console.log(product);
             var body = {
@@ -687,6 +691,10 @@ var ProductSellPage = (function () {
             });
         }
         else if (this.orders.order._id) {
+            this.orders.order.list_order.forEach(function (element) {
+                element.totalprice = element.piece * element.price;
+                console.log(element.totalprice);
+            });
             var product = this.orders.order.list_order;
             console.log(product);
             var body = {
