@@ -65,11 +65,28 @@ export class HomePage {
       this.items.push(data);
     });
     modal.present();
+    console.log(this.items);
   }
   openSetting() {
-    let modal = this.modalCtrl.create(SettingUser, { 'items': this.items });
+
+   
+    this.http.get('https://cyber-pos.herokuapp.com/users').map(res => {
+
+      return res.json();
+
+    }).subscribe(data => {
+
+      console.log('Data object in subscribe method:');
+      console.dir(data);
+      this.items = data;
+      console.log(this.items);
+      let modal = this.modalCtrl.create(SettingUser, { 'items': this.items });
+ 
 
     modal.present();
+    console.log(this.items); 
+    });
+  
   }
 }
 
@@ -80,6 +97,8 @@ export class HomePage {
 export class RegisterPage1 {
    public base64Image: string;
    returnMessage = "";
+   item : any[];
+  
   constructor(private navCtrl: NavController, public modalCtrl: ModalController, 
   public viewController: ViewController,public http: Http) {
 
@@ -115,9 +134,9 @@ export class RegisterPage1 {
       
       // console.log('Data object in subscribe method:');
       console.dir(data);
-      this.returnMessage = data.message;
-      console.log(this.returnMessage);
-    
+      console.log(data._id); 
+      this.item = data;
+      // location.reload();
     });
   }
 

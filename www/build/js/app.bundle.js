@@ -99,10 +99,21 @@ var HomePage = (function () {
             _this.items.push(data);
         });
         modal.present();
+        console.log(this.items);
     };
     HomePage.prototype.openSetting = function () {
-        var modal = this.modalCtrl.create(SettingUser, { 'items': this.items });
-        modal.present();
+        var _this = this;
+        this.http.get('https://cyber-pos.herokuapp.com/users').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.items = data;
+            console.log(_this.items);
+            var modal = _this.modalCtrl.create(SettingUser, { 'items': _this.items });
+            modal.present();
+            console.log(_this.items);
+        });
     };
     HomePage = __decorate([
         core_1.Component({
@@ -150,8 +161,9 @@ var RegisterPage1 = (function () {
         }).subscribe(function (data) {
             // console.log('Data object in subscribe method:');
             console.dir(data);
-            _this.returnMessage = data.message;
-            console.log(_this.returnMessage);
+            console.log(data._id);
+            _this.item = data;
+            // location.reload();
         });
     };
     RegisterPage1 = __decorate([
@@ -595,21 +607,17 @@ var ProductSellPage = (function () {
         this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
     };
     ProductSellPage.prototype.PaymentPage = function () {
-<<<<<<< HEAD
         this.orders.order.list_order.forEach(function (element) {
             element.totalprice = element.piece * element.price;
             console.log(element.totalprice);
         });
         // console.log('amout'+this.orders.order.list_order[0].piece * this.orders.order.list_order[0].price);
-=======
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
         this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
     };
     ProductSellPage.prototype.TablePage = function () {
         var _this = this;
         //this.navCtrl.push(TablePage);
         //localStorage.setItem('totalprice',this.totalprice);
-<<<<<<< HEAD
         if (!this.orders.order._id) {
             var product = this.orders.order.list_order;
             console.log(product);
@@ -652,27 +660,6 @@ var ProductSellPage = (function () {
                 console.log(_this.returnMessage);
             });
         }
-=======
-        var product = this.orders.order.list_order;
-        console.log(product);
-        var body = {
-            'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
-            'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
-            'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
-            'list_order': product, 'paid': false
-        };
-        console.dir(body);
-        this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
-            // console.log('Result in mapping method:');
-            // console.dir(res);
-            return res.json();
-        }).subscribe(function (data) {
-            // console.log('Data object in subscribe method:');
-            console.dir(data);
-            _this.returnMessage = data.message;
-            console.log(_this.returnMessage);
-        });
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
         this.navCtrl.push(table_1.TablePage);
         console.log(this.orders);
     };
@@ -696,27 +683,17 @@ var ProductSellPage = (function () {
                     return itm.id_pro == item.id_pro;
                 })[0];
                 selected.piece++;
-<<<<<<< HEAD
                 // item.totalprice = item.price * item.piece;
                 obj += selected.totalprice;
                 this.orders.order.totalPrice = obj;
                 // console.log(this.orders.order.totalPrice);
                 this.total = selected.toTal;
                 console.log(selected.totalprice);
-=======
-                obj += selected.totalprice;
-                this.orders.order.totalPrice = obj;
-                console.log(this.orders.order.totalPrice);
-                this.total = selected.toTal;
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
             }
             else {
                 item.piece = 1;
                 item.totalprice = item.price * item.piece;
-<<<<<<< HEAD
                 console.log(item.totalprice);
-=======
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
                 obj += item.totalprice;
                 this.orders.order.totalPrice = obj;
                 console.log(this.orders.order.totalPrice);
@@ -733,22 +710,14 @@ var ProductSellPage = (function () {
                 // item.totalprice = item.price * item.piece;
                 this.totalPrice += selected.totalprice;
                 this.orders.order.totalPrice = this.totalPrice;
-<<<<<<< HEAD
                 // console.log(this.orders.order.totalPrice);
                 this.total = selected.toTal;
                 console.log(selected.totalprice);
-=======
-                console.log(this.orders.order.totalPrice);
-                this.total = selected.toTal;
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
             }
             else {
                 item.piece = 1;
                 item.totalprice = item.price * item.piece;
-<<<<<<< HEAD
                 console.log(item.totalprice);
-=======
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
                 this.totalPrice += item.totalprice;
                 this.orders.order.totalPrice = this.totalPrice;
                 console.log(this.orders.order.totalPrice);
@@ -762,14 +731,10 @@ var ProductSellPage = (function () {
         console.log(OrderItm);
         for (var i = 0; i < OrderItm.length; i++) {
             if (OrderItm[i]._id == item._id) {
-<<<<<<< HEAD
                 this.orders.order.totalPrice = this.orders.order.totalPrice - (OrderItm[i].totalprice * OrderItm[i].piece);
                 // OrderItm.totalprice = OrderItm[i].totalprice * OrderItm[i].piece;
                 // console.log(OrderItm.totalprice);
                 this.totalPrice = this.orders.order.totalPrice;
-=======
-                this.orders.order.totalPrice = this.orders.order.totalPrice - OrderItm[i].totalprice;
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
                 OrderItm.splice(i, 1);
                 break;
             }
