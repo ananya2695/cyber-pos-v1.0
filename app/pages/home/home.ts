@@ -60,9 +60,10 @@ export class HomePage {
     console.log(item.user_name);
   }
   registerPage() {
-    let modal = this.modalCtrl.create(RegisterPage1);
+    let modal = this.modalCtrl.create(RegisterPage1,{enableBackdropDismiss:false});
     modal.onDidDismiss(data => {
       this.items.push(data);
+      console.log(data.user_name);
     });
     modal.present();
     console.log(this.items);

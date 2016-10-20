@@ -94,9 +94,10 @@ var HomePage = (function () {
     };
     HomePage.prototype.registerPage = function () {
         var _this = this;
-        var modal = this.modalCtrl.create(RegisterPage1);
+        var modal = this.modalCtrl.create(RegisterPage1, { enableBackdropDismiss: false });
         modal.onDidDismiss(function (data) {
             _this.items.push(data);
+            console.log(data.user_name);
         });
         modal.present();
         console.log(this.items);
