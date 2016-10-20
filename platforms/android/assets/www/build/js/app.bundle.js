@@ -48,6 +48,8 @@ var core_1 = require('@angular/core');
 var ionic_native_1 = require('ionic-native');
 var ionic_angular_1 = require('ionic-angular');
 var table_1 = require('../table/table');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 /*
   Generated class for the RegisterPage page.
 
@@ -55,19 +57,29 @@ var table_1 = require('../table/table');
   Ionic pages and navigation.
 */
 var HomePage = (function () {
-    function HomePage(navCtrl, modalCtrl, viewController) {
+    // items: any = [
+    //   { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
+    //   { id_user: "#CS02", user_name: "Sirintra", firstname : "Sirintra",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/andrew.jpg" },
+    //   { id_user: "#CS03", user_name: "Orapan", firstname : "Orapan",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/carl.jpg" },
+    //   { id_user: "#CS04", user_name: "Nipaporn",firstname : "Nipaporn",lastname:"Thogthai",password:"123456",repassword:"123456" , position: "Cashier", img: "image/garry.jpg" },
+    //   { id_user: "#CS05", user_name: "Nucha", firstname : "Nucha",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/james.jpg" },
+    //   { id_user: "#CS06", user_name: "Satida", firstname : "Satida",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/joyce.jpg" },
+    //   { id_user: "#MN01", user_name: "Theerasak", firstname : "Theerasak",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Manager", img: "image/vincent.jpg" },
+    // ]
+    function HomePage(navCtrl, modalCtrl, viewController, http) {
+        var _this = this;
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
-        this.items = [
-            { id_user: "#CS01", user_name: "Ananya", firstname: "Ananya", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/alice.jpg" },
-            { id_user: "#CS02", user_name: "Sirintra", firstname: "Sirintra", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/andrew.jpg" },
-            { id_user: "#CS03", user_name: "Orapan", firstname: "Orapan", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/carl.jpg" },
-            { id_user: "#CS04", user_name: "Nipaporn", firstname: "Nipaporn", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/garry.jpg" },
-            { id_user: "#CS05", user_name: "Nucha", firstname: "Nucha", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/james.jpg" },
-            { id_user: "#CS06", user_name: "Satida", firstname: "Satida", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Cashier", img: "image/joyce.jpg" },
-            { id_user: "#MN01", user_name: "Theerasak", firstname: "Theerasak", lastname: "Thogthai", password: "123456", repassword: "123456", position: "Manager", img: "image/vincent.jpg" },
-        ];
+        this.http = http;
+        this.items = [];
+        this.http.get('https://cyber-pos.herokuapp.com/users').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.items = data;
+        });
     }
     HomePage.prototype.addNewPersonal = function (newPersonalName) {
         var newPersonalObject = { name: newPersonalName };
@@ -76,8 +88,9 @@ var HomePage = (function () {
     HomePage.prototype.onPop = function () {
         this.navCtrl.pop();
     };
-    HomePage.prototype.tablePage = function () {
-        this.navCtrl.push(table_1.TablePage);
+    HomePage.prototype.tablePage = function (item) {
+        this.navCtrl.push(table_1.TablePage, { "user_name": item.user_name });
+        console.log(item.user_name);
     };
     HomePage.prototype.registerPage = function () {
         var _this = this;
@@ -95,16 +108,18 @@ var HomePage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/home/home.html'
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], HomePage);
     return HomePage;
 }());
 exports.HomePage = HomePage;
 var RegisterPage1 = (function () {
-    function RegisterPage1(navCtrl, modalCtrl, viewController) {
+    function RegisterPage1(navCtrl, modalCtrl, viewController, http) {
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
+        this.http = http;
+        this.returnMessage = "";
     }
     RegisterPage1.prototype.takePicture = function () {
         var _this = this;
@@ -120,60 +135,101 @@ var RegisterPage1 = (function () {
             console.log(err);
         });
     };
-    RegisterPage1.prototype.regisSuccess = function (user_name, id_user, position, firstname, lastname, password, repassword) {
-        this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname": firstname, "lastname": lastname, "password": password, "repassword": repassword, "position": position, "img": this.base64Image });
+    RegisterPage1.prototype.regisSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
+        var _this = this;
+        //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
+        var body = { 'user_name': user_name, 'user_id': user_id, 'position': position,
+            'user_firstname': user_firstname, 'user_lastname': user_lastname,
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
+        this.viewController.dismiss(body);
+        console.dir(body);
+        this.http.post('https://cyber-pos.herokuapp.com/users', body).map(function (res) {
+            // console.log('Result in mapping method:');
+            // console.dir(res);
+            return res.json();
+        }).subscribe(function (data) {
+            // console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.returnMessage = data.message;
+            console.log(_this.returnMessage);
+        });
     };
     RegisterPage1 = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/register-modal.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], RegisterPage1);
     return RegisterPage1;
 }());
 exports.RegisterPage1 = RegisterPage1;
 var EditUser = (function () {
-    function EditUser(navParams, navCtrl, modalCtrl, viewController) {
+    function EditUser(navParams, navCtrl, modalCtrl, viewController, http) {
         this.navParams = navParams;
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
+        this.http = http;
+        this.returnMsg = "";
         var user = navParams.get('user');
-        this.id_user = user.id_user;
+        this._id = user._id;
+        console.log(this._id);
+        this.user_id = user.user_id;
+        console.log(this.user_id);
         this.user_name = user.user_name;
-        this.firstname = user.firstname;
-        this.lastname = user.lastname;
+        this.user_firstname = user.user_firstname;
+        this.user_lastname = user.user_lastname;
         this.password = user.password;
-        this.repassword = user.repassword;
+        this.confirmpassword = user.confirmpassword;
+        console.log(this.confirmpassword);
         this.position = user.position;
-        this.img = user.img;
+        this.img_user = user.img_user;
     }
-    EditUser.prototype.editSuccess = function (user_name, id_user, position, firstname, lastname, password, repassword) {
-        this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname": firstname, "lastname": lastname, "password": password, "repassword": repassword, "position": position, "img": "image/alice.jpg" });
+    EditUser.prototype.editSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
+        var _this = this;
+        var body = { '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
+            'user_firstname': user_firstname, 'user_lastname': user_lastname,
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
+        console.log(body);
+        this.viewController.dismiss(body);
+        console.dir(body);
+        this.http.put('https://cyber-pos.herokuapp.com/users/' + this._id, body).map(function (res) {
+            // console.log('Result in mapping method:');
+            // console.dir(res);
+            return res.json();
+        }).subscribe(function (data) {
+            // console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.returnMsg = data.message;
+        });
     };
     EditUser = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/home/edit-modal.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], EditUser);
     return EditUser;
 }());
 exports.EditUser = EditUser;
 var SettingUser = (function () {
-    function SettingUser(navParams, navCtrl, modalCtrl, viewController) {
+    function SettingUser(navParams, navCtrl, modalCtrl, viewController, http) {
         this.navParams = navParams;
         this.navCtrl = navCtrl;
         this.modalCtrl = modalCtrl;
         this.viewController = viewController;
+        this.http = http;
+        this.returnMsg = "";
         this.items = navParams.get('items');
+        console.log(this.items);
     }
     SettingUser.prototype.editUser = function (item) {
         var _this = this;
         var modal = this.modalCtrl.create(EditUser, { 'user': item });
         modal.onDidDismiss(function (data) {
+            console.log(data);
             for (var i = 0; i < _this.items.length; i++) {
-                if (_this.items[i].id_user == data.id_user) {
+                if (_this.items[i]._id == data._id) {
                     _this.items[i] = data;
                     break;
                 }
@@ -182,8 +238,18 @@ var SettingUser = (function () {
         modal.present();
     };
     SettingUser.prototype.delUser = function (item) {
+        var _this = this;
+        this.http.delete('https://cyber-pos.herokuapp.com/users/' + item._id).map(function (res) {
+            // console.log('Result in mapping method:');
+            // console.dir(res);
+            return res.json();
+        }).subscribe(function (data) {
+            // console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.returnMsg = data.message;
+        });
         for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].id_user == item.id_user) {
+            if (this.items[i]._id == item._id) {
                 this.items.splice(i, 1);
                 break;
             }
@@ -193,12 +259,12 @@ var SettingUser = (function () {
         core_1.Component({
             templateUrl: 'build/pages/home/setting-modal.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
     ], SettingUser);
     return SettingUser;
 }());
 exports.SettingUser = SettingUser;
-},{"../table/table":5,"@angular/core":153,"ionic-angular":467,"ionic-native":494}],3:[function(require,module,exports){
+},{"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"ionic-native":494,"rxjs/add/operator/map":580}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -213,6 +279,8 @@ var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var productSell_1 = require('../productSell/productSell');
 var table_1 = require('../table/table');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 /*
   Generated class for the PaymentPage page.
 
@@ -220,11 +288,14 @@ var table_1 = require('../table/table');
   Ionic pages and navigation.
 */
 var PaymentPage = (function () {
-    function PaymentPage(navCtrl, navParam) {
+    function PaymentPage(navCtrl, navParam, http) {
         this.navCtrl = navCtrl;
         this.navParam = navParam;
+        this.http = http;
+        this.returnMessage = "";
         this.totalprice = 0.00;
         this.cash = 0.00;
+        this.change = 0.00;
         this.money = [];
         this.nine = "";
         this.eight = "";
@@ -237,14 +308,26 @@ var PaymentPage = (function () {
         this.one = "";
         this.zero = "";
         this.zeroTwo = "";
-        this.basket = navParam.get("basket");
+        this.orders = navParam.get("orders");
         this.totalprice = navParam.get("totalprice");
+        //this.change = this.cash - this.orders.order.totalPrice;
+        console.log(this.orders);
     }
     PaymentPage.prototype.ProductSell = function () {
         this.navCtrl.pop(productSell_1.ProductSellPage);
     };
     PaymentPage.prototype.BackTable = function () {
-        this.navCtrl.push(table_1.TablePage);
+        if (this.orders.order._id) {
+            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                // this.returnMsg = data.message;
+            });
+        }
+        console.log(this.orders.order);
+        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
     };
     PaymentPage.prototype.Cnine = function () {
         this.nine = 9;
@@ -335,16 +418,67 @@ var PaymentPage = (function () {
         this.cash = str.join("");
         console.log(this.cash);
     };
+    PaymentPage.prototype.printSlip = function () {
+        var _this = this;
+        console.log(this.orders);
+        if (!this.orders.order._id) {
+            console.log(this.orders.order._id);
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'cash': this.cash, 'change': (this.cash) - (this.orders.order.totalPrice),
+                'paid': true
+            };
+            console.dir(body);
+            this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
+        else if (this.orders.order._id) {
+            console.log(this.orders.order._id);
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                '_id': this.orders.order._id, 'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'cash': this.cash, 'change': (this.cash) - (this.orders.order.totalPrice),
+                'paid': true
+            };
+            console.dir(body);
+            this.http.put('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id, body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
+        this.navCtrl.push(table_1.TablePage, { "user_name": this.orders.order.user_name, });
+    };
     PaymentPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/payment/payment.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams, http_1.Http])
     ], PaymentPage);
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
-},{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"ionic-angular":467}],4:[function(require,module,exports){
+},{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -359,101 +493,291 @@ var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var payment_1 = require('../payment/payment');
 var table_1 = require('../table/table');
+var ionic_native_1 = require('ionic-native');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 var ProductSellPage = (function () {
-    function ProductSellPage(navCtrl) {
+    function ProductSellPage(navCtrl, http, navParam) {
+        var _this = this;
         this.navCtrl = navCtrl;
-        this.products = [
-            { id: "1", namePro: "คาปูชิโน่", price: 89 },
-            { id: "2", namePro: "เอสเปสโช่", price: 89 },
-            { id: "3", namePro: "มอคค่า", price: 89 },
-            { id: "4", namePro: "อาเมริกาโน่", price: 89 },
-            { id: "5", namePro: "ลาเต้", price: 89 },
-            { id: "6", namePro: "ชาเขียว", price: 59 },
-            { id: "7", namePro: "ชาสมุนไพร", price: 59 },
-            { id: "8", namePro: "น้ำส้ม", price: 59 },
-            { id: "9", namePro: "ช็อคโกแลตร้อน", price: 89 },
-            { id: "10", namePro: "น้ำมะเขือเทศ", price: 59 },
-            { id: "11", namePro: "น้ำแร่", price: 15 },
-            { id: "12", namePro: "ชาผลไม้", price: 59 },
-            { id: "13", namePro: "กีวี่ บลิซ", price: 89 },
-            { id: "14", namePro: "น้ำส้ม 100%", price: 59 },
-            { id: "15", namePro: "บลูเบอรี่ สทริป", price: 89 },
-            { id: "16", namePro: "สตรอเบอร์รี่ บริ้งค์", price: 85 },
-            { id: "17", namePro: "แมงโก้ แทงโก้", price: 85 },
-            { id: "18", namePro: "วิปครีม", price: 15 },
-            { id: "19", namePro: "น้ำเชื่อมกลิ่นต่างๆ", price: 15 },
-            { id: "20", namePro: "เค้กกล้วยหอมช็อคโกแล็ต", price: 69 },
-            { id: "21", namePro: "คัสตาร์ดเค้ก", price: 49 },
-            { id: "22", namePro: "เค้กนมสด", price: 49 },
-            { id: "23", namePro: "มูสเค้กช็อคโกแล็ต", price: 69 },
-            { id: "24", namePro: "เค้กใบเตย", price: 59 }
-        ];
+        this.http = http;
+        this.navParam = navParam;
+        this.returnMessage = "";
+        this.fillterCate = [];
+        this.fillterOrder = [];
+        this.products = [];
         this.basket = [];
+        this.totalPrice = 0.00;
         this.totalprice = 0.00;
         this.total = 0.00;
         this.box = [];
+        this.boxcate = [];
         this.mySlideOptions = {
             pager: true
         };
         this.mySlideVertical = {
             direction: 'vertical'
         };
+        this.uuid = navParam.get('uuid');
+        //  if(navParam.get('status') == 'Pause'){
+        //     this.totalprice = navParam.get('totalprice');
+        //  }
+        this.http.get('https://cyber-pos.herokuapp.com/products').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.products = data;
+            console.log(_this.products);
+            var flags = [], output = [], l = _this.products.length, i;
+            for (i = 0; i < l; i++) {
+                if (flags[_this.products[i].cate])
+                    continue;
+                flags[_this.products[i].cate] = true;
+                output.push(_this.products[i].cate);
+                _this.fillterCate = output;
+                console.log(_this.fillterCate);
+            }
+            var productPerCate = 6;
+            var pageCate = Math.ceil(_this.fillterCate.length / productPerCate);
+            var ii2 = 0;
+            for (var i_1 = 0; i_1 < pageCate; i_1++) {
+                var pp = { pageCate: i_1, fillterCate: [] };
+                for (var j = 0; j < productPerCate; j++) {
+                    if (_this.fillterCate[ii2])
+                        pp.fillterCate.push(_this.fillterCate[ii2]);
+                    ii2++;
+                }
+                _this.boxcate.push(pp);
+            }
+            console.log(_this.boxcate);
+        });
+        //   this.name_table = navParam.get("name_table");
+        //   this.id_cus = navParam.get("id_cus");
+        //   this.user_name = navParam.get("user_name");
+        // console.log(this.name_table);
+        this.orders = navParam.get("item");
+        console.log(this.orders.order);
+        //this.fillterOrder =  this.orders.order;
+        //console.log(this.fillterOrder);
+        //  this.http.get('https://cyber-pos.herokuapp.com/orders').map(res => {
+        //   return res.json();
+        // }).subscribe(data => {
+        //   console.log('Data object in subscribe method:');
+        //   console.dir(data);
+        //   this.orders = data;
+        //   console.log(this.orders);
+        //   for(let i =0;i< this.orders.length;i++){
+        //     if(this.name_table == this.orders[i].name_table){
+        //       this.fillterOrder.push(this.orders[i]);
+        //     }
+        //   }
+        //   console.dir(this.fillterOrder);
+        // });
+        this.id_cus = "test";
+        this.orders.order.id_cus = this.id_cus;
+        this.id_order = 'O-' + this.uuid.slice(0, 8);
+        console.log(this.id_order);
+        this.orders.order.id_order = this.id_order;
+        this.time_cus = Date();
+        this.orders.order.time_cus = this.time_cus;
+    }
+    ProductSellPage.prototype.dialogCf = function () {
+        ionic_native_1.Dialogs.confirm('คุณต้องการยกเลิกสินค้าทั้งหมดหรือไม่', 'การแจ้งเตือน', ['Cancel', 'OK'])
+            .then(function (buttonIndex) {
+            var btnIndex = buttonIndex;
+            console.log(btnIndex);
+            if (btnIndex == 2) {
+                //       Dialogs.alert(this.orders.order._id, 'tt', 'OK')
+                //     if (this.orders.order._id) {
+                //   this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+                //     return res.json();
+                //   }).subscribe(data => {
+                //     // console.log('Data object in subscribe method:');
+                //     console.dir(data);
+                //     // this.returnMsg = data.message;
+                //   });
+                //   // for (var i = 0; i < this.orders.order.length; i++) {
+                //   //   if (this.orders.order[i]._id == this.orders.order._id) {
+                //   //     this.orders.order.splice(i, 1);
+                //   //     break;
+                //   //   }
+                //   // }
+                // }
+                console.log(this.orders.order);
+                this.navCtrl.push(table_1.TablePage);
+            }
+        });
+    };
+    // CancelOrder() {
+    // }
+    ProductSellPage.prototype.PaymentPage = function () {
+        this.orders.order.list_order.forEach(function (element) {
+            element.totalprice = element.piece * element.price;
+            console.log(element.totalprice);
+        });
+        // console.log('amout'+this.orders.order.list_order[0].piece * this.orders.order.list_order[0].price);
+        this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
+    };
+    ProductSellPage.prototype.TablePage = function () {
+        var _this = this;
+        //this.navCtrl.push(TablePage);
+        //localStorage.setItem('totalprice',this.totalprice);
+        if (!this.orders.order._id) {
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'paid': false
+            };
+            console.dir(body);
+            this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
+        else if (this.orders.order._id) {
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                '_id': this.orders.order._id, 'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'paid': false
+            };
+            console.dir(body);
+            this.http.put('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id, body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
+        this.navCtrl.push(table_1.TablePage);
+        console.log(this.orders);
+    };
+    ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
+        var result = -1;
+        myArr.forEach(function (idx) {
+            if (idx.id_pro == key.id_pro)
+                result++;
+        });
+        return result;
+    };
+    ProductSellPage.prototype.chooseProduct = function (item, obj) {
+        console.log(item);
+        // this.totalprice = item.price * item.piece;
+        // console.log(this.totalprice);
+        obj = this.orders.order.totalPrice;
+        console.log(obj);
+        if (obj) {
+            if (this.arrayIndexOf(this.orders.order.list_order, item) != -1) {
+                var selected = this.orders.order.list_order.filter(function (itm) {
+                    return itm.id_pro == item.id_pro;
+                })[0];
+                selected.piece++;
+                // item.totalprice = item.price * item.piece;
+                obj += selected.totalprice;
+                this.orders.order.totalPrice = obj;
+                // console.log(this.orders.order.totalPrice);
+                this.total = selected.toTal;
+                console.log(selected.totalprice);
+            }
+            else {
+                item.piece = 1;
+                item.totalprice = item.price * item.piece;
+                console.log(item.totalprice);
+                obj += item.totalprice;
+                this.orders.order.totalPrice = obj;
+                console.log(this.orders.order.totalPrice);
+                this.orders.order.list_order.push(item);
+                console.log(this.orders.order.list_order);
+            }
+        }
+        else {
+            if (this.arrayIndexOf(this.orders.order.list_order, item) != -1) {
+                var selected = this.orders.order.list_order.filter(function (itm) {
+                    return itm.id_pro == item.id_pro;
+                })[0];
+                selected.piece++;
+                // item.totalprice = item.price * item.piece;
+                this.totalPrice += selected.totalprice;
+                this.orders.order.totalPrice = this.totalPrice;
+                // console.log(this.orders.order.totalPrice);
+                this.total = selected.toTal;
+                console.log(selected.totalprice);
+            }
+            else {
+                item.piece = 1;
+                item.totalprice = item.price * item.piece;
+                console.log(item.totalprice);
+                this.totalPrice += item.totalprice;
+                this.orders.order.totalPrice = this.totalPrice;
+                console.log(this.orders.order.totalPrice);
+                this.orders.order.list_order.push(item);
+                console.log(this.orders.order.list_order);
+            }
+        }
+    };
+    ProductSellPage.prototype.delOrder = function (item) {
+        var OrderItm = this.orders.order.list_order;
+        console.log(OrderItm);
+        for (var i = 0; i < OrderItm.length; i++) {
+            if (OrderItm[i]._id == item._id) {
+                this.orders.order.totalPrice = this.orders.order.totalPrice - (OrderItm[i].totalprice * OrderItm[i].piece);
+                // OrderItm.totalprice = OrderItm[i].totalprice * OrderItm[i].piece;
+                // console.log(OrderItm.totalprice);
+                this.totalPrice = this.orders.order.totalPrice;
+                OrderItm.splice(i, 1);
+                break;
+            }
+        }
+        console.log(OrderItm);
+    };
+    ProductSellPage.prototype.chooseCate = function (cate) {
+        console.log(this.orders.order);
+        console.log(cate);
+        this.basket = this.products.filter(function (el) {
+            return (el.cate === cate);
+        });
+        console.log(this.basket);
+        this.box = [];
         var productPerPage = 12;
-        var page = Math.ceil(this.products.length / productPerPage);
+        var page = Math.ceil(this.basket.length / productPerPage);
         var ii = 0;
         for (var i = 0; i < page; i++) {
-            var pp = { page: i, products: [] };
+            var pp = { page: i, basket: [] };
             for (var j = 0; j < productPerPage; j++) {
-                if (this.products[ii])
-                    pp.products.push(this.products[ii]);
+                if (this.basket[ii])
+                    pp.basket.push(this.basket[ii]);
                 ii++;
             }
             this.box.push(pp);
         }
         console.log(this.box);
-    }
-    ProductSellPage.prototype.PaymentPage = function () {
-        this.navCtrl.push(payment_1.PaymentPage, { "basket": this.basket, "totalprice": this.totalprice });
-    };
-    ProductSellPage.prototype.TablePage = function () {
-        this.navCtrl.push(table_1.TablePage);
-    };
-    ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
-        var result = -1;
-        myArr.forEach(function (idx) {
-            if (idx.id == key.id)
-                result++;
-        });
-        return result;
-    };
-    ProductSellPage.prototype.chooseProduct = function (item) {
-        if (this.arrayIndexOf(this.basket, item) != -1) {
-            var selected = this.basket.filter(function (itm) {
-                return itm.id == item.id;
-            })[0];
-            selected.piece++;
-            this.totalprice += selected.totalPrice;
-            this.total = selected.toTal;
-        }
-        else {
-            item.piece = 1;
-            item.totalPrice = item.price * item.piece;
-            this.totalprice += item.totalPrice;
-            this.basket.push(item);
-        }
-    };
-    ProductSellPage.prototype.slideProduct = function () {
     };
     ProductSellPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/productSell/productSell.html'
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams])
     ], ProductSellPage);
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-},{"../payment/payment":3,"../table/table":5,"@angular/core":153,"ionic-angular":467}],5:[function(require,module,exports){
+},{"../payment/payment":3,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"ionic-native":494,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -467,6 +791,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var productSell_ts_1 = require('../productSell/productSell.ts');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
 /*
   Generated class for the TablePage page.
 
@@ -474,32 +800,86 @@ var productSell_ts_1 = require('../productSell/productSell.ts');
   Ionic pages and navigation.
 */
 var TablePage = (function () {
-    function TablePage(navCtrl) {
+    function TablePage(navCtrl, http, navParam) {
+        var _this = this;
         this.navCtrl = navCtrl;
-        this.tables = [
-            { id_table: "#01", name_tabel: "01", id_cus: "0111", time_cus: "00:57", total: 500, name_user: "Ananya", img_user: "image/alice.jpg" },
-            { id_table: "#02", name_tabel: "02", id_cus: "0112", time_cus: "01:57", total: 1500, name_user: "Barramee", img_user: "image/andrew.jpg" },
-            { id_table: "#03", name_tabel: "03", id_cus: "0113", time_cus: "00:27", total: 2500, name_user: "Sirintra", img_user: "image/carl.jpg" },
-            { id_table: "#04", name_tabel: "04", id_cus: "0114", time_cus: "00:50", total: 3500, name_user: "Apassara", img_user: "image/garry.jpg" },
-            { id_table: "#05", name_tabel: "05", id_cus: "0115", time_cus: "02:07", total: 2500, name_user: "Pornpan", img_user: "image/james.jpg" },
-            { id_table: "#06", name_tabel: "06", id_cus: "0116", time_cus: "01:01", total: 500, name_user: "Meechai", img_user: "image/jane.jpg" },
-            { id_table: "#07", name_tabel: "07", id_cus: "0117", time_cus: "00:09", total: 2500, name_user: "Attapon", img_user: "image/joyce.jpg" },
-            { id_table: "#08", name_tabel: "08", id_cus: "0118", time_cus: "00:08", total: 7500, name_user: "Deelan", img_user: "image/vincent.jpg" }
-        ];
+        this.http = http;
+        this.navParam = navParam;
+        this.fillterTable = [];
+        this.tables = [];
+        this.paid = false;
+        this.fillData = [];
+        this.user_name = navParam.get("user_name");
+        console.log(this.user_name);
+        this.http.get('https://cyber-pos.herokuapp.com/tables').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.tables = data;
+            console.log(_this.tables);
+            // for(let i =0;i< this.tables.length;i++){
+            //   if(this.user_name == this.tables[i].user_name){
+            //     this.fillterTable.push(this.tables[i]);
+            //   }
+            // }
+            _this.tables.forEach(function (element) {
+                console.log(element);
+                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/' + _this.paid).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    // console.log('Data object in subscribe method:');
+                    console.dir(data);
+                    if (data) {
+                        element.order = data;
+                    }
+                });
+                _this.fillData = element;
+                console.log(_this.fillData.order);
+                // if(this.fillData.order){
+                _this.fillterTable.push(_this.fillData);
+                // console.log(this.fillterTable);
+                // }
+            });
+            //  this.fillterTable.push(this.fillData);
+            console.log(_this.fillterTable);
+        });
     }
-    TablePage.prototype.ProductSellPage = function () {
-        this.navCtrl.push(productSell_ts_1.ProductSellPage);
+    TablePage.prototype.ProductSellPage = function (_item) {
+        //let totalprice= localStorage.getItem('totalprice');
+        function createGuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+        var uuid = createGuid();
+        console.log(uuid);
+        if (!_item.order) {
+            _item.order = {
+                user_name: this.user_name,
+                name_table: _item.name_table,
+                totalPrice: _item.totalPrice,
+                id_cus: _item.id_cus,
+                id_order: _item.id_order,
+                time_cus: _item.time_cus,
+                paid: this.paid,
+                list_order: []
+            };
+        }
+        this.navCtrl.push(productSell_ts_1.ProductSellPage, { 'item': _item, 'uuid': uuid });
+        console.log(_item);
     };
     TablePage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/table/table.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams])
     ], TablePage);
     return TablePage;
 }());
 exports.TablePage = TablePage;
-},{"../productSell/productSell.ts":4,"@angular/core":153,"ionic-angular":467}],6:[function(require,module,exports){
+},{"../productSell/productSell.ts":4,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],6:[function(require,module,exports){
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1582,7 +1962,7 @@ var EventEmitter = (function (_super) {
 }(Subject_1.Subject));
 exports.EventEmitter = EventEmitter;
 
-},{"./lang":23,"./promise":24,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],18:[function(require,module,exports){
+},{"./lang":23,"./promise":24,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],18:[function(require,module,exports){
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -11128,7 +11508,7 @@ var SimpleExpressionChecker = (function () {
 
 },{"../chars":79,"../facade/collection":91,"../facade/exceptions":93,"../facade/lang":94,"../interpolation_config":108,"./ast":86,"./lexer":87,"@angular/core":153}],89:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":94,"./promise":96,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],90:[function(require,module,exports){
+},{"./lang":94,"./promise":96,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],90:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],91:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -30267,7 +30647,7 @@ function _createDependency(token /** TODO #9100 */, optional /** TODO #9100 */, 
 
 },{"../facade/collection":194,"../facade/lang":197,"../reflection/reflection":229,"./forward_ref":182,"./metadata":184,"./provider":186,"./provider_util":187,"./reflective_exceptions":188,"./reflective_key":190}],192:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":197,"./promise":199,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],193:[function(require,module,exports){
+},{"./lang":197,"./promise":199,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],193:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],194:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -39594,7 +39974,7 @@ exports.PatternValidator = PatternValidator;
 
 },{"../facade/lang":272,"../validators":278,"@angular/core":153}],267:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":272,"./promise":273,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],268:[function(require,module,exports){
+},{"./lang":272,"./promise":273,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],268:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],269:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -43547,7 +43927,7 @@ exports.bootstrapWorkerApp = bootstrapWorkerApp;
 
 },{"./core_private":300,"./src/facade/async":302,"./src/facade/lang":307,"./src/xhr/xhr_cache":309,"./src/xhr/xhr_impl":310,"@angular/common":6,"@angular/compiler":72,"@angular/core":153,"@angular/platform-browser":312}],302:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":307,"./promise":308,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],303:[function(require,module,exports){
+},{"./lang":307,"./promise":308,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],303:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],304:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
@@ -46383,7 +46763,7 @@ exports.WebAnimationsPlayer = WebAnimationsPlayer;
 
 },{"../facade/lang":343}],337:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"./lang":343,"./promise":344,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":580,"rxjs/operator/toPromise":581}],338:[function(require,module,exports){
+},{"./lang":343,"./promise":344,"dup":17,"rxjs/Observable":574,"rxjs/Subject":576,"rxjs/observable/PromiseObservable":581,"rxjs/operator/toPromise":583}],338:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
 },{"dup":18}],339:[function(require,module,exports){
 /**
@@ -94278,7 +94658,7 @@ var Observable = (function () {
 }());
 exports.Observable = Observable;
 
-},{"./symbol/observable":582,"./util/root":590,"./util/toSubscriber":592}],575:[function(require,module,exports){
+},{"./symbol/observable":584,"./util/root":592,"./util/toSubscriber":594}],575:[function(require,module,exports){
 "use strict";
 exports.empty = {
     isUnsubscribed: true,
@@ -94494,7 +94874,7 @@ var SubjectObservable = (function (_super) {
     return SubjectObservable;
 }(Observable_1.Observable));
 
-},{"./Observable":574,"./SubjectSubscription":577,"./Subscriber":578,"./Subscription":579,"./symbol/rxSubscriber":583,"./util/ObjectUnsubscribedError":584,"./util/throwError":591}],577:[function(require,module,exports){
+},{"./Observable":574,"./SubjectSubscription":577,"./Subscriber":578,"./Subscription":579,"./symbol/rxSubscriber":585,"./util/ObjectUnsubscribedError":586,"./util/throwError":593}],577:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -94787,7 +95167,7 @@ var SafeSubscriber = (function (_super) {
     return SafeSubscriber;
 }(Subscriber));
 
-},{"./Observer":575,"./Subscription":579,"./symbol/rxSubscriber":583,"./util/isFunction":588}],579:[function(require,module,exports){
+},{"./Observer":575,"./Subscription":579,"./symbol/rxSubscriber":585,"./util/isFunction":590}],579:[function(require,module,exports){
 "use strict";
 var isArray_1 = require('./util/isArray');
 var isObject_1 = require('./util/isObject');
@@ -94938,7 +95318,13 @@ var Subscription = (function () {
 }());
 exports.Subscription = Subscription;
 
-},{"./util/UnsubscriptionError":585,"./util/errorObject":586,"./util/isArray":587,"./util/isFunction":588,"./util/isObject":589,"./util/tryCatch":593}],580:[function(require,module,exports){
+},{"./util/UnsubscriptionError":587,"./util/errorObject":588,"./util/isArray":589,"./util/isFunction":590,"./util/isObject":591,"./util/tryCatch":595}],580:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
+var map_1 = require('../../operator/map');
+Observable_1.Observable.prototype.map = map_1.map;
+
+},{"../../Observable":574,"../../operator/map":582}],581:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -95044,7 +95430,94 @@ function dispatchError(arg) {
     }
 }
 
-},{"../Observable":574,"../util/root":590}],581:[function(require,module,exports){
+},{"../Observable":574,"../util/root":592}],582:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = require('../Subscriber');
+/**
+ * Applies a given `project` function to each value emitted by the source
+ * Observable, and emits the resulting values as an Observable.
+ *
+ * <span class="informal">Like [Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map),
+ * it passes each source value through a transformation function to get
+ * corresponding output values.</span>
+ *
+ * <img src="./img/map.png" width="100%">
+ *
+ * Similar to the well known `Array.prototype.map` function, this operator
+ * applies a projection to each value and emits that projection in the output
+ * Observable.
+ *
+ * @example <caption>Map every every click to the clientX position of that click</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var positions = clicks.map(ev => ev.clientX);
+ * positions.subscribe(x => console.log(x));
+ *
+ * @see {@link mapTo}
+ * @see {@link pluck}
+ *
+ * @param {function(value: T, index: number): R} project The function to apply
+ * to each `value` emitted by the source Observable. The `index` parameter is
+ * the number `i` for the i-th emission that has happened since the
+ * subscription, starting from the number `0`.
+ * @param {any} [thisArg] An optional argument to define what `this` is in the
+ * `project` function.
+ * @return {Observable<R>} An Observable that emits the values from the source
+ * Observable transformed by the given `project` function.
+ * @method map
+ * @owner Observable
+ */
+function map(project, thisArg) {
+    if (typeof project !== 'function') {
+        throw new TypeError('argument is not a function. Are you looking for `mapTo()`?');
+    }
+    return this.lift(new MapOperator(project, thisArg));
+}
+exports.map = map;
+var MapOperator = (function () {
+    function MapOperator(project, thisArg) {
+        this.project = project;
+        this.thisArg = thisArg;
+    }
+    MapOperator.prototype.call = function (subscriber, source) {
+        return source._subscribe(new MapSubscriber(subscriber, this.project, this.thisArg));
+    };
+    return MapOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MapSubscriber = (function (_super) {
+    __extends(MapSubscriber, _super);
+    function MapSubscriber(destination, project, thisArg) {
+        _super.call(this, destination);
+        this.project = project;
+        this.count = 0;
+        this.thisArg = thisArg || this;
+    }
+    // NOTE: This looks unoptimized, but it's actually purposefully NOT
+    // using try/catch optimizations.
+    MapSubscriber.prototype._next = function (value) {
+        var result;
+        try {
+            result = this.project.call(this.thisArg, value, this.count++);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    return MapSubscriber;
+}(Subscriber_1.Subscriber));
+
+},{"../Subscriber":578}],583:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 /**
@@ -95073,7 +95546,7 @@ function toPromise(PromiseCtor) {
 }
 exports.toPromise = toPromise;
 
-},{"../util/root":590}],582:[function(require,module,exports){
+},{"../util/root":592}],584:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 var Symbol = root_1.root.Symbol;
@@ -95095,14 +95568,14 @@ else {
     exports.$$observable = '@@observable';
 }
 
-},{"../util/root":590}],583:[function(require,module,exports){
+},{"../util/root":592}],585:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 var Symbol = root_1.root.Symbol;
 exports.$$rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
     Symbol.for('rxSubscriber') : '@@rxSubscriber';
 
-},{"../util/root":590}],584:[function(require,module,exports){
+},{"../util/root":592}],586:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -95128,7 +95601,7 @@ var ObjectUnsubscribedError = (function (_super) {
 }(Error));
 exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 
-},{}],585:[function(require,module,exports){
+},{}],587:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -95151,30 +95624,30 @@ var UnsubscriptionError = (function (_super) {
 }(Error));
 exports.UnsubscriptionError = UnsubscriptionError;
 
-},{}],586:[function(require,module,exports){
+},{}],588:[function(require,module,exports){
 "use strict";
 // typeof any so that it we don't have to cast when comparing a result to the error object
 exports.errorObject = { e: {} };
 
-},{}],587:[function(require,module,exports){
+},{}],589:[function(require,module,exports){
 "use strict";
 exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],588:[function(require,module,exports){
+},{}],590:[function(require,module,exports){
 "use strict";
 function isFunction(x) {
     return typeof x === 'function';
 }
 exports.isFunction = isFunction;
 
-},{}],589:[function(require,module,exports){
+},{}],591:[function(require,module,exports){
 "use strict";
 function isObject(x) {
     return x != null && typeof x === 'object';
 }
 exports.isObject = isObject;
 
-},{}],590:[function(require,module,exports){
+},{}],592:[function(require,module,exports){
 (function (global){
 "use strict";
 var objectTypes = {
@@ -95196,12 +95669,12 @@ if (freeGlobal && (freeGlobal.global === freeGlobal || freeGlobal.window === fre
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],591:[function(require,module,exports){
+},{}],593:[function(require,module,exports){
 "use strict";
 function throwError(e) { throw e; }
 exports.throwError = throwError;
 
-},{}],592:[function(require,module,exports){
+},{}],594:[function(require,module,exports){
 "use strict";
 var Subscriber_1 = require('../Subscriber');
 var rxSubscriber_1 = require('../symbol/rxSubscriber');
@@ -95218,7 +95691,7 @@ function toSubscriber(nextOrObserver, error, complete) {
 }
 exports.toSubscriber = toSubscriber;
 
-},{"../Subscriber":578,"../symbol/rxSubscriber":583}],593:[function(require,module,exports){
+},{"../Subscriber":578,"../symbol/rxSubscriber":585}],595:[function(require,module,exports){
 "use strict";
 var errorObject_1 = require('./errorObject');
 var tryCatchTarget;
@@ -95238,9 +95711,9 @@ function tryCatch(fn) {
 exports.tryCatch = tryCatch;
 ;
 
-},{"./errorObject":586}],594:[function(require,module,exports){
+},{"./errorObject":588}],596:[function(require,module,exports){
 
-},{}]},{},[1,594])
+},{}]},{},[1,596])
 
 
 //# sourceMappingURL=app.bundle.js.map
