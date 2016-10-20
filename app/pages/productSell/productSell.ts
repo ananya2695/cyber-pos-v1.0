@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, Slides, NavParams} from 'ionic-angular';
+import { NavController, Slides, NavParams, ModalController, ViewController} from 'ionic-angular';
 import { PaymentPage } from '../payment/payment';
 import { TablePage } from'../table/table';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+
+
 
 @Component({
   templateUrl: 'build/pages/productSell/productSell.html'
@@ -34,7 +36,7 @@ export class ProductSellPage {
   mySlideVertical = {
     direction: 'vertical'
   };
-  constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams) {
+  constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams, public modalCtrl: ModalController) {
     this.uuid = navParam.get('uuid');
 
     //  if(navParam.get('status') == 'Pause'){
@@ -186,14 +188,14 @@ export class ProductSellPage {
       let product = this.orders.order.list_order;
       console.log(product);
       let body = {
-        '_id': this.orders.order._id,'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+        '_id': this.orders.order._id, 'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
         'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
         'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
         'list_order': product, 'paid': false
       };
 
       console.dir(body);
-      this.http.put('https://cyber-pos.herokuapp.com/orders/'+this.orders.order._id, body).map(res => {
+      this.http.put('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id, body).map(res => {
 
         // console.log('Result in mapping method:');
         // console.dir(res);
@@ -329,7 +331,44 @@ export class ProductSellPage {
 
 
   }
+  ConfirmOr() {
+    let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+    modal.present();
+  }
 
 
+}
+
+
+@Component({
+  templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
+})
+export class CancelOrder {
+  returnMsg = "";
+  orders: any;
+  constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
+    public viewController: ViewController, public http: Http) {
+    this.orders = navParams.get('orders');
+    console.log(this.orders);
+  }
+  cnOr() {
+    this.viewController.dismiss();
+  }
+  cnOk() {
+    if (this.orders.order._id) {
+      this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+
+        return res.json();
+
+      }).subscribe(data => {
+        console.dir(data);
+
+      });
+     
+    }
+
+    console.log(this.orders.order);
+    this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+  }
 
 }
