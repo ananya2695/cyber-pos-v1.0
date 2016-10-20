@@ -81,10 +81,11 @@ var HomePage = (function () {
             _this.items = data;
         });
     }
-    HomePage.prototype.addNewPersonal = function (newPersonalName) {
-        var newPersonalObject = { name: newPersonalName };
-        this.items.push(newPersonalObject);
-    };
+    // addNewPersonal(newPersonalName) {
+    //   let newPersonalObject = { name: newPersonalName };
+    //   this.items.push(newPersonalObject);
+    //   console.log(this.items);
+    // }
     HomePage.prototype.onPop = function () {
         this.navCtrl.pop();
     };
@@ -96,7 +97,9 @@ var HomePage = (function () {
         var _this = this;
         var modal = this.modalCtrl.create(RegisterPage1);
         modal.onDidDismiss(function (data) {
-            _this.items.push(data);
+            if (data) {
+                _this.items.push(data);
+            }
         });
         modal.present();
         console.log(this.items);
@@ -149,9 +152,11 @@ var RegisterPage1 = (function () {
     RegisterPage1.prototype.regisSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
         var _this = this;
         //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
-        var body = { 'user_name': user_name, 'user_id': user_id, 'position': position,
+        var body = {
+            'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
-            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png"
+        };
         this.viewController.dismiss(body);
         console.dir(body);
         this.http.post('https://cyber-pos.herokuapp.com/users', body).map(function (res) {
@@ -199,9 +204,11 @@ var EditUser = (function () {
     }
     EditUser.prototype.editSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
         var _this = this;
-        var body = { '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
+        var body = {
+            '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
-            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png"
+        };
         console.log(body);
         this.viewController.dismiss(body);
         console.dir(body);
@@ -898,7 +905,7 @@ var TablePage = (function () {
             // }
             _this.tables.forEach(function (element) {
                 console.log(element);
-                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/' + _this.paid).map(function (res) {
+                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     // console.log('Data object in subscribe method:');
