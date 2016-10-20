@@ -33,6 +33,7 @@ var MyApp = (function () {
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
+
 },{"./pages/home/home":2,"@angular/core":153,"ionic-angular":467,"ionic-native":494}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -264,6 +265,7 @@ var SettingUser = (function () {
     return SettingUser;
 }());
 exports.SettingUser = SettingUser;
+
 },{"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"ionic-native":494,"rxjs/add/operator/map":580}],3:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -478,6 +480,7 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
+
 },{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -595,21 +598,17 @@ var ProductSellPage = (function () {
         this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
     };
     ProductSellPage.prototype.PaymentPage = function () {
-<<<<<<< HEAD
         this.orders.order.list_order.forEach(function (element) {
             element.totalprice = element.piece * element.price;
             console.log(element.totalprice);
         });
         // console.log('amout'+this.orders.order.list_order[0].piece * this.orders.order.list_order[0].price);
-=======
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
         this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
     };
     ProductSellPage.prototype.TablePage = function () {
         var _this = this;
         //this.navCtrl.push(TablePage);
         //localStorage.setItem('totalprice',this.totalprice);
-<<<<<<< HEAD
         if (!this.orders.order._id) {
             var product = this.orders.order.list_order;
             console.log(product);
@@ -652,27 +651,6 @@ var ProductSellPage = (function () {
                 console.log(_this.returnMessage);
             });
         }
-=======
-        var product = this.orders.order.list_order;
-        console.log(product);
-        var body = {
-            'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
-            'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
-            'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
-            'list_order': product, 'paid': false
-        };
-        console.dir(body);
-        this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
-            // console.log('Result in mapping method:');
-            // console.dir(res);
-            return res.json();
-        }).subscribe(function (data) {
-            // console.log('Data object in subscribe method:');
-            console.dir(data);
-            _this.returnMessage = data.message;
-            console.log(_this.returnMessage);
-        });
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
         this.navCtrl.push(table_1.TablePage);
         console.log(this.orders);
     };
@@ -696,27 +674,17 @@ var ProductSellPage = (function () {
                     return itm.id_pro == item.id_pro;
                 })[0];
                 selected.piece++;
-<<<<<<< HEAD
                 // item.totalprice = item.price * item.piece;
                 obj += selected.totalprice;
                 this.orders.order.totalPrice = obj;
                 // console.log(this.orders.order.totalPrice);
                 this.total = selected.toTal;
                 console.log(selected.totalprice);
-=======
-                obj += selected.totalprice;
-                this.orders.order.totalPrice = obj;
-                console.log(this.orders.order.totalPrice);
-                this.total = selected.toTal;
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
             }
             else {
                 item.piece = 1;
                 item.totalprice = item.price * item.piece;
-<<<<<<< HEAD
                 console.log(item.totalprice);
-=======
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
                 obj += item.totalprice;
                 this.orders.order.totalPrice = obj;
                 console.log(this.orders.order.totalPrice);
@@ -733,22 +701,14 @@ var ProductSellPage = (function () {
                 // item.totalprice = item.price * item.piece;
                 this.totalPrice += selected.totalprice;
                 this.orders.order.totalPrice = this.totalPrice;
-<<<<<<< HEAD
                 // console.log(this.orders.order.totalPrice);
                 this.total = selected.toTal;
                 console.log(selected.totalprice);
-=======
-                console.log(this.orders.order.totalPrice);
-                this.total = selected.toTal;
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
             }
             else {
                 item.piece = 1;
                 item.totalprice = item.price * item.piece;
-<<<<<<< HEAD
                 console.log(item.totalprice);
-=======
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
                 this.totalPrice += item.totalprice;
                 this.orders.order.totalPrice = this.totalPrice;
                 console.log(this.orders.order.totalPrice);
@@ -762,14 +722,10 @@ var ProductSellPage = (function () {
         console.log(OrderItm);
         for (var i = 0; i < OrderItm.length; i++) {
             if (OrderItm[i]._id == item._id) {
-<<<<<<< HEAD
                 this.orders.order.totalPrice = this.orders.order.totalPrice - (OrderItm[i].totalprice * OrderItm[i].piece);
                 // OrderItm.totalprice = OrderItm[i].totalprice * OrderItm[i].piece;
                 // console.log(OrderItm.totalprice);
                 this.totalPrice = this.orders.order.totalPrice;
-=======
-                this.orders.order.totalPrice = this.orders.order.totalPrice - OrderItm[i].totalprice;
->>>>>>> 5bfbedfc8b7e7a0297866ecf850e70d39b9f9839
                 OrderItm.splice(i, 1);
                 break;
             }
@@ -807,6 +763,7 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
+
 },{"../payment/payment":3,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -909,6 +866,7 @@ var TablePage = (function () {
     return TablePage;
 }());
 exports.TablePage = TablePage;
+
 },{"../productSell/productSell.ts":4,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],6:[function(require,module,exports){
 /**
  * @license
