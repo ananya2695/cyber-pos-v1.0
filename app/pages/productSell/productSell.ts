@@ -137,9 +137,10 @@ export class ProductSellPage {
     this.orders.order.id_order = this.id_order;
 
     this.time_cus = Date();
+    console.log(this.time_cus);
     this.orders.order.time_cus = this.time_cus;
-
-    if(!this.orders.order){
+    
+    if(!this.orders.order.totalPrice){
        this.orders.order.totalPrice = 0;
     }
    
