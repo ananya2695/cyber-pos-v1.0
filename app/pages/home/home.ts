@@ -3,7 +3,7 @@ import {Camera} from 'ionic-native';
 import { NavController, ModalController, ViewController, NavParams} from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
-import { SettingPage } from '../setting/setting.ts';
+import { SettingPage } from '../setting/setting';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 
