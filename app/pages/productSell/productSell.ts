@@ -136,9 +136,20 @@ export class ProductSellPage {
     console.log(this.id_order);
     this.orders.order.id_order = this.id_order;
 
-    this.time_cus = Date();
-    console.log(this.time_cus);
+    var today = new Date();
+    var dd =  today.getDate(); 
+    console.log(dd);
+    var mm =  today.getMonth()+1; 
+    console.log(mm);
+    var yyyy = today.getFullYear(); 
+    console.log(yyyy);
+    this.time_cus = dd + '/' + mm +'/'+ yyyy;
     this.orders.order.time_cus = this.time_cus;
+    console.log( this.orders.order.time_cus);
+  
+    
+    
+
     
     if(!this.orders.order.totalPrice){
        this.orders.order.totalPrice = 0;

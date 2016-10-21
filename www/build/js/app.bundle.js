@@ -448,7 +448,6 @@ var PaymentPage = (function () {
     };
     PaymentPage.prototype.printSlip = function () {
         var _this = this;
-        console.log(this.orders);
         if (!this.orders.order._id) {
             console.log(this.orders.order._id);
             var product = this.orders.order.list_order;
@@ -660,9 +659,16 @@ var ProductSellPage = (function () {
         this.id_order = 'O-' + this.uuid.slice(0, 8);
         console.log(this.id_order);
         this.orders.order.id_order = this.id_order;
-        this.time_cus = Date();
-        console.log(this.time_cus);
+        var today = new Date();
+        var dd = today.getDate();
+        console.log(dd);
+        var mm = today.getMonth() + 1;
+        console.log(mm);
+        var yyyy = today.getFullYear();
+        console.log(yyyy);
+        this.time_cus = dd + '/' + mm + '/' + yyyy;
         this.orders.order.time_cus = this.time_cus;
+        console.log(this.orders.order.time_cus);
         if (!this.orders.order.totalPrice) {
             this.orders.order.totalPrice = 0;
         }

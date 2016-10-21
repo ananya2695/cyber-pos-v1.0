@@ -17,7 +17,7 @@
   <ion-card>
     <ion-item>
       <ion-grid>
-        <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
+        <ion-row style="padding: 0; flex-wrap: wrap;">
           <ion-col style="flex: 0 0 24%;  max-width: 24%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of fillterTable" (click)="ProductSellPage(item)">
             <ion-card *ngIf="item.order">
               <ion-item>
@@ -45,7 +45,7 @@
                     <label> เวลา</label>
                   </ion-col>
                   <ion-col width-50 align="right">
-                    <label>{{item.order.time_cus | date :  "dd/MM/y"}}</label>
+                    <label>{{item.order.time_cus}}</label>
                   </ion-col>
                 </ion-row>
                 <ion-row>
