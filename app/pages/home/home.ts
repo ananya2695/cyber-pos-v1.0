@@ -3,7 +3,7 @@ import {Camera} from 'ionic-native';
 import { NavController, ModalController, ViewController, NavParams} from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
-import { SettingPage } from '../setting/setting.ts';
+import { SettingPage } from '../setting/setting';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -129,7 +129,7 @@ export class RegisterPage1 {
     let body = {
       'user_name': user_name, 'user_id': user_id, 'position': position,
       'user_firstname': user_firstname, 'user_lastname': user_lastname,
-      'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.jpg"
+      'password': password, 'confirmpassword': confirmpassword, "img_user": "image/default.png"
     };
     this.viewController.dismiss(body);
     console.dir(body);
@@ -188,7 +188,7 @@ export class EditUser {
     let body = {
       '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
       'user_firstname': user_firstname, 'user_lastname': user_lastname,
-      'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.jpg"
+      'password': password, 'confirmpassword': confirmpassword, "img_user": "image/default.png"
     };
     console.log(body);
     this.viewController.dismiss(body);
