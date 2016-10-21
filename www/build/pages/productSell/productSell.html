@@ -143,12 +143,17 @@
             </ion-col>
 
             <ion-col width-33>
-              <button block (click)="PaymentPage()">ชำระเงิน</button>
+              <ion-row *ngIf="orders.order.totalPrice != 0">
+                <button block (click)="PaymentPage()">ชำระเงิน</button>
+              </ion-row>
+              <ion-row *ngIf="orders.order.totalPrice == 0">
+                 <button  block ion-button color="light"><p style="color: #c4c4c4;">ชำระเงิน </p></button>
+              </ion-row>
             </ion-col>
           </ion-row>
           <ion-row>
 
-            <ion-slides pager [options]="mySlideOptions" style="height:350px; margin-top:-40px;">
+            <ion-slides pager [options]="mySlideOptions" style="height:400px; margin-top:-40px;">
               <ion-slide *ngFor="let page of box">
                 <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
                   <ion-col style="flex: 0 0 48%;  max-width: 48%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of page.basket"
@@ -280,11 +285,11 @@
 
 
           <ion-row>
-            <ion-slides pager [options]="mySlideOptions" style="height:160px; margin-top:-50px;">
+            <ion-slides pager [options]="mySlideOptions" style="height:180px; margin-top:-50px;">
 
               <ion-slide *ngFor="let page of boxcate">
                 <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
-                  <ion-col style="flex: 0 0 32%;  max-width: 32%; text-align: center; padding: 0; margin-left:6px;" *ngFor="let cate of page.fillterCate"
+                  <ion-col style="flex: 0 0 30%;  max-width: 30%; text-align: center; padding: 0; margin-left:12px;" *ngFor="let cate of page.fillterCate"
                     (click)="chooseCate(cate)">
                     <button block ion-button color="dark">{{cate}}</button>
                   </ion-col>
