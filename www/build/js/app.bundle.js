@@ -540,6 +540,7 @@ var CancelOrder = (function () {
 exports.CancelOrder = CancelOrder;
 
 },{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
+<<<<<<< HEAD
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -888,6 +889,357 @@ var CancelOrder = (function () {
 }());
 exports.CancelOrder = CancelOrder;
 
+=======
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var ionic_angular_1 = require('ionic-angular');
+var payment_1 = require('../payment/payment');
+var table_1 = require('../table/table');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
+var ProductSellPage = (function () {
+    function ProductSellPage(navCtrl, http, navParam, modalCtrl) {
+        var _this = this;
+        this.navCtrl = navCtrl;
+        this.http = http;
+        this.navParam = navParam;
+        this.modalCtrl = modalCtrl;
+        this.returnMessage = "";
+        this.fillterCate = [];
+        this.fillterOrder = [];
+        this.products = [];
+        this.basket = [];
+        this.totalPrice = 0.00;
+        this.totalprice = 0.00;
+        this.total = 0.00;
+        this.box = [];
+        this.boxcate = [];
+        this.mySlideOptions = {
+            pager: true
+        };
+        this.mySlideVertical = {
+            direction: 'vertical'
+        };
+        this.uuid = navParam.get('uuid');
+        //  if(navParam.get('status') == 'Pause'){
+        //     this.totalprice = navParam.get('totalprice');
+        //  }
+        this.http.get('https://cyber-pos.herokuapp.com/products').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.products = data;
+            console.log(_this.products);
+            var flags = [], output = [], l = _this.products.length, i;
+            for (i = 0; i < l; i++) {
+                if (flags[_this.products[i].cate])
+                    continue;
+                flags[_this.products[i].cate] = true;
+                output.push(_this.products[i].cate);
+                _this.fillterCate = output;
+                console.log(_this.fillterCate);
+            }
+            var productPerCate = 6;
+            var pageCate = Math.ceil(_this.fillterCate.length / productPerCate);
+            var ii2 = 0;
+            for (var i_1 = 0; i_1 < pageCate; i_1++) {
+                var pp = { pageCate: i_1, fillterCate: [] };
+                for (var j = 0; j < productPerCate; j++) {
+                    if (_this.fillterCate[ii2])
+                        pp.fillterCate.push(_this.fillterCate[ii2]);
+                    ii2++;
+                }
+                _this.boxcate.push(pp);
+            }
+            console.log(_this.boxcate);
+            _this.basket = _this.products.filter(function (el) {
+                return (el.cate === 'Drink');
+            });
+            console.log(_this.basket);
+            _this.box = [];
+            var productPerPage = 12;
+            var page = Math.ceil(_this.basket.length / productPerPage);
+            var ii = 0;
+            for (var i_2 = 0; i_2 < page; i_2++) {
+                var pp = { page: i_2, basket: [] };
+                for (var j = 0; j < productPerPage; j++) {
+                    if (_this.basket[ii])
+                        pp.basket.push(_this.basket[ii]);
+                    ii++;
+                }
+                _this.box.push(pp);
+            }
+            console.log(_this.box);
+        });
+        //   this.name_table = navParam.get("name_table");
+        //   this.id_cus = navParam.get("id_cus");
+        //   this.user_name = navParam.get("user_name");
+        // console.log(this.name_table);
+        this.orders = navParam.get("item");
+        console.log(this.orders.order);
+        //this.fillterOrder =  this.orders.order;
+        //console.log(this.fillterOrder);
+        //  this.http.get('https://cyber-pos.herokuapp.com/orders').map(res => {
+        //   return res.json();
+        // }).subscribe(data => {
+        //   console.log('Data object in subscribe method:');
+        //   console.dir(data);
+        //   this.orders = data;
+        //   console.log(this.orders);
+        //   for(let i =0;i< this.orders.length;i++){
+        //     if(this.name_table == this.orders[i].name_table){
+        //       this.fillterOrder.push(this.orders[i]);
+        //     }
+        //   }
+        //   console.dir(this.fillterOrder);
+        // });
+        this.id_cus = "-";
+        this.orders.order.id_cus = this.id_cus;
+        this.id_order = 'O-' + this.uuid.slice(0, 8);
+        console.log(this.id_order);
+        this.orders.order.id_order = this.id_order;
+        this.time_cus = Date();
+        this.orders.order.time_cus = this.time_cus;
+        if (!this.orders.order) {
+            this.orders.order.totalPrice = 0;
+        }
+    }
+    ProductSellPage.prototype.CancelOrder = function () {
+        if (this.orders.order._id) {
+            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                // this.returnMsg = data.message;
+            });
+        }
+        console.log(this.orders.order);
+        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
+    };
+    ProductSellPage.prototype.PaymentPage = function () {
+        this.orders.order.list_order.forEach(function (element) {
+            element.totalprice = element.piece * element.price;
+            console.log(element.totalprice);
+        });
+        // console.log('amout'+this.orders.order.list_order[0].piece * this.orders.order.list_order[0].price);
+        this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
+    };
+    ProductSellPage.prototype.TablePage = function () {
+        var _this = this;
+        //this.navCtrl.push(TablePage);
+        //localStorage.setItem('totalprice',this.totalprice);
+        if (!this.orders.order._id) {
+            this.orders.order.list_order.forEach(function (element) {
+                element.totalprice = element.piece * element.price;
+                console.log(element.totalprice);
+            });
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'paid': false
+            };
+            console.dir(body);
+            this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
+        else if (this.orders.order._id) {
+            this.orders.order.list_order.forEach(function (element) {
+                element.totalprice = element.piece * element.price;
+                console.log(element.totalprice);
+            });
+            var product = this.orders.order.list_order;
+            console.log(product);
+            var body = {
+                '_id': this.orders.order._id, 'id_cus': this.orders.order.id_cus, 'id_order': this.orders.order.id_order,
+                'name_table': this.orders.order.name_table, 'time_cus': this.orders.order.time_cus,
+                'totalPrice': this.orders.order.totalPrice, 'user_name': this.orders.order.user_name,
+                'list_order': product, 'paid': false
+            };
+            console.dir(body);
+            this.http.put('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id, body).map(function (res) {
+                // console.log('Result in mapping method:');
+                // console.dir(res);
+                return res.json();
+            }).subscribe(function (data) {
+                // console.log('Data object in subscribe method:');
+                console.dir(data);
+                _this.returnMessage = data.message;
+                console.log(_this.returnMessage);
+            });
+        }
+        this.navCtrl.push(table_1.TablePage);
+        console.log(this.orders);
+    };
+    ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
+        var result = -1;
+        myArr.forEach(function (idx) {
+            if (idx.id_pro == key.id_pro)
+                result++;
+        });
+        return result;
+    };
+    ProductSellPage.prototype.chooseProduct = function (item, obj) {
+        console.log(item);
+        // this.totalprice = item.price * item.piece;
+        // console.log(this.totalprice);
+        obj = this.orders.order.totalPrice;
+        console.log(obj);
+        if (obj) {
+            if (this.arrayIndexOf(this.orders.order.list_order, item) != -1) {
+                var selected = this.orders.order.list_order.filter(function (itm) {
+                    return itm.id_pro == item.id_pro;
+                })[0];
+                selected.piece++;
+                // item.totalprice = item.price * item.piece;
+                obj += selected.totalprice;
+                this.orders.order.totalPrice = obj;
+                // console.log(this.orders.order.totalPrice);
+                this.total = selected.toTal;
+                console.log(selected.totalprice);
+            }
+            else {
+                item.piece = 1;
+                item.totalprice = item.price * item.piece;
+                console.log(item.totalprice);
+                obj += item.totalprice;
+                this.orders.order.totalPrice = obj;
+                console.log(this.orders.order.totalPrice);
+                this.orders.order.list_order.push(item);
+                console.log(this.orders.order.list_order);
+            }
+        }
+        else {
+            if (this.arrayIndexOf(this.orders.order.list_order, item) != -1) {
+                var selected = this.orders.order.list_order.filter(function (itm) {
+                    return itm.id_pro == item.id_pro;
+                })[0];
+                selected.piece++;
+                // item.totalprice = item.price * item.piece;
+                this.totalPrice += selected.totalprice;
+                this.orders.order.totalPrice = this.totalPrice;
+                // console.log(this.orders.order.totalPrice);
+                this.total = selected.toTal;
+                console.log(selected.totalprice);
+            }
+            else {
+                item.piece = 1;
+                item.totalprice = item.price * item.piece;
+                console.log(item.totalprice);
+                this.totalPrice += item.totalprice;
+                this.orders.order.totalPrice = this.totalPrice;
+                console.log(this.orders.order.totalPrice);
+                this.orders.order.list_order.push(item);
+                console.log(this.orders.order.list_order);
+            }
+        }
+    };
+    ProductSellPage.prototype.delOrder = function (item) {
+        var OrderItm = this.orders.order.list_order;
+        console.log(OrderItm);
+        for (var i = 0; i < OrderItm.length; i++) {
+            if (OrderItm[i]._id == item._id) {
+                this.orders.order.totalPrice = this.orders.order.totalPrice - (OrderItm[i].totalprice * OrderItm[i].piece);
+                // OrderItm.totalprice = OrderItm[i].totalprice * OrderItm[i].piece;
+                // console.log(OrderItm.totalprice);
+                this.totalPrice = this.orders.order.totalPrice;
+                OrderItm.splice(i, 1);
+                break;
+            }
+        }
+        console.log(OrderItm);
+    };
+    ProductSellPage.prototype.chooseCate = function (cate) {
+        console.log(this.orders.order);
+        console.log(cate);
+        this.basket = this.products.filter(function (el) {
+            return (el.cate === cate);
+        });
+        console.log(this.basket);
+        this.box = [];
+        var productPerPage = 12;
+        var page = Math.ceil(this.basket.length / productPerPage);
+        var ii = 0;
+        for (var i = 0; i < page; i++) {
+            var pp = { page: i, basket: [] };
+            for (var j = 0; j < productPerPage; j++) {
+                if (this.basket[ii])
+                    pp.basket.push(this.basket[ii]);
+                ii++;
+            }
+            this.box.push(pp);
+        }
+        console.log(this.box);
+    };
+    ProductSellPage.prototype.ConfirmOr = function () {
+        var modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+        modal.present();
+    };
+    ProductSellPage = __decorate([
+        core_1.Component({
+            templateUrl: 'build/pages/productSell/productSell.html'
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams, ionic_angular_1.ModalController])
+    ], ProductSellPage);
+    return ProductSellPage;
+}());
+exports.ProductSellPage = ProductSellPage;
+var CancelOrder = (function () {
+    function CancelOrder(navParams, navCtrl, modalCtrl, viewController, http) {
+        this.navParams = navParams;
+        this.navCtrl = navCtrl;
+        this.modalCtrl = modalCtrl;
+        this.viewController = viewController;
+        this.http = http;
+        this.returnMsg = "";
+        this.orders = navParams.get('orders');
+        console.log(this.orders);
+    }
+    CancelOrder.prototype.cnOr = function () {
+        this.viewController.dismiss();
+    };
+    CancelOrder.prototype.cnOk = function () {
+        if (this.orders.order._id) {
+            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                console.dir(data);
+            });
+        }
+        console.log(this.orders.order);
+        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
+    };
+    CancelOrder = __decorate([
+        core_1.Component({
+            templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
+    ], CancelOrder);
+    return CancelOrder;
+}());
+exports.CancelOrder = CancelOrder;
+>>>>>>> ba9f9fe7305451a6a2fb771a87a34fafe502f62c
 },{"../payment/payment":3,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

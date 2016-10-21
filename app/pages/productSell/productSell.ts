@@ -129,7 +129,7 @@ export class ProductSellPage {
     //   console.dir(this.fillterOrder);
     // });
 
-    this.id_cus = "test";
+    this.id_cus = "-";
     this.orders.order.id_cus = this.id_cus;
 
     this.id_order = 'O-' + this.uuid.slice(0, 8);
@@ -138,7 +138,11 @@ export class ProductSellPage {
 
     this.time_cus = Date();
     this.orders.order.time_cus = this.time_cus;
-    this.orders.order.totalPrice = 0;
+
+    if(!this.orders.order){
+       this.orders.order.totalPrice = 0;
+    }
+   
 
   }
   CancelOrder() {
