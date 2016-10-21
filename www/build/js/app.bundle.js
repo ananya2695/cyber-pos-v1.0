@@ -155,7 +155,7 @@ var RegisterPage1 = (function () {
         var body = {
             'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
-            'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.png"
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.jpg"
         };
         this.viewController.dismiss(body);
         console.dir(body);
@@ -207,7 +207,7 @@ var EditUser = (function () {
         var body = {
             '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
-            'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.png"
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.jpg"
         };
         console.log(body);
         this.viewController.dismiss(body);
