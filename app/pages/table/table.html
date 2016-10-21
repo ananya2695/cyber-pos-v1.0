@@ -13,7 +13,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-card>
     <ion-item>
       <ion-grid>
@@ -45,7 +45,7 @@
                     <label> เวลา</label>
                   </ion-col>
                   <ion-col width-50 align="right">
-                    <label>{{item.order.time_cus}}</label>
+                    <label>{{item.order.time_cus | date :  "dd/MM/y"}}</label>
                   </ion-col>
                 </ion-row>
                 <ion-row>
@@ -115,23 +115,9 @@
             </ion-card>
           </ion-col>
         </ion-row>
-        <ion-row>
-          
-        </ion-row>
+        
       </ion-grid>
     </ion-item>
-    <!--<ion-row align="center">
-      <ion-col width-33>
-        <button block ion-button color="danger">ยกเลิก</button>
-      </ion-col>
-
-      <ion-col width-33>
-        <button block ion-button color="gray">ตรวจสอบรายการ</button>
-      </ion-col>
-      <ion-col width-33>
-        <button block ion-button color="dark">เปิด/ปิดร้าน</button>
-      </ion-col>
-    </ion-row>-->
   </ion-card>
 
 </ion-content>

@@ -68,8 +68,14 @@
     </ion-item>
 
   </ion-list>
-  <ion-row>
+
+<ion-row *ngIf=" user_name && user_id && position && user_firstname && user_lastname && password && confirmpassword ">
     <button block ion-button (click)="editSuccess(user_name,user_id,position,user_firstname,user_lastname,password,confirmpassword)">OK </button>
   </ion-row>
+
+  <ion-row *ngIf=" !user_name || !user_id || !position || !user_firstname || !user_lastname || !password || !confirmpassword ">
+    <button block ion-button color="light"><p style="color: #c4c4c4;">OK </p></button>
+  </ion-row>
+
 
 </ion-content>

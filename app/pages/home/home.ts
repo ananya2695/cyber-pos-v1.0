@@ -19,20 +19,20 @@ import 'rxjs/add/operator/map';
 })
 export class HomePage {
   items = [];
-    // items: any = [
-    //   { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
-    //   { id_user: "#CS02", user_name: "Sirintra", firstname : "Sirintra",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/andrew.jpg" },
-    //   { id_user: "#CS03", user_name: "Orapan", firstname : "Orapan",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/carl.jpg" },
-    //   { id_user: "#CS04", user_name: "Nipaporn",firstname : "Nipaporn",lastname:"Thogthai",password:"123456",repassword:"123456" , position: "Cashier", img: "image/garry.jpg" },
-    //   { id_user: "#CS05", user_name: "Nucha", firstname : "Nucha",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/james.jpg" },
-    //   { id_user: "#CS06", user_name: "Satida", firstname : "Satida",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/joyce.jpg" },
-    //   { id_user: "#MN01", user_name: "Theerasak", firstname : "Theerasak",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Manager", img: "image/vincent.jpg" },
-    // ]
+  // items: any = [
+  //   { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
+  //   { id_user: "#CS02", user_name: "Sirintra", firstname : "Sirintra",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/andrew.jpg" },
+  //   { id_user: "#CS03", user_name: "Orapan", firstname : "Orapan",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/carl.jpg" },
+  //   { id_user: "#CS04", user_name: "Nipaporn",firstname : "Nipaporn",lastname:"Thogthai",password:"123456",repassword:"123456" , position: "Cashier", img: "image/garry.jpg" },
+  //   { id_user: "#CS05", user_name: "Nucha", firstname : "Nucha",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/james.jpg" },
+  //   { id_user: "#CS06", user_name: "Satida", firstname : "Satida",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/joyce.jpg" },
+  //   { id_user: "#MN01", user_name: "Theerasak", firstname : "Theerasak",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Manager", img: "image/vincent.jpg" },
+  // ]
   constructor(private navCtrl: NavController, public modalCtrl: ModalController,
     public viewController: ViewController, public http: Http) {
-    
 
-      this.http.get('https://cyber-pos.herokuapp.com/users').map(res => {
+
+    this.http.get('https://cyber-pos.herokuapp.com/users').map(res => {
 
       return res.json();
 
@@ -48,29 +48,36 @@ export class HomePage {
 
 
 
-  addNewPersonal(newPersonalName) {
-    let newPersonalObject = { name: newPersonalName };
-    this.items.push(newPersonalObject);
-  }
+  // addNewPersonal(newPersonalName) {
+  //   let newPersonalObject = { name: newPersonalName };
+  //   this.items.push(newPersonalObject);
+  //   console.log(this.items);
+  // }
   onPop() {
     this.navCtrl.pop();
   }
   tablePage(item) {
-    this.navCtrl.push(TablePage , { "user_name": item.user_name});
+    this.navCtrl.push(TablePage, { "user_name": item.user_name });
     console.log(item.user_name);
   }
   registerPage() {
-    let modal = this.modalCtrl.create(RegisterPage1,{enableBackdropDismiss:false});
+
+
+    let modal = this.modalCtrl.create(RegisterPage1);
     modal.onDidDismiss(data => {
-      this.items.push(data);
-      console.log(data.user_name);
+      if (data) {
+        this.items.push(data);
+      }
+
     });
     modal.present();
     console.log(this.items);
   }
+
+
   openSetting() {
 
-   
+
     this.http.get('https://cyber-pos.herokuapp.com/users').map(res => {
 
       return res.json();
@@ -82,12 +89,12 @@ export class HomePage {
       this.items = data;
       console.log(this.items);
       let modal = this.modalCtrl.create(SettingUser, { 'items': this.items });
- 
 
-    modal.present();
-    console.log(this.items); 
+
+      modal.present();
+      console.log(this.items);
     });
-  
+
   }
 }
 
@@ -96,46 +103,48 @@ export class HomePage {
   templateUrl: 'build/pages/home/register-modal.html',
 })
 export class RegisterPage1 {
-   public base64Image: string;
-   returnMessage = "";
-   item : any[];
-  
-  constructor(private navCtrl: NavController, public modalCtrl: ModalController, 
-  public viewController: ViewController,public http: Http) {
+  public base64Image: string;
+  returnMessage = "";
+  item: any[];
+
+  constructor(private navCtrl: NavController, public modalCtrl: ModalController,
+    public viewController: ViewController, public http: Http) {
 
   }
-   takePicture(){
+  takePicture() {
     Camera.getPicture({
-        destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth: 1000,
-        targetHeight: 1000
+      destinationType: Camera.DestinationType.DATA_URL,
+      targetWidth: 1000,
+      targetHeight: 1000
     }).then((imageData) => {
       // imageData is a base64 encoded string
-        this.base64Image = "data:image/jpeg;base64," + imageData;
-        console.log(this.base64Image);
+      this.base64Image = "data:image/jpeg;base64," + imageData;
+      console.log(this.base64Image);
     }, (err) => {
-        console.log(err);
+      console.log(err);
     });
   }
-  regisSuccess(user_name, user_id, position,user_firstname,user_lastname,password,confirmpassword) {
+  regisSuccess(user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
     //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
-       let body = { 'user_name' : user_name , 'user_id' : user_id, 'position' : position,
-                     'user_firstname':user_firstname,'user_lastname':user_lastname,
-                      'password':password,'confirmpassword':confirmpassword,"img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
-      this.viewController.dismiss(body);
+    let body = {
+      'user_name': user_name, 'user_id': user_id, 'position': position,
+      'user_firstname': user_firstname, 'user_lastname': user_lastname,
+      'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.png"
+    };
+    this.viewController.dismiss(body);
     console.dir(body);
 
     this.http.post('https://cyber-pos.herokuapp.com/users', body).map(res => {
-      
+
       // console.log('Result in mapping method:');
       // console.dir(res);
       return res.json();
 
     }).subscribe(data => {
-      
+
       // console.log('Data object in subscribe method:');
       console.dir(data);
-      console.log(data._id); 
+      console.log(data._id);
       this.item = data;
       // location.reload();
     });
@@ -148,18 +157,18 @@ export class RegisterPage1 {
   templateUrl: 'build/pages/home/edit-modal.html',
 })
 export class EditUser {
-  returnMsg ="";
-  _id:any;
-  user_id:any;
-  user_name:any;
-  user_firstname:any;
-  user_lastname:any;
-  password:any;
-  confirmpassword:any;
-  position:any;
-  img_user:any;
-  constructor(public navParams: NavParams, private navCtrl: NavController, 
-  public modalCtrl: ModalController, public viewController: ViewController,public http: Http) {
+  returnMsg = "";
+  _id: any;
+  user_id: any;
+  user_name: any;
+  user_firstname: any;
+  user_lastname: any;
+  password: any;
+  confirmpassword: any;
+  position: any;
+  img_user: any;
+  constructor(public navParams: NavParams, private navCtrl: NavController,
+    public modalCtrl: ModalController, public viewController: ViewController, public http: Http) {
     let user = navParams.get('user');
     this._id = user._id;
     console.log(this._id);
@@ -174,29 +183,31 @@ export class EditUser {
     this.position = user.position;
     this.img_user = user.img_user;
   }
-  editSuccess(user_name, user_id, position,user_firstname,user_lastname,password,confirmpassword) {
-       
-        let body = {'_id':this._id ,'user_name' : user_name , 'user_id' : user_id, 'position' : position,
-                     'user_firstname':user_firstname,'user_lastname':user_lastname,
-                      'password':password,'confirmpassword':confirmpassword ,"img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png"};
-                      console.log(body);
-      this.viewController.dismiss(body);
+  editSuccess(user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
+
+    let body = {
+      '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
+      'user_firstname': user_firstname, 'user_lastname': user_lastname,
+      'password': password, 'confirmpassword': confirmpassword, "img_user": "../image/default.png"
+    };
+    console.log(body);
+    this.viewController.dismiss(body);
     console.dir(body)
 
-    this.http.put('https://cyber-pos.herokuapp.com/users/' +  this._id, body).map(res => {
-      
+    this.http.put('https://cyber-pos.herokuapp.com/users/' + this._id, body).map(res => {
+
       // console.log('Result in mapping method:');
       // console.dir(res);
       return res.json();
 
     }).subscribe(data => {
-      
+
       // console.log('Data object in subscribe method:');
       console.dir(data);
       this.returnMsg = data.message;
-    
+
     });
-}
+  }
 
 
 }
@@ -205,41 +216,45 @@ export class EditUser {
   templateUrl: 'build/pages/home/setting-modal.html',
 })
 export class SettingUser {
-  returnMsg="";
+  returnMsg = "";
   items: any;
   constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
-   public viewController: ViewController,public http: Http) {
+    public viewController: ViewController, public http: Http) {
     this.items = navParams.get('items');
     console.log(this.items);
   }
   editUser(item) {
-    let modal = this.modalCtrl.create(EditUser,{'user':item});
+    let modal = this.modalCtrl.create(EditUser, { 'user': item });
     modal.onDidDismiss(data => {
       console.log(data);
-      for (var i = 0; i < this.items.length; i++) {
-      if (this.items[i]._id == data._id) {
-          this.items[i] = data;
-        break;
+
+      if (data) {
+        for (var i = 0; i < this.items.length; i++) {
+          if (this.items[i]._id == data._id) {
+            this.items[i] = data;
+            break;
+          }
+        }
       }
-    }
+
     });
     modal.present();
   }
   delUser(item) {
-    
-    
-    this.http.delete('https://cyber-pos.herokuapp.com/users/' +  item._id).map(res => {
-      
+
+
+    this.http.delete('https://cyber-pos.herokuapp.com/users/' + item._id).map(res => {
+
       // console.log('Result in mapping method:');
       // console.dir(res);
       return res.json();
 
     }).subscribe(data => {
-      
+
       // console.log('Data object in subscribe method:');
       console.dir(data);
       this.returnMsg = data.message;
-    
+
     });
     for (var i = 0; i < this.items.length; i++) {
       if (this.items[i]._id == item._id) {
