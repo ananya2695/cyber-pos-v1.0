@@ -650,14 +650,16 @@ var ProductSellPage = (function () {
         //   }
         //   console.dir(this.fillterOrder);
         // });
-        this.id_cus = "test";
+        this.id_cus = "-";
         this.orders.order.id_cus = this.id_cus;
         this.id_order = 'O-' + this.uuid.slice(0, 8);
         console.log(this.id_order);
         this.orders.order.id_order = this.id_order;
         this.time_cus = Date();
         this.orders.order.time_cus = this.time_cus;
-        this.orders.order.totalPrice = 0;
+        if (!this.orders.order) {
+            this.orders.order.totalPrice = 0;
+        }
     }
     ProductSellPage.prototype.CancelOrder = function () {
         if (this.orders.order._id) {
