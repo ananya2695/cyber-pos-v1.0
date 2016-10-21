@@ -143,7 +143,12 @@
             </ion-col>
 
             <ion-col width-33>
-              <button block (click)="PaymentPage()">ชำระเงิน</button>
+              <ion-row *ngIf="orders.order.totalPrice != 0">
+                <button block (click)="PaymentPage()">ชำระเงิน</button>
+              </ion-row>
+              <ion-row *ngIf="orders.order.totalPrice == 0">
+                 <button  block ion-button color="light"><p style="color: #c4c4c4;">ชำระเงิน </p></button>
+              </ion-row>
             </ion-col>
           </ion-row>
           <ion-row>

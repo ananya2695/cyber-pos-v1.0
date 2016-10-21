@@ -609,6 +609,24 @@ var ProductSellPage = (function () {
                 _this.boxcate.push(pp);
             }
             console.log(_this.boxcate);
+            _this.basket = _this.products.filter(function (el) {
+                return (el.cate === 'Drink');
+            });
+            console.log(_this.basket);
+            _this.box = [];
+            var productPerPage = 12;
+            var page = Math.ceil(_this.basket.length / productPerPage);
+            var ii = 0;
+            for (var i_2 = 0; i_2 < page; i_2++) {
+                var pp = { page: i_2, basket: [] };
+                for (var j = 0; j < productPerPage; j++) {
+                    if (_this.basket[ii])
+                        pp.basket.push(_this.basket[ii]);
+                    ii++;
+                }
+                _this.box.push(pp);
+            }
+            console.log(_this.box);
         });
         //   this.name_table = navParam.get("name_table");
         //   this.id_cus = navParam.get("id_cus");
@@ -639,6 +657,7 @@ var ProductSellPage = (function () {
         this.orders.order.id_order = this.id_order;
         this.time_cus = Date();
         this.orders.order.time_cus = this.time_cus;
+        this.orders.order.totalPrice = 0;
     }
     ProductSellPage.prototype.CancelOrder = function () {
         if (this.orders.order._id) {

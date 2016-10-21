@@ -38,7 +38,6 @@ export class ProductSellPage {
   };
   constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams, public modalCtrl: ModalController) {
     this.uuid = navParam.get('uuid');
-
     //  if(navParam.get('status') == 'Pause'){
     //     this.totalprice = navParam.get('totalprice');
     //  }
@@ -76,6 +75,26 @@ export class ProductSellPage {
       }
       console.log(this.boxcate);
 
+
+   
+    this.basket = this.products.filter(function (el) {
+      return (el.cate === 'Drink');
+    });
+    console.log(this.basket);
+    this.box = [];
+    let productPerPage = 12;
+    let page = Math.ceil(this.basket.length / productPerPage);
+    let ii = 0;
+    for (let i = 0; i < page; i++) {
+      let pp = { page: i, basket: [] };
+
+      for (let j = 0; j < productPerPage; j++) {
+        if (this.basket[ii]) pp.basket.push(this.basket[ii]);
+        ii++;
+      }
+      this.box.push(pp);
+    }
+    console.log(this.box);
 
     });
 
@@ -119,6 +138,7 @@ export class ProductSellPage {
 
     this.time_cus = Date();
     this.orders.order.time_cus = this.time_cus;
+    this.orders.order.totalPrice = 0;
 
   }
   CancelOrder() {
