@@ -27,6 +27,9 @@
 		BBC78BF1C18A4543A247E3EA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D3A60A44B484462863CB5BF /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6E647E75353A4AD6A1FB107D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CE095530A34C89AF672A70 /* CoreLocation.framework */; };
 		EC540311B772436C99422B29 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA1EA3A486B4280A2850C5E /* AVFoundation.framework */; };
+		27A897D3AC1A4E50ABB09AB8 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D66D81C149A4E51A77EDC42 /* CDVNotification.m */; };
+		FAAD48CB7DF44FA3B92231C9 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CB0AA74E44CA45418F514696 /* CDVNotification.bundle */; };
+		38FC6FA187E548A19F5893F4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171FB742E3B34ACCBD6CEADB /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +91,10 @@
 		3D3A60A44B484462863CB5BF /* ImageIO.framework */ = {isa = PBXFileReference; name = "ImageIO.framework"; path = "System/Library/Frameworks/ImageIO.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		57CE095530A34C89AF672A70 /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		6FA1EA3A486B4280A2850C5E /* AVFoundation.framework */ = {isa = PBXFileReference; name = "AVFoundation.framework"; path = "System/Library/Frameworks/AVFoundation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		0D66D81C149A4E51A77EDC42 /* CDVNotification.m */ = {isa = PBXFileReference; name = "CDVNotification.m"; path = "cordova-plugin-dialogs/CDVNotification.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		4DA614F08C344B828F8028C8 /* CDVNotification.h */ = {isa = PBXFileReference; name = "CDVNotification.h"; path = "cordova-plugin-dialogs/CDVNotification.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		CB0AA74E44CA45418F514696 /* CDVNotification.bundle */ = {isa = PBXFileReference; name = "CDVNotification.bundle"; path = "CDVNotification.bundle"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.plug-in; explicitFileType = undefined; includeInIndex = 0; };
+		171FB742E3B34ACCBD6CEADB /* AudioToolbox.framework */ = {isa = PBXFileReference; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +106,7 @@
 				BBC78BF1C18A4543A247E3EA /* ImageIO.framework in Frameworks */,
 				6E647E75353A4AD6A1FB107D /* CoreLocation.framework in Frameworks */,
 				EC540311B772436C99422B29 /* AVFoundation.framework in Frameworks */,
+				38FC6FA187E548A19F5893F4 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +168,7 @@
 				0207DA571B56EA530066E2B4 /* Images.xcassets */,
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* POS-Info.plist */,
+				CB0AA74E44CA45418F514696 /* CDVNotification.bundle */,
 			);
 			name = Resources;
 			path = POS/Resources;
@@ -171,6 +180,7 @@
 				3D3A60A44B484462863CB5BF /* ImageIO.framework */,
 				57CE095530A34C89AF672A70 /* CoreLocation.framework */,
 				6FA1EA3A486B4280A2850C5E /* AVFoundation.framework */,
+				171FB742E3B34ACCBD6CEADB /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -215,6 +225,8 @@
 				D3265E1DDA1F46C4B9344FB5 /* CDVCamera.h */,
 				A00327197C814D81AE6DE528 /* CDVJpegHeaderWriter.h */,
 				94611BC941D345CA8C958DDF /* CDVExif.h */,
+				0D66D81C149A4E51A77EDC42 /* CDVNotification.m */,
+				4DA614F08C344B828F8028C8 /* CDVNotification.h */,
 			);
 			name = Plugins;
 			path = POS/Plugins;
@@ -306,6 +318,7 @@
 				3047A5141AB8059700498E2A /* build.xcconfig in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				3047A5121AB8059700498E2A /* build-debug.xcconfig in Resources */,
+				FAAD48CB7DF44FA3B92231C9 /* CDVNotification.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +359,7 @@
 				6F77381C153440CDA277342C /* UIImage+CropScaleOrientation.m in Sources */,
 				735B1327DAE3415CB4DB98A1 /* CDVCamera.m in Sources */,
 				9A21D737E4504B289D8EF35C /* CDVJpegHeaderWriter.m in Sources */,
+				27A897D3AC1A4E50ABB09AB8 /* CDVNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

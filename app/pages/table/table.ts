@@ -40,7 +40,7 @@ export class TablePage {
       // }
       this.tables.forEach(element => {
         console.log(element);
-        this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/' + this.paid).map(res => {
+        this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table).map(res => {
 
           return res.json();
 

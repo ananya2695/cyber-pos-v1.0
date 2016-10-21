@@ -18,15 +18,17 @@
       <ion-col width-50>
         <ion-item>
           <ion-label floating>ชื่อ</ion-label>
-          <ion-input type="text" [(ngModel)]="user_firstname"></ion-input>
+          <ion-input type="text" [(ngModel)]="user_firstname" required></ion-input>
         </ion-item>
       </ion-col>
 
       <ion-col width-50>
         <ion-item>
           <ion-label floating>นามสกุล</ion-label>
-          <ion-input type="text" [(ngModel)]="user_lastname"></ion-input>
+          <ion-input type="text" [(ngModel)]="user_lastname" required></ion-input>
+
         </ion-item>
+       
       </ion-col>
 
 
@@ -36,14 +38,14 @@
       <ion-col width-50>
         <ion-item>
           <ion-label floating>รหัสพนักงาน</ion-label>
-          <ion-input type="text" [(ngModel)]="user_id"></ion-input>
+          <ion-input type="text" [(ngModel)]="user_id" required></ion-input>
         </ion-item>
       </ion-col>
 
       <ion-col width-50>
         <ion-item>
           <ion-label floating>ตำแหน่ง</ion-label>
-          <ion-input type="text" [(ngModel)]="position"></ion-input>
+          <ion-input type="text" [(ngModel)]="position" required></ion-input>
         </ion-item>
       </ion-col>
 
@@ -54,17 +56,17 @@
 
     <ion-item>
       <ion-label floating>ชื่อผู้ใช้</ion-label>
-      <ion-input type="text" [(ngModel)]="user_name"></ion-input>
+      <ion-input type="text" [(ngModel)]="user_name" required></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>รหัสผ่าน</ion-label>
-      <ion-input type="password" [(ngModel)]="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="password" required></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>ยืนยันรหัสผ่าน</ion-label>
-      <ion-input type="password" [(ngModel)]="confirmpassword"></ion-input>
+      <ion-input type="password" [(ngModel)]="confirmpassword" required></ion-input>
     </ion-item>
 
 
@@ -75,8 +77,13 @@
 
 
   </ion-list>
-  <ion-row>
+  <ion-row *ngIf=" user_name && user_id && position && user_firstname && user_lastname && password && confirmpassword ">
     <button block ion-button (click)="regisSuccess(user_name,user_id,position,user_firstname,user_lastname,password,confirmpassword)">OK </button>
   </ion-row>
+
+  <ion-row *ngIf=" !user_name || !user_id || !position || !user_firstname || !user_lastname || !password || !confirmpassword ">
+    <button block ion-button color="light"><p style="color: #c4c4c4;">OK </p></button>
+  </ion-row>
+
 
 </ion-content>

@@ -82,10 +82,11 @@ var HomePage = (function () {
             _this.items = data;
         });
     }
-    HomePage.prototype.addNewPersonal = function (newPersonalName) {
-        var newPersonalObject = { name: newPersonalName };
-        this.items.push(newPersonalObject);
-    };
+    // addNewPersonal(newPersonalName) {
+    //   let newPersonalObject = { name: newPersonalName };
+    //   this.items.push(newPersonalObject);
+    //   console.log(this.items);
+    // }
     HomePage.prototype.onPop = function () {
         this.navCtrl.pop();
     };
@@ -97,13 +98,26 @@ var HomePage = (function () {
         var _this = this;
         var modal = this.modalCtrl.create(RegisterPage1);
         modal.onDidDismiss(function (data) {
-            _this.items.push(data);
+            if (data) {
+                _this.items.push(data);
+            }
         });
         modal.present();
+        console.log(this.items);
     };
     HomePage.prototype.openSetting = function () {
-        var modal = this.modalCtrl.create(SettingUser, { 'items': this.items });
-        modal.present();
+        var _this = this;
+        this.http.get('https://cyber-pos.herokuapp.com/users').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.log('Data object in subscribe method:');
+            console.dir(data);
+            _this.items = data;
+            console.log(_this.items);
+            var modal = _this.modalCtrl.create(SettingUser, { 'items': _this.items });
+            modal.present();
+            console.log(_this.items);
+        });
     };
     HomePage = __decorate([
         core_1.Component({
@@ -139,9 +153,11 @@ var RegisterPage1 = (function () {
     RegisterPage1.prototype.regisSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
         var _this = this;
         //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
-        var body = { 'user_name': user_name, 'user_id': user_id, 'position': position,
+        var body = {
+            'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
-            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png"
+        };
         this.viewController.dismiss(body);
         console.dir(body);
         this.http.post('https://cyber-pos.herokuapp.com/users', body).map(function (res) {
@@ -151,8 +167,9 @@ var RegisterPage1 = (function () {
         }).subscribe(function (data) {
             // console.log('Data object in subscribe method:');
             console.dir(data);
-            _this.returnMessage = data.message;
-            console.log(_this.returnMessage);
+            console.log(data._id);
+            _this.item = data;
+            // location.reload();
         });
     };
     RegisterPage1 = __decorate([
@@ -188,9 +205,11 @@ var EditUser = (function () {
     }
     EditUser.prototype.editSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
         var _this = this;
-        var body = { '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
+        var body = {
+            '_id': this._id, 'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
-            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png" };
+            'password': password, 'confirmpassword': confirmpassword, "img_user": "http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/she-user-icon.png"
+        };
         console.log(body);
         this.viewController.dismiss(body);
         console.dir(body);
@@ -290,10 +309,11 @@ require('rxjs/add/operator/map');
   Ionic pages and navigation.
 */
 var PaymentPage = (function () {
-    function PaymentPage(navCtrl, navParam, http) {
+    function PaymentPage(navCtrl, navParam, http, modalCtrl) {
         this.navCtrl = navCtrl;
         this.navParam = navParam;
         this.http = http;
+        this.modalCtrl = modalCtrl;
         this.returnMessage = "";
         this.totalprice = 0.00;
         this.cash = 0.00;
@@ -330,6 +350,10 @@ var PaymentPage = (function () {
         }
         console.log(this.orders.order);
         this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
+    };
+    PaymentPage.prototype.ConfirmOr = function () {
+        var modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+        modal.present();
     };
     PaymentPage.prototype.Cnine = function () {
         this.nine = 9;
@@ -475,11 +499,45 @@ var PaymentPage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/payment/payment.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams, http_1.Http])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams, http_1.Http, ionic_angular_1.ModalController])
     ], PaymentPage);
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
+var CancelOrder = (function () {
+    function CancelOrder(navParams, navCtrl, modalCtrl, viewController, http) {
+        this.navParams = navParams;
+        this.navCtrl = navCtrl;
+        this.modalCtrl = modalCtrl;
+        this.viewController = viewController;
+        this.http = http;
+        this.returnMsg = "";
+        this.orders = navParams.get('orders');
+        console.log(this.orders);
+    }
+    CancelOrder.prototype.cnOr = function () {
+        this.viewController.dismiss();
+    };
+    CancelOrder.prototype.cnOk = function () {
+        if (this.orders.order._id) {
+            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                console.dir(data);
+            });
+        }
+        console.log(this.orders.order);
+        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
+    };
+    CancelOrder = __decorate([
+        core_1.Component({
+            templateUrl: 'build/pages/payment/cnOrder-modal.html',
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
+    ], CancelOrder);
+    return CancelOrder;
+}());
+exports.CancelOrder = CancelOrder;
 
 },{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
 "use strict";
@@ -499,11 +557,12 @@ var table_1 = require('../table/table');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 var ProductSellPage = (function () {
-    function ProductSellPage(navCtrl, http, navParam) {
+    function ProductSellPage(navCtrl, http, navParam, modalCtrl) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.http = http;
         this.navParam = navParam;
+        this.modalCtrl = modalCtrl;
         this.returnMessage = "";
         this.fillterCate = [];
         this.fillterOrder = [];
@@ -610,6 +669,10 @@ var ProductSellPage = (function () {
         //this.navCtrl.push(TablePage);
         //localStorage.setItem('totalprice',this.totalprice);
         if (!this.orders.order._id) {
+            this.orders.order.list_order.forEach(function (element) {
+                element.totalprice = element.piece * element.price;
+                console.log(element.totalprice);
+            });
             var product = this.orders.order.list_order;
             console.log(product);
             var body = {
@@ -631,6 +694,10 @@ var ProductSellPage = (function () {
             });
         }
         else if (this.orders.order._id) {
+            this.orders.order.list_order.forEach(function (element) {
+                element.totalprice = element.piece * element.price;
+                console.log(element.totalprice);
+            });
             var product = this.orders.order.list_order;
             console.log(product);
             var body = {
@@ -754,15 +821,53 @@ var ProductSellPage = (function () {
         }
         console.log(this.box);
     };
+    ProductSellPage.prototype.ConfirmOr = function () {
+        var modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+        modal.present();
+    };
     ProductSellPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/productSell/productSell.html'
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams, ionic_angular_1.ModalController])
     ], ProductSellPage);
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
+var CancelOrder = (function () {
+    function CancelOrder(navParams, navCtrl, modalCtrl, viewController, http) {
+        this.navParams = navParams;
+        this.navCtrl = navCtrl;
+        this.modalCtrl = modalCtrl;
+        this.viewController = viewController;
+        this.http = http;
+        this.returnMsg = "";
+        this.orders = navParams.get('orders');
+        console.log(this.orders);
+    }
+    CancelOrder.prototype.cnOr = function () {
+        this.viewController.dismiss();
+    };
+    CancelOrder.prototype.cnOk = function () {
+        if (this.orders.order._id) {
+            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                console.dir(data);
+            });
+        }
+        console.log(this.orders.order);
+        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
+    };
+    CancelOrder = __decorate([
+        core_1.Component({
+            templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
+    ], CancelOrder);
+    return CancelOrder;
+}());
+exports.CancelOrder = CancelOrder;
 
 },{"../payment/payment":3,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
@@ -812,7 +917,7 @@ var TablePage = (function () {
             // }
             _this.tables.forEach(function (element) {
                 console.log(element);
-                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table + '/' + _this.paid).map(function (res) {
+                _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     // console.log('Data object in subscribe method:');
