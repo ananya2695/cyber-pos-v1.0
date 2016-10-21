@@ -157,7 +157,6 @@ export class PaymentPage {
     console.log(this.cash);
   }
   printSlip() {
-    console.log(this.orders);
 
     if (!this.orders.order._id) {
       console.log(this.orders.order._id);
@@ -184,7 +183,6 @@ export class PaymentPage {
         console.dir(data);
         this.returnMessage = data.message;
         console.log(this.returnMessage);
-
       });
     } else if(this.orders.order._id) {
       console.log(this.orders.order._id);
@@ -211,7 +209,7 @@ export class PaymentPage {
         console.dir(data);
         this.returnMessage = data.message;
         console.log(this.returnMessage);
-
+      
       });
     }
 
