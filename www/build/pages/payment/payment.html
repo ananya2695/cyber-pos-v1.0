@@ -235,7 +235,12 @@
  
   </ion-col>
   <ion-col width-50 style="margin-left:-9px;">
-<button block large  (click)="printSlip()" >พิมพ์ใบเสร็จ</button>
+    <ion-row  *ngIf="cash - orders.order.totalPrice >= 0">
+      <button block large  (click)="printSlip()" >พิมพ์ใบเสร็จ</button>
+    </ion-row>
+   <ion-row *ngIf="cash - orders.order.totalPrice < 0">
+       <button  block large ion-button color="light"><p style="color: #c4c4c4;font-size:20px;">พิมพ์ใบเสร็จ</p></button>
+    </ion-row>
   </ion-col>
 
   <ion-col width-25 style="margin-left:-9px;">

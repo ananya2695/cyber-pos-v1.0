@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Sirintra\Desktop\POSv2\cyber-pos-v1.0\platforms\android\build\intermediates\exploded-aar\android\CordovaLib\unspecified\release\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="a46c035194dd52782a51fe0d67ec9cdde8bd9149">
+        <dex dex="C:\Users\Sirintra\Desktop\POSv2\cyber-pos-v1.0\platforms\android\build\intermediates\pre-dexed\release\CordovaLib-unspecified-release_8a9f74d3d3720db0fd7b56e6d7022744b85a4394.jar" />
+    </item>
+
+</items>

@@ -1,0 +1,49 @@
+<ion-header>
+ <ion-navbar>
+  <ion-title>
+    Log In
+  </ion-title>
+  <ion-buttons end (click)="openSetting()">
+    <button>
+      <ion-icon name="settings"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class=" grid-full">
+    <ion-item>
+    
+        <ion-row >
+          <ion-col *ngFor="let item of items" (click)="tablePage()">
+            <ion-card>
+              <ion-item style="background-color:#515151;">
+               
+                  <h1 style="color:white;">{{item.user_name}} {{item.id_user}}</h1>
+                
+                  <label style="color:white;">{{item.position}}</label>
+                
+                  <img src="{{item.img}}"  class="picHome" align="right">
+               
+              </ion-item>
+            </ion-card>
+          </ion-col>
+          
+          <ion-col (click)="registerPage()">
+            <ion-card>
+              <ion-item style="background-color:#515151;">
+               
+                  <h1 style="color:white;">ADD PERSONAL</h1>
+                
+                  <img src="image/add.jpg" style="width:37.5%;" align="right">
+                
+              </ion-item>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        
+     
+    </ion-item>
+  </ion-card>
+</ion-content>
