@@ -298,10 +298,15 @@
 
             </ion-slides>
           </ion-row>
+          <ion_row *ngIf="orders.order.totalPrice != 0">
+             <button block (click)="ConfirmOr()" ion-button color="danger" style="margin-top:-10px;margin-bottom:-5px;">ยกเลิก</button>
+          
+          </ion_row>
 
-
-          <button block (click)="ConfirmOr()" ion-button color="danger" style="margin-top:-10px;margin-bottom:-5px">ยกเลิก</button>
-          <!--<button block (click)="PaymentPage()">ชำระเงิน</button>-->
+           <ion_row *ngIf="orders.order.totalPrice == 0">
+             <button block ion-button color="light" style="margin-top:-10px;margin-bottom:-5px;"><p style="color:#c4c4c4;">ยกเลิก</p></button>
+          
+          </ion_row>
 
 
 
