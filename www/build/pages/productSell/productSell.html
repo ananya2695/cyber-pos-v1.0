@@ -43,7 +43,7 @@
           <ion-row>
             <ion-col width-25>
               <ion-item>
-                <ion-label>รายการ</ion-label>
+                <ion-label>&nbsp; &nbsp; รายการ</ion-label>
 
               </ion-item>
             </ion-col>
@@ -53,8 +53,8 @@
 
             </ion-col>
             <ion-col width-25>
-              <ion-item>
-                <ion-label>ราคา</ion-label>
+              <ion-item style="text-align:right;">
+                <ion-label>ราคา &nbsp; &nbsp;</ion-label>
 
               </ion-item>
             </ion-col>
@@ -90,13 +90,13 @@
               <ion-item-sliding *ngFor="let item of orders.order.list_order">
                 <ion-item>
                   <ion-row>
-                  <ion-col width-25 >
+                  <ion-col width-25 style="text-align:left;">
                     <label>{{item.namePro}}</label>
                   </ion-col>
                   <ion-col width-50 style="text-align:center;">
                     <label >{{item.piece}}</label>
                   </ion-col>
-                  <ion-col width-25>
+                  <ion-col width-25 style="text-align:right;">
                     <label>{{item.piece * item.price}}</label>
                   </ion-col>
                   </ion-row>
