@@ -309,11 +309,12 @@ require('rxjs/add/operator/map');
   Ionic pages and navigation.
 */
 var PaymentPage = (function () {
-    function PaymentPage(navCtrl, navParam, http, modalCtrl) {
+    function PaymentPage(navCtrl, navParam, http, modalCtrl, alertCtrl) {
         this.navCtrl = navCtrl;
         this.navParam = navParam;
         this.http = http;
         this.modalCtrl = modalCtrl;
+        this.alertCtrl = alertCtrl;
         this.returnMessage = "";
         this.totalprice = 0.00;
         this.cash = 0.00;
@@ -352,8 +353,35 @@ var PaymentPage = (function () {
         this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
     };
     PaymentPage.prototype.ConfirmOr = function () {
-        var modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
-        modal.present();
+        var _this = this;
+        // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+        // modal.present();
+        var confirm = this.alertCtrl.create({
+            title: 'แจ้งเตือน',
+            message: "\u0E04\u0E38\u0E13\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E25\u0E1A\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14\u0E43\u0E0A\u0E48\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48",
+            buttons: [
+                {
+                    text: 'ยกเลิก',
+                    handler: function () {
+                    }
+                },
+                {
+                    text: 'ตกลง',
+                    handler: function () {
+                        if (_this.orders.order._id) {
+                            _this.http.delete('https://cyber-pos.herokuapp.com/orders/' + _this.orders.order._id).map(function (res) {
+                                return res.json();
+                            }).subscribe(function (data) {
+                                console.dir(data);
+                            });
+                        }
+                        console.log(_this.orders.order);
+                        _this.navCtrl.push(table_1.TablePage, { 'user_name': _this.orders.order.user_name });
+                    }
+                }
+            ]
+        });
+        confirm.present();
     };
     PaymentPage.prototype.Cnine = function () {
         this.nine = 9;
@@ -498,45 +526,37 @@ var PaymentPage = (function () {
         core_1.Component({
             templateUrl: 'build/pages/payment/payment.html',
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams, http_1.Http, ionic_angular_1.ModalController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_1.NavParams, http_1.Http, ionic_angular_1.ModalController, ionic_angular_1.AlertController])
     ], PaymentPage);
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
-var CancelOrder = (function () {
-    function CancelOrder(navParams, navCtrl, modalCtrl, viewController, http) {
-        this.navParams = navParams;
-        this.navCtrl = navCtrl;
-        this.modalCtrl = modalCtrl;
-        this.viewController = viewController;
-        this.http = http;
-        this.returnMsg = "";
-        this.orders = navParams.get('orders');
-        console.log(this.orders);
-    }
-    CancelOrder.prototype.cnOr = function () {
-        this.viewController.dismiss();
-    };
-    CancelOrder.prototype.cnOk = function () {
-        if (this.orders.order._id) {
-            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
-                return res.json();
-            }).subscribe(function (data) {
-                console.dir(data);
-            });
-        }
-        console.log(this.orders.order);
-        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
-    };
-    CancelOrder = __decorate([
-        core_1.Component({
-            templateUrl: 'build/pages/payment/cnOrder-modal.html',
-        }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
-    ], CancelOrder);
-    return CancelOrder;
-}());
-exports.CancelOrder = CancelOrder;
+// @Component({
+//   templateUrl: 'build/pages/payment/cnOrder-modal.html',
+// })
+// export class CancelOrder {
+//   returnMsg = "";
+//   orders: any;
+//   constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
+//     public viewController: ViewController, public http: Http) {
+//     this.orders = navParams.get('orders');
+//     console.log(this.orders);
+//   }
+//   cnOr() {
+//     this.viewController.dismiss();
+//   }
+//   cnOk() {
+//     if (this.orders.order._id) {
+//       this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+//         return res.json();
+//       }).subscribe(data => {
+//         console.dir(data);
+//       });
+//     }
+//     console.log(this.orders.order);
+//     this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+//   }
+// } 
 },{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -555,12 +575,13 @@ var table_1 = require('../table/table');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 var ProductSellPage = (function () {
-    function ProductSellPage(navCtrl, http, navParam, modalCtrl) {
+    function ProductSellPage(navCtrl, http, navParam, modalCtrl, alertCtrl) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.http = http;
         this.navParam = navParam;
         this.modalCtrl = modalCtrl;
+        this.alertCtrl = alertCtrl;
         this.returnMessage = "";
         this.fillterCate = [];
         this.fillterOrder = [];
@@ -849,52 +870,71 @@ var ProductSellPage = (function () {
         console.log(this.box);
     };
     ProductSellPage.prototype.ConfirmOr = function () {
-        var modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
-        modal.present();
+        var _this = this;
+        // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+        // modal.present();
+        var confirm = this.alertCtrl.create({
+            title: 'แจ้งเตือน',
+            message: "\u0E04\u0E38\u0E13\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E25\u0E1A\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14\u0E43\u0E0A\u0E48\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48",
+            buttons: [
+                {
+                    text: 'ยกเลิก',
+                    handler: function () {
+                    }
+                },
+                {
+                    text: 'ตกลง',
+                    handler: function () {
+                        if (_this.orders.order._id) {
+                            _this.http.delete('https://cyber-pos.herokuapp.com/orders/' + _this.orders.order._id).map(function (res) {
+                                return res.json();
+                            }).subscribe(function (data) {
+                                console.dir(data);
+                            });
+                        }
+                        console.log(_this.orders.order);
+                        _this.navCtrl.push(table_1.TablePage, { 'user_name': _this.orders.order.user_name });
+                    }
+                }
+            ]
+        });
+        confirm.present();
     };
     ProductSellPage = __decorate([
         core_1.Component({
             templateUrl: 'build/pages/productSell/productSell.html'
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams, ionic_angular_1.ModalController])
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, http_1.Http, ionic_angular_1.NavParams, ionic_angular_1.ModalController, ionic_angular_1.AlertController])
     ], ProductSellPage);
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-var CancelOrder = (function () {
-    function CancelOrder(navParams, navCtrl, modalCtrl, viewController, http) {
-        this.navParams = navParams;
-        this.navCtrl = navCtrl;
-        this.modalCtrl = modalCtrl;
-        this.viewController = viewController;
-        this.http = http;
-        this.returnMsg = "";
-        this.orders = navParams.get('orders');
-        console.log(this.orders);
-    }
-    CancelOrder.prototype.cnOr = function () {
-        this.viewController.dismiss();
-    };
-    CancelOrder.prototype.cnOk = function () {
-        if (this.orders.order._id) {
-            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
-                return res.json();
-            }).subscribe(function (data) {
-                console.dir(data);
-            });
-        }
-        console.log(this.orders.order);
-        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
-    };
-    CancelOrder = __decorate([
-        core_1.Component({
-            templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
-        }), 
-        __metadata('design:paramtypes', [ionic_angular_1.NavParams, ionic_angular_1.NavController, ionic_angular_1.ModalController, ionic_angular_1.ViewController, http_1.Http])
-    ], CancelOrder);
-    return CancelOrder;
-}());
-exports.CancelOrder = CancelOrder;
+// @Component({
+//   templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
+// })
+// export class CancelOrder {
+//   returnMsg = "";
+//   orders: any;
+//   constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
+//     public viewController: ViewController, public http: Http) {
+//     this.orders = navParams.get('orders');
+//     console.log(this.orders);
+//   }
+//   cnOr() {
+//     this.viewController.dismiss();
+//   }
+//   cnOk() {
+//     if (this.orders.order._id) {
+//       this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+//         return res.json();
+//       }).subscribe(data => {
+//         console.dir(data);
+//       });
+//     }
+//     console.log(this.orders.order);
+//     this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+//   }
+// } 
 },{"../payment/payment":3,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams , ModalController, ViewController} from 'ionic-angular';
+import { NavController, NavParams , ModalController, ViewController,AlertController} from 'ionic-angular';
 import { ProductSellPage }  from'../productSell/productSell';
 import { TablePage } from '../table/table';
 import { HomePage } from '../home/home';
@@ -33,7 +33,8 @@ export class PaymentPage {
   one: any = "";
   zero: any = "";
   zeroTwo: any = "";
-  constructor(private navCtrl: NavController, public navParam: NavParams, public http: Http , public modalCtrl: ModalController) {
+  constructor(private navCtrl: NavController, public navParam: NavParams, 
+  public http: Http , public modalCtrl: ModalController , public alertCtrl: AlertController ) {
     this.orders = navParam.get("orders");
     this.totalprice = navParam.get("totalprice");
     //this.change = this.cash - this.orders.order.totalPrice;
@@ -62,8 +63,41 @@ export class PaymentPage {
     this.navCtrl.push(TablePage,{'user_name':this.orders.order.user_name});
   }
    ConfirmOr() {
-    let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
-    modal.present();
+    // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+    // modal.present();
+      let confirm = this.alertCtrl.create({
+      title: 'แจ้งเตือน',
+      message: `คุณต้องการลบสินค้าทั้งหมดใช่หรือไม่`,
+      buttons: [
+        {
+          text: 'ยกเลิก',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'ตกลง',
+          handler: () => {
+            if (this.orders.order._id) {
+              this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+
+                return res.json();
+
+              }).subscribe(data => {
+                console.dir(data);
+
+              });
+
+            }
+
+            console.log(this.orders.order);
+            this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 
@@ -218,35 +252,35 @@ export class PaymentPage {
   }
 }
 
-@Component({
-  templateUrl: 'build/pages/payment/cnOrder-modal.html',
-})
-export class CancelOrder {
-  returnMsg = "";
-  orders: any;
-  constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
-    public viewController: ViewController, public http: Http) {
-    this.orders = navParams.get('orders');
-    console.log(this.orders);
-  }
-  cnOr() {
-    this.viewController.dismiss();
-  }
-  cnOk() {
-    if (this.orders.order._id) {
-      this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+// @Component({
+//   templateUrl: 'build/pages/payment/cnOrder-modal.html',
+// })
+// export class CancelOrder {
+//   returnMsg = "";
+//   orders: any;
+//   constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
+//     public viewController: ViewController, public http: Http) {
+//     this.orders = navParams.get('orders');
+//     console.log(this.orders);
+//   }
+//   cnOr() {
+//     this.viewController.dismiss();
+//   }
+//   cnOk() {
+//     if (this.orders.order._id) {
+//       this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
 
-        return res.json();
+//         return res.json();
 
-      }).subscribe(data => {
-        console.dir(data);
+//       }).subscribe(data => {
+//         console.dir(data);
 
-      });
+//       });
      
-    }
+//     }
 
-    console.log(this.orders.order);
-    this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
-  }
+//     console.log(this.orders.order);
+//     this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+//   }
 
-}
+// }
