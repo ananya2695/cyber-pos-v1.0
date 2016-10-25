@@ -133,7 +133,7 @@
 
 
 
-          <ion-row style="margin-top:20px;">
+          <ion-row style="margin-bottom:30px;">
             <ion-col width-33>
               <button block (click)="TablePage()">พักการขาย</button>
 
@@ -153,7 +153,7 @@
           </ion-row>
           <ion-row>
 
-            <ion-slides pager [options]="mySlideOptions" style="height:400px; margin-top:-40px;">
+            <ion-slides pager [options]="mySlideOptions" style="height:350px; margin-top:-40px;">
               <ion-slide *ngFor="let page of box">
                 <ion-row style="height: 100%;padding: 0; flex-wrap: wrap;">
                   <ion-col style="flex: 0 0 48%;  max-width: 48%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of page.basket"
@@ -300,7 +300,7 @@
           </ion-row>
 
 
-          <button block (click)="ConfirmOr()" ion-button color="danger" style="margin-top:-10px;">ยกเลิก</button>
+          <button block (click)="ConfirmOr()" ion-button color="danger" style="margin-top:0px;">ยกเลิก</button>
           <!--<button block (click)="PaymentPage()">ชำระเงิน</button>-->
 
 
