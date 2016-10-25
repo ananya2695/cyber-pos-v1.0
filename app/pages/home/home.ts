@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import {Camera} from 'ionic-native';
 import { NavController, ModalController, ViewController, NavParams} from 'ionic-angular';
-import { RegisterPage } from '../register/register';
 import { TablePage } from '../table/table';
-import { SettingPage } from '../setting/setting';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -19,19 +17,8 @@ import 'rxjs/add/operator/map';
 })
 export class HomePage {
   items = [];
-  // items: any = [
-  //   { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
-  //   { id_user: "#CS02", user_name: "Sirintra", firstname : "Sirintra",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/andrew.jpg" },
-  //   { id_user: "#CS03", user_name: "Orapan", firstname : "Orapan",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/carl.jpg" },
-  //   { id_user: "#CS04", user_name: "Nipaporn",firstname : "Nipaporn",lastname:"Thogthai",password:"123456",repassword:"123456" , position: "Cashier", img: "image/garry.jpg" },
-  //   { id_user: "#CS05", user_name: "Nucha", firstname : "Nucha",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/james.jpg" },
-  //   { id_user: "#CS06", user_name: "Satida", firstname : "Satida",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/joyce.jpg" },
-  //   { id_user: "#MN01", user_name: "Theerasak", firstname : "Theerasak",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Manager", img: "image/vincent.jpg" },
-  // ]
   constructor(private navCtrl: NavController, public modalCtrl: ModalController,
     public viewController: ViewController, public http: Http) {
-
-
     this.http.get('https://cyber-pos.herokuapp.com/users').map(res => {
 
       return res.json();
@@ -43,16 +30,8 @@ export class HomePage {
       this.items = data;
 
     });
-
   }
 
-
-
-  // addNewPersonal(newPersonalName) {
-  //   let newPersonalObject = { name: newPersonalName };
-  //   this.items.push(newPersonalObject);
-  //   console.log(this.items);
-  // }
   onPop() {
     this.navCtrl.pop();
   }
@@ -61,23 +40,17 @@ export class HomePage {
     console.log(item.user_name);
   }
   registerPage() {
-
-
     let modal = this.modalCtrl.create(RegisterPage1);
     modal.onDidDismiss(data => {
       if (data) {
         this.items.push(data);
       }
-
     });
     modal.present();
     console.log(this.items);
   }
 
-
   openSetting() {
-
-
     this.http.get('https://cyber-pos.herokuapp.com/users').map(res => {
 
       return res.json();
@@ -90,14 +63,11 @@ export class HomePage {
       console.log(this.items);
       let modal = this.modalCtrl.create(SettingUser, { 'items': this.items });
 
-
       modal.present();
       console.log(this.items);
     });
-
   }
 }
-
 
 @Component({
   templateUrl: 'build/pages/home/register-modal.html',
@@ -106,10 +76,8 @@ export class RegisterPage1 {
   public base64Image: string;
   returnMessage = "";
   item: any[];
-
   constructor(private navCtrl: NavController, public modalCtrl: ModalController,
     public viewController: ViewController, public http: Http) {
-
   }
   takePicture() {
     Camera.getPicture({
@@ -125,7 +93,6 @@ export class RegisterPage1 {
     });
   }
   regisSuccess(user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
-    //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
     let body = {
       'user_name': user_name, 'user_id': user_id, 'position': position,
       'user_firstname': user_firstname, 'user_lastname': user_lastname,
@@ -135,22 +102,14 @@ export class RegisterPage1 {
     console.dir(body);
 
     this.http.post('https://cyber-pos.herokuapp.com/users', body).map(res => {
-
-      // console.log('Result in mapping method:');
-      // console.dir(res);
       return res.json();
 
     }).subscribe(data => {
-
-      // console.log('Data object in subscribe method:');
       console.dir(data);
       console.log(data._id);
       this.item = data;
-      // location.reload();
     });
   }
-
-
 }
 
 @Component({
@@ -196,20 +155,14 @@ export class EditUser {
 
     this.http.put('https://cyber-pos.herokuapp.com/users/' + this._id, body).map(res => {
 
-      // console.log('Result in mapping method:');
-      // console.dir(res);
       return res.json();
 
     }).subscribe(data => {
 
-      // console.log('Data object in subscribe method:');
-      console.dir(data);
       this.returnMsg = data.message;
 
     });
   }
-
-
 }
 
 @Component({
@@ -236,7 +189,6 @@ export class SettingUser {
           }
         }
       }
-
     });
     modal.present();
   }
@@ -245,14 +197,10 @@ export class SettingUser {
 
     this.http.delete('https://cyber-pos.herokuapp.com/users/' + item._id).map(res => {
 
-      // console.log('Result in mapping method:');
-      // console.dir(res);
       return res.json();
 
     }).subscribe(data => {
 
-      // console.log('Data object in subscribe method:');
-      console.dir(data);
       this.returnMsg = data.message;
 
     });
@@ -263,5 +211,4 @@ export class SettingUser {
       }
     }
   }
-
 }

@@ -5,26 +5,24 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <ion-title>Table List</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
   <ion-card>
     <ion-item>
       <ion-grid>
         <ion-row style="padding: 0; flex-wrap: wrap;">
-          <ion-col style="flex: 0 0 24%;  max-width: 24%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of fillterTable" (click)="ProductSellPage(item)">
+          <ion-col style="flex: 0 0 24%;  max-width: 24%; text-align: center; padding: 0; margin-left:8px;" *ngFor="let item of fillterTable"
+            (click)="ProductSellPage(item)">
             <ion-card *ngIf="item.order">
               <ion-item>
                 <ion-row>
                   <label>{{item.name_table}}</label>
                 </ion-row>
-                <ion-row >
+                <ion-row>
                   <ion-col width-50>
                     <label> เลขที่</label>
                   </ion-col>
@@ -61,7 +59,7 @@
                     <label>User</label>
                   </ion-col>
                   <ion-col width-50 align="right">
-                     <label>{{item.order.user_name}}</label>
+                    <label>{{item.order.user_name}}</label>
                   </ion-col>
                 </ion-row>
               </ion-item>
@@ -71,7 +69,7 @@
                 <ion-row>
                   <label>{{item.name_table}}</label>
                 </ion-row>
-                <ion-row >
+                <ion-row>
                   <ion-col width-50>
                     <label> เลขที่</label>
                   </ion-col>
@@ -108,16 +106,14 @@
                     <label>User</label>
                   </ion-col>
                   <ion-col width-50>
-                   
+
                   </ion-col>
                 </ion-row>
               </ion-item>
             </ion-card>
           </ion-col>
         </ion-row>
-        
       </ion-grid>
     </ion-item>
   </ion-card>
-
 </ion-content>

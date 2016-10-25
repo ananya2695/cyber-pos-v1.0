@@ -5,11 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <ion-title>Register</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content padding>
@@ -26,12 +24,8 @@
         <ion-item>
           <ion-label floating>นามสกุล</ion-label>
           <ion-input type="text" [(ngModel)]="user_lastname" required></ion-input>
-
         </ion-item>
-       
       </ion-col>
-
-
     </ion-row>
 
     <ion-row>
@@ -48,11 +42,7 @@
           <ion-input type="text" [(ngModel)]="position" required></ion-input>
         </ion-item>
       </ion-col>
-
-
     </ion-row>
-
-
 
     <ion-item>
       <ion-label floating>ชื่อผู้ใช้</ion-label>
@@ -69,13 +59,6 @@
       <ion-input type="password" [(ngModel)]="confirmpassword" required></ion-input>
     </ion-item>
 
-
-    <!--<button block (click)="takePicture()">Upload Image</button>
-
-    <img [src]="base64Image" *ngIf="base64Image" />-->
-
-
-
   </ion-list>
   <ion-row *ngIf=" user_name && user_id && position && user_firstname && user_lastname && password && confirmpassword ">
     <button block ion-button (click)="regisSuccess(user_name,user_id,position,user_firstname,user_lastname,password,confirmpassword)">OK </button>
@@ -84,6 +67,5 @@
   <ion-row *ngIf=" !user_name || !user_id || !position || !user_firstname || !user_lastname || !password || !confirmpassword ">
     <button block ion-button color="light"><p style="color: #c4c4c4;">OK </p></button>
   </ion-row>
-
 
 </ion-content>

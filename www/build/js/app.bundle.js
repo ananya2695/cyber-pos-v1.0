@@ -57,15 +57,6 @@ require('rxjs/add/operator/map');
   Ionic pages and navigation.
 */
 var HomePage = (function () {
-    // items: any = [
-    //   { id_user: "#CS01", user_name: "Ananya",firstname : "Ananya",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/alice.jpg" },
-    //   { id_user: "#CS02", user_name: "Sirintra", firstname : "Sirintra",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/andrew.jpg" },
-    //   { id_user: "#CS03", user_name: "Orapan", firstname : "Orapan",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/carl.jpg" },
-    //   { id_user: "#CS04", user_name: "Nipaporn",firstname : "Nipaporn",lastname:"Thogthai",password:"123456",repassword:"123456" , position: "Cashier", img: "image/garry.jpg" },
-    //   { id_user: "#CS05", user_name: "Nucha", firstname : "Nucha",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/james.jpg" },
-    //   { id_user: "#CS06", user_name: "Satida", firstname : "Satida",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Cashier", img: "image/joyce.jpg" },
-    //   { id_user: "#MN01", user_name: "Theerasak", firstname : "Theerasak",lastname:"Thogthai",password:"123456",repassword:"123456" ,position: "Manager", img: "image/vincent.jpg" },
-    // ]
     function HomePage(navCtrl, modalCtrl, viewController, http) {
         var _this = this;
         this.navCtrl = navCtrl;
@@ -81,11 +72,6 @@ var HomePage = (function () {
             _this.items = data;
         });
     }
-    // addNewPersonal(newPersonalName) {
-    //   let newPersonalObject = { name: newPersonalName };
-    //   this.items.push(newPersonalObject);
-    //   console.log(this.items);
-    // }
     HomePage.prototype.onPop = function () {
         this.navCtrl.pop();
     };
@@ -151,7 +137,6 @@ var RegisterPage1 = (function () {
     };
     RegisterPage1.prototype.regisSuccess = function (user_name, user_id, position, user_firstname, user_lastname, password, confirmpassword) {
         var _this = this;
-        //this.viewController.dismiss({ "user_name": user_name, "id_user": id_user, "firstname":firstname,"lastname":lastname,"password":password,"repassword":repassword,"position": position, "img": this.base64Image });
         var body = {
             'user_name': user_name, 'user_id': user_id, 'position': position,
             'user_firstname': user_firstname, 'user_lastname': user_lastname,
@@ -160,15 +145,11 @@ var RegisterPage1 = (function () {
         this.viewController.dismiss(body);
         console.dir(body);
         this.http.post('https://cyber-pos.herokuapp.com/users', body).map(function (res) {
-            // console.log('Result in mapping method:');
-            // console.dir(res);
             return res.json();
         }).subscribe(function (data) {
-            // console.log('Data object in subscribe method:');
             console.dir(data);
             console.log(data._id);
             _this.item = data;
-            // location.reload();
         });
     };
     RegisterPage1 = __decorate([
@@ -213,12 +194,8 @@ var EditUser = (function () {
         this.viewController.dismiss(body);
         console.dir(body);
         this.http.put('https://cyber-pos.herokuapp.com/users/' + this._id, body).map(function (res) {
-            // console.log('Result in mapping method:');
-            // console.dir(res);
             return res.json();
         }).subscribe(function (data) {
-            // console.log('Data object in subscribe method:');
-            console.dir(data);
             _this.returnMsg = data.message;
         });
     };
@@ -261,12 +238,8 @@ var SettingUser = (function () {
     SettingUser.prototype.delUser = function (item) {
         var _this = this;
         this.http.delete('https://cyber-pos.herokuapp.com/users/' + item._id).map(function (res) {
-            // console.log('Result in mapping method:');
-            // console.dir(res);
             return res.json();
         }).subscribe(function (data) {
-            // console.log('Data object in subscribe method:');
-            console.dir(data);
             _this.returnMsg = data.message;
         });
         for (var i = 0; i < this.items.length; i++) {
@@ -332,29 +305,13 @@ var PaymentPage = (function () {
         this.zeroTwo = "";
         this.orders = navParam.get("orders");
         this.totalprice = navParam.get("totalprice");
-        //this.change = this.cash - this.orders.order.totalPrice;
         console.log(this.orders);
     }
     PaymentPage.prototype.ProductSell = function () {
         this.navCtrl.pop();
     };
-    // BackTable() {
-    //      if (this.orders.order._id) {
-    //     this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
-    //       return res.json();
-    //     }).subscribe(data => {
-    //       // console.log('Data object in subscribe method:');
-    //       console.dir(data);
-    //       // this.returnMsg = data.message;
-    //     });
-    //   }
-    //   console.log(this.orders.order);
-    //   this.navCtrl.push(TablePage,{'user_name':this.orders.order.user_name});
-    // }
     PaymentPage.prototype.ConfirmOr = function () {
         var _this = this;
-        // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
-        // modal.present();
         var confirm = this.alertCtrl.create({
             title: 'แจ้งเตือน',
             message: "\u0E04\u0E38\u0E13\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E25\u0E1A\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14\u0E43\u0E0A\u0E48\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48",
@@ -399,20 +356,16 @@ var PaymentPage = (function () {
     PaymentPage.prototype.Cseven = function () {
         this.seven = 7;
         this.money.push(this.seven);
-        //var sv = this.money.toString();
         var str = this.money.join("");
         this.cash = str;
         console.log(str);
-        // this.money.replace(',','');
     };
     PaymentPage.prototype.Csix = function () {
         this.six = 6;
         this.money.push(this.six);
-        //var sx = this.money.toString();
         var str = this.money.join("");
         this.cash = str;
         console.log(str);
-        //  this.money.replace(',','');
     };
     PaymentPage.prototype.Cfive = function () {
         this.five = 5;
@@ -486,11 +439,8 @@ var PaymentPage = (function () {
             };
             console.dir(body);
             this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
-                // console.log('Result in mapping method:');
-                // console.dir(res);
                 return res.json();
             }).subscribe(function (data) {
-                // console.log('Data object in subscribe method:');
                 console.dir(data);
                 _this.returnMessage = data.message;
                 console.log(_this.returnMessage);
@@ -509,23 +459,14 @@ var PaymentPage = (function () {
             };
             console.dir(body);
             this.http.put('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id, body).map(function (res) {
-                // console.log('Result in mapping method:');
-                // console.dir(res);
                 return res.json();
             }).subscribe(function (data) {
-                // console.log('Data object in subscribe method:');
                 console.dir(data);
                 _this.returnMessage = data.message;
                 console.log(_this.returnMessage);
             });
         }
-        //this.navCtrl.push(TablePage,{"user_name":this.orders.order.user_name,});
-        // this.navCtrl.setRoot(HomePage);
-        // this.navCtrl.push(ProductSellPage,{"user_name":this.orders.order.user_name,});
-        //location.reload('TablePage');
-        // this.navCtrl.remove(1);
         this.navCtrl.insert(1, table_1.TablePage, { "user_name": this.orders.order.user_name });
-        //this.navCtrl.remove(2)
     };
     PaymentPage = __decorate([
         core_1.Component({
@@ -536,32 +477,6 @@ var PaymentPage = (function () {
     return PaymentPage;
 }());
 exports.PaymentPage = PaymentPage;
-// @Component({
-//   templateUrl: 'build/pages/payment/cnOrder-modal.html',
-// })
-// export class CancelOrder {
-//   returnMsg = "";
-//   orders: any;
-//   constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
-//     public viewController: ViewController, public http: Http) {
-//     this.orders = navParams.get('orders');
-//     console.log(this.orders);
-//   }
-//   cnOr() {
-//     this.viewController.dismiss();
-//   }
-//   cnOk() {
-//     if (this.orders.order._id) {
-//       this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
-//         return res.json();
-//       }).subscribe(data => {
-//         console.dir(data);
-//       });
-//     }
-//     console.log(this.orders.order);
-//     this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
-//   }
-// } 
 },{"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -604,9 +519,6 @@ var ProductSellPage = (function () {
             direction: 'vertical'
         };
         this.uuid = navParam.get('uuid');
-        //  if(navParam.get('status') == 'Pause'){
-        //     this.totalprice = navParam.get('totalprice');
-        //  }
         this.http.get('https://cyber-pos.herokuapp.com/products').map(function (res) {
             return res.json();
         }).subscribe(function (data) {
@@ -655,28 +567,8 @@ var ProductSellPage = (function () {
             }
             console.log(_this.box);
         });
-        //   this.name_table = navParam.get("name_table");
-        //   this.id_cus = navParam.get("id_cus");
-        //   this.user_name = navParam.get("user_name");
-        // console.log(this.name_table);
         this.orders = navParam.get("item");
         console.log(this.orders.order);
-        //this.fillterOrder =  this.orders.order;
-        //console.log(this.fillterOrder);
-        //  this.http.get('https://cyber-pos.herokuapp.com/orders').map(res => {
-        //   return res.json();
-        // }).subscribe(data => {
-        //   console.log('Data object in subscribe method:');
-        //   console.dir(data);
-        //   this.orders = data;
-        //   console.log(this.orders);
-        //   for(let i =0;i< this.orders.length;i++){
-        //     if(this.name_table == this.orders[i].name_table){
-        //       this.fillterOrder.push(this.orders[i]);
-        //     }
-        //   }
-        //   console.dir(this.fillterOrder);
-        // });
         this.id_cus = "-";
         this.orders.order.id_cus = this.id_cus;
         this.id_order = 'O-' + this.uuid.slice(0, 8);
@@ -701,9 +593,7 @@ var ProductSellPage = (function () {
             this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
                 return res.json();
             }).subscribe(function (data) {
-                // console.log('Data object in subscribe method:');
                 console.dir(data);
-                // this.returnMsg = data.message;
             });
         }
         console.log(this.orders.order);
@@ -714,13 +604,16 @@ var ProductSellPage = (function () {
             element.totalprice = element.piece * element.price;
             console.log(element.totalprice);
         });
-        // console.log('amout'+this.orders.order.list_order[0].piece * this.orders.order.list_order[0].price);
         this.navCtrl.push(payment_1.PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
     };
     ProductSellPage.prototype.TablePage = function () {
         var _this = this;
-        //this.navCtrl.push(TablePage);
-        //localStorage.setItem('totalprice',this.totalprice);
+        this.http.get('https://cyber-pos.herokuapp.com/orders').map(function (res) {
+            return res.json();
+        }).subscribe(function (data) {
+            console.dir(data);
+        });
+        console.log(this.orders.order);
         if (!this.orders.order._id) {
             this.orders.order.list_order.forEach(function (element) {
                 element.totalprice = element.piece * element.price;
@@ -736,11 +629,8 @@ var ProductSellPage = (function () {
             };
             console.dir(body);
             this.http.post('https://cyber-pos.herokuapp.com/orders', body).map(function (res) {
-                // console.log('Result in mapping method:');
-                // console.dir(res);
                 return res.json();
             }).subscribe(function (data) {
-                // console.log('Data object in subscribe method:');
                 console.dir(data);
                 _this.returnMessage = data.message;
                 console.log(_this.returnMessage);
@@ -761,17 +651,16 @@ var ProductSellPage = (function () {
             };
             console.dir(body);
             this.http.put('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id, body).map(function (res) {
-                // console.log('Result in mapping method:');
-                // console.dir(res);
                 return res.json();
             }).subscribe(function (data) {
-                // console.log('Data object in subscribe method:');
                 console.dir(data);
                 _this.returnMessage = data.message;
                 console.log(_this.returnMessage);
             });
         }
-        this.navCtrl.pop();
+        //this.navCtrl.pop();
+        this.navCtrl.push(table_1.TablePage, {});
+        this.navCtrl.remove(2, 3);
         console.log(this.orders);
     };
     ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
@@ -784,8 +673,6 @@ var ProductSellPage = (function () {
     };
     ProductSellPage.prototype.chooseProduct = function (item, obj) {
         console.log(item);
-        // this.totalprice = item.price * item.piece;
-        // console.log(this.totalprice);
         obj = this.orders.order.totalPrice;
         console.log(obj);
         if (obj) {
@@ -794,10 +681,8 @@ var ProductSellPage = (function () {
                     return itm.id_pro == item.id_pro;
                 })[0];
                 selected.piece++;
-                // item.totalprice = item.price * item.piece;
                 obj += selected.totalprice;
                 this.orders.order.totalPrice = obj;
-                // console.log(this.orders.order.totalPrice);
                 this.total = selected.toTal;
                 console.log(selected.totalprice);
             }
@@ -818,10 +703,8 @@ var ProductSellPage = (function () {
                     return itm.id_pro == item.id_pro;
                 })[0];
                 selected.piece++;
-                // item.totalprice = item.price * item.piece;
                 this.totalPrice += selected.totalprice;
                 this.orders.order.totalPrice = this.totalPrice;
-                // console.log(this.orders.order.totalPrice);
                 this.total = selected.toTal;
                 console.log(selected.totalprice);
             }
@@ -843,8 +726,6 @@ var ProductSellPage = (function () {
         for (var i = 0; i < OrderItm.length; i++) {
             if (OrderItm[i]._id == item._id) {
                 this.orders.order.totalPrice = this.orders.order.totalPrice - (OrderItm[i].totalprice * OrderItm[i].piece);
-                // OrderItm.totalprice = OrderItm[i].totalprice * OrderItm[i].piece;
-                // console.log(OrderItm.totalprice);
                 this.totalPrice = this.orders.order.totalPrice;
                 OrderItm.splice(i, 1);
                 break;
@@ -876,8 +757,6 @@ var ProductSellPage = (function () {
     };
     ProductSellPage.prototype.ConfirmOr = function () {
         var _this = this;
-        // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
-        // modal.present();
         var confirm = this.alertCtrl.create({
             title: 'แจ้งเตือน',
             message: "\u0E04\u0E38\u0E13\u0E15\u0E49\u0E2D\u0E07\u0E01\u0E32\u0E23\u0E25\u0E1A\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14\u0E43\u0E0A\u0E48\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48",
@@ -914,32 +793,6 @@ var ProductSellPage = (function () {
     return ProductSellPage;
 }());
 exports.ProductSellPage = ProductSellPage;
-// @Component({
-//   templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
-// })
-// export class CancelOrder {
-//   returnMsg = "";
-//   orders: any;
-//   constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
-//     public viewController: ViewController, public http: Http) {
-//     this.orders = navParams.get('orders');
-//     console.log(this.orders);
-//   }
-//   cnOr() {
-//     this.viewController.dismiss();
-//   }
-//   cnOk() {
-//     if (this.orders.order._id) {
-//       this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
-//         return res.json();
-//       }).subscribe(data => {
-//         console.dir(data);
-//       });
-//     }
-//     console.log(this.orders.order);
-//     this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
-//   }
-// } 
 },{"../payment/payment":3,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],5:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -972,6 +825,7 @@ var TablePage = (function () {
         this.tables = [];
         this.paid = false;
         this.fillData = [];
+        this.list_order = [];
         this.user_name = navParam.get("user_name");
         console.log(this.user_name);
         this.http.get('https://cyber-pos.herokuapp.com/tables').map(function (res) {
@@ -981,17 +835,11 @@ var TablePage = (function () {
             console.dir(data);
             _this.tables = data;
             console.log(_this.tables);
-            // for(let i =0;i< this.tables.length;i++){
-            //   if(this.user_name == this.tables[i].user_name){
-            //     this.fillterTable.push(this.tables[i]);
-            //   }
-            // }
             _this.tables.forEach(function (element) {
                 console.log(element);
                 _this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
-                    // console.log('Data object in subscribe method:');
                     console.dir(data);
                     if (data) {
                         element.order = data;
@@ -999,17 +847,12 @@ var TablePage = (function () {
                 });
                 _this.fillData = element;
                 console.log(_this.fillData.order);
-                // if(this.fillData.order){
                 _this.fillterTable.push(_this.fillData);
-                // console.log(this.fillterTable);
-                // }
             });
-            //  this.fillterTable.push(this.fillData);
             console.log(_this.fillterTable);
         });
     }
     TablePage.prototype.ProductSellPage = function (_item) {
-        //let totalprice= localStorage.getItem('totalprice');
         function createGuid() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
