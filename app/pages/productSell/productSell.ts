@@ -261,7 +261,7 @@ export class ProductSellPage {
     }
 
 
-    this.navCtrl.push(TablePage);
+    this.navCtrl.pop();
     console.log(this.orders);
 
 

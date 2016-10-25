@@ -19,9 +19,10 @@ export class TablePage {
   paid:any = false;
   fillData: any = [];
   constructor(private navCtrl: NavController, public http: Http, public navParam: NavParams) {
-
+   
     this.user_name = navParam.get("user_name");
     console.log(this.user_name);
+    
     this.http.get('https://cyber-pos.herokuapp.com/tables').map(res => {
 
       return res.json();

@@ -298,7 +298,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
-var productSell_1 = require('../productSell/productSell');
 var table_1 = require('../table/table');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
@@ -337,21 +336,21 @@ var PaymentPage = (function () {
         console.log(this.orders);
     }
     PaymentPage.prototype.ProductSell = function () {
-        this.navCtrl.pop(productSell_1.ProductSellPage);
+        this.navCtrl.pop();
     };
-    PaymentPage.prototype.BackTable = function () {
-        if (this.orders.order._id) {
-            this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(function (res) {
-                return res.json();
-            }).subscribe(function (data) {
-                // console.log('Data object in subscribe method:');
-                console.dir(data);
-                // this.returnMsg = data.message;
-            });
-        }
-        console.log(this.orders.order);
-        this.navCtrl.push(table_1.TablePage, { 'user_name': this.orders.order.user_name });
-    };
+    // BackTable() {
+    //      if (this.orders.order._id) {
+    //     this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+    //       return res.json();
+    //     }).subscribe(data => {
+    //       // console.log('Data object in subscribe method:');
+    //       console.dir(data);
+    //       // this.returnMsg = data.message;
+    //     });
+    //   }
+    //   console.log(this.orders.order);
+    //   this.navCtrl.push(TablePage,{'user_name':this.orders.order.user_name});
+    // }
     PaymentPage.prototype.ConfirmOr = function () {
         var _this = this;
         // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
@@ -520,7 +519,13 @@ var PaymentPage = (function () {
                 console.log(_this.returnMessage);
             });
         }
-        this.navCtrl.push(table_1.TablePage, { "user_name": this.orders.order.user_name, });
+        //this.navCtrl.push(TablePage,{"user_name":this.orders.order.user_name,});
+        // this.navCtrl.setRoot(HomePage);
+        // this.navCtrl.push(ProductSellPage,{"user_name":this.orders.order.user_name,});
+        //location.reload('TablePage');
+        // this.navCtrl.remove(1);
+        this.navCtrl.insert(1, table_1.TablePage, { "user_name": this.orders.order.user_name });
+        //this.navCtrl.remove(2)
     };
     PaymentPage = __decorate([
         core_1.Component({
@@ -557,7 +562,7 @@ exports.PaymentPage = PaymentPage;
 //     this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
 //   }
 // } 
-},{"../productSell/productSell":4,"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
+},{"../table/table":5,"@angular/core":153,"@angular/http":280,"ionic-angular":467,"rxjs/add/operator/map":580}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -766,7 +771,7 @@ var ProductSellPage = (function () {
                 console.log(_this.returnMessage);
             });
         }
-        this.navCtrl.push(table_1.TablePage);
+        this.navCtrl.pop();
         console.log(this.orders);
     };
     ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {

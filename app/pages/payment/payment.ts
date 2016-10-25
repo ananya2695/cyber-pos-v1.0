@@ -42,26 +42,26 @@ export class PaymentPage {
 
   }
   ProductSell() {
-    this.navCtrl.pop(ProductSellPage);
+    this.navCtrl.pop();
   }
-  BackTable() {
-       if (this.orders.order._id) {
-      this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+  // BackTable() {
+  //      if (this.orders.order._id) {
+  //     this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
 
-        return res.json();
+  //       return res.json();
 
-      }).subscribe(data => {
+  //     }).subscribe(data => {
 
-        // console.log('Data object in subscribe method:');
-        console.dir(data);
-        // this.returnMsg = data.message;
+  //       // console.log('Data object in subscribe method:');
+  //       console.dir(data);
+  //       // this.returnMsg = data.message;
 
-      });
-    }
+  //     });
+  //   }
 
-    console.log(this.orders.order);
-    this.navCtrl.push(TablePage,{'user_name':this.orders.order.user_name});
-  }
+  //   console.log(this.orders.order);
+  //   this.navCtrl.push(TablePage,{'user_name':this.orders.order.user_name});
+  // }
    ConfirmOr() {
     // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
     // modal.present();
@@ -248,7 +248,13 @@ export class PaymentPage {
     }
 
 
-    this.navCtrl.push(TablePage,{"user_name":this.orders.order.user_name,});
+    //this.navCtrl.push(TablePage,{"user_name":this.orders.order.user_name,});
+    // this.navCtrl.setRoot(HomePage);
+    // this.navCtrl.push(ProductSellPage,{"user_name":this.orders.order.user_name,});
+    //location.reload('TablePage');
+   // this.navCtrl.remove(1);
+    this.navCtrl.insert(1,TablePage,{"user_name":this.orders.order.user_name});
+   //this.navCtrl.remove(2)
   }
 }
 
