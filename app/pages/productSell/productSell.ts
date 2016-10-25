@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Slides, NavParams, ModalController, ViewController} from 'ionic-angular';
+import { NavController, Slides, NavParams, ModalController, ViewController, AlertController} from 'ionic-angular';
 import { PaymentPage } from '../payment/payment';
 import { TablePage } from'../table/table';
 import {Http} from '@angular/http';
@@ -36,7 +36,8 @@ export class ProductSellPage {
   mySlideVertical = {
     direction: 'vertical'
   };
-  constructor(public navCtrl: NavController, public http: Http, public navParam: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public http: Http,
+    public navParam: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController) {
     this.uuid = navParam.get('uuid');
     //  if(navParam.get('status') == 'Pause'){
     //     this.totalprice = navParam.get('totalprice');
@@ -76,25 +77,25 @@ export class ProductSellPage {
       console.log(this.boxcate);
 
 
-   
-    this.basket = this.products.filter(function (el) {
-      return (el.cate === 'Drink');
-    });
-    console.log(this.basket);
-    this.box = [];
-    let productPerPage = 12;
-    let page = Math.ceil(this.basket.length / productPerPage);
-    let ii = 0;
-    for (let i = 0; i < page; i++) {
-      let pp = { page: i, basket: [] };
 
-      for (let j = 0; j < productPerPage; j++) {
-        if (this.basket[ii]) pp.basket.push(this.basket[ii]);
-        ii++;
+      this.basket = this.products.filter(function (el) {
+        return (el.cate === 'Drink');
+      });
+      console.log(this.basket);
+      this.box = [];
+      let productPerPage = 12;
+      let page = Math.ceil(this.basket.length / productPerPage);
+      let ii = 0;
+      for (let i = 0; i < page; i++) {
+        let pp = { page: i, basket: [] };
+
+        for (let j = 0; j < productPerPage; j++) {
+          if (this.basket[ii]) pp.basket.push(this.basket[ii]);
+          ii++;
+        }
+        this.box.push(pp);
       }
-      this.box.push(pp);
-    }
-    console.log(this.box);
+      console.log(this.box);
 
     });
 
@@ -137,24 +138,24 @@ export class ProductSellPage {
     this.orders.order.id_order = this.id_order;
 
     var today = new Date();
-    var dd =  today.getDate(); 
+    var dd = today.getDate();
     console.log(dd);
-    var mm =  today.getMonth()+1; 
+    var mm = today.getMonth() + 1;
     console.log(mm);
-    var yyyy = today.getFullYear(); 
+    var yyyy = today.getFullYear();
     console.log(yyyy);
-    this.time_cus = dd + '/' + mm +'/'+ yyyy;
+    this.time_cus = dd + '/' + mm + '/' + yyyy;
     this.orders.order.time_cus = this.time_cus;
-    console.log( this.orders.order.time_cus);
-  
-    
-    
+    console.log(this.orders.order.time_cus);
 
-    
-    if(!this.orders.order.totalPrice){
-       this.orders.order.totalPrice = 0;
+
+
+
+
+    if (!this.orders.order.totalPrice) {
+      this.orders.order.totalPrice = 0;
     }
-   
+
 
   }
   CancelOrder() {
@@ -192,15 +193,15 @@ export class ProductSellPage {
     this.navCtrl.push(PaymentPage, { "orders": this.orders, "totalPrice": this.totalPrice });
   }
   TablePage() {
-      
+
     //this.navCtrl.push(TablePage);
     //localStorage.setItem('totalprice',this.totalprice);
     if (!this.orders.order._id) {
-       this.orders.order.list_order.forEach(element => {
-      element.totalprice = element.piece * element.price;
-      console.log(element.totalprice);
+      this.orders.order.list_order.forEach(element => {
+        element.totalprice = element.piece * element.price;
+        console.log(element.totalprice);
 
-    });
+      });
       let product = this.orders.order.list_order;
       console.log(product);
       let body = {
@@ -227,11 +228,11 @@ export class ProductSellPage {
       });
 
     } else if (this.orders.order._id) {
-       this.orders.order.list_order.forEach(element => {
-      element.totalprice = element.piece * element.price;
-      console.log(element.totalprice);
+      this.orders.order.list_order.forEach(element => {
+        element.totalprice = element.piece * element.price;
+        console.log(element.totalprice);
 
-    });
+      });
       let product = this.orders.order.list_order;
       console.log(product);
       let body = {
@@ -379,43 +380,77 @@ export class ProductSellPage {
 
   }
   ConfirmOr() {
-    let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
-    modal.present();
+    // let modal = this.modalCtrl.create(CancelOrder, { 'orders': this.orders });
+    // modal.present();
+    let confirm = this.alertCtrl.create({
+      title: 'แจ้งเตือน',
+      message: `คุณต้องการลบสินค้าทั้งหมดใช่หรือไม่`,
+      buttons: [
+        {
+          text: 'ยกเลิก',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'ตกลง',
+          handler: () => {
+            if (this.orders.order._id) {
+              this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+
+                return res.json();
+
+              }).subscribe(data => {
+                console.dir(data);
+
+              });
+
+            }
+
+            console.log(this.orders.order);
+            this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+
+          }
+        }
+      ]
+    });
+    confirm.present();
+
   }
 
 
 }
 
 
-@Component({
-  templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
-})
-export class CancelOrder {
-  returnMsg = "";
-  orders: any;
-  constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
-    public viewController: ViewController, public http: Http) {
-    this.orders = navParams.get('orders');
-    console.log(this.orders);
-  }
-  cnOr() {
-    this.viewController.dismiss();
-  }
-  cnOk() {
-    if (this.orders.order._id) {
-      this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
+// @Component({
+//   templateUrl: 'build/pages/productSell/cancelOrder-modal.html',
+// })
+// export class CancelOrder {
+//   returnMsg = "";
+//   orders: any;
+//   constructor(public navParams: NavParams, private navCtrl: NavController, public modalCtrl: ModalController,
+//     public viewController: ViewController, public http: Http) {
+//     this.orders = navParams.get('orders');
+//     console.log(this.orders);
+//   }
+//   cnOr() {
+//     this.viewController.dismiss();
+//   }
+//   cnOk() {
+//     if (this.orders.order._id) {
+//       this.http.delete('https://cyber-pos.herokuapp.com/orders/' + this.orders.order._id).map(res => {
 
-        return res.json();
+//         return res.json();
 
-      }).subscribe(data => {
-        console.dir(data);
+//       }).subscribe(data => {
+//         console.dir(data);
 
-      });
-     
-    }
+//       });
 
-    console.log(this.orders.order);
-    this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
-  }
+//     }
 
-}
+//     console.log(this.orders.order);
+//     this.navCtrl.push(TablePage, { 'user_name': this.orders.order.user_name });
+//   }
+
+// }
