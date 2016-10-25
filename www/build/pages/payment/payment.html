@@ -50,7 +50,7 @@
 <ion-row>
   <ion-col width-25>
     <ion-item>
-    <ion-label>รายการ</ion-label> 
+    <ion-label>&nbsp; &nbsp; รายการ</ion-label> 
   </ion-item>
   </ion-col>
   <ion-col width-50 align="center">
@@ -69,20 +69,20 @@
 
    <ion-scroll scrollY="true" style="height:400px;">
              <ion-row *ngFor="let item of orders.order.list_order">
-            <ion-col width-25>
+            <ion-col width-25 style="text-align:left;">
               <ion-item>
                 <ion-label>{{item.namePro}}</ion-label>
 
               </ion-item>
             </ion-col>
-            <ion-col width-50 align="center">
+            <ion-col width-50 style="text-align:center;">
               
                  <ion-label>{{item.piece}}</ion-label>
               
             </ion-col>
             <ion-col width-25>
               <ion-item>
-                <ion-label>{{item.totalprice}}</ion-label>
+                <ion-label>&nbsp; &nbsp; {{item.totalprice}}</ion-label>
 
               </ion-item>
             </ion-col>
