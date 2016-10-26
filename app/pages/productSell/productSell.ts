@@ -25,6 +25,7 @@ export class ProductSellPage {
   totalprice: any = 0.00;
   total: any = 0.00;
   _id: any;
+  ids: any;
   box: any = [];
   boxcate: any = [];
   mySlideOptions = {
@@ -97,9 +98,13 @@ export class ProductSellPage {
     this.id_cus = "-";
     this.orders.order.id_cus = this.id_cus;
 
-    this.id_order = 'O-' + this.uuid.slice(0, 8);
-    console.log(this.id_order);
-    this.orders.order.id_order = this.id_order;
+    if (!this.orders.order.id_order) {
+      this.id_order = 'O-' + this.uuid.slice(0, 8);
+      console.log(this.id_order);
+      this.orders.order.id_order = this.id_order;
+    }
+
+
 
     var today = new Date();
     var dd = today.getDate();
@@ -115,6 +120,7 @@ export class ProductSellPage {
     if (!this.orders.order.totalPrice) {
       this.orders.order.totalPrice = 0;
     }
+
   }
   CancelOrder() {
     if (this.orders.order._id) {
@@ -141,15 +147,6 @@ export class ProductSellPage {
   }
   TablePage() {
 
-    this.http.get('https://cyber-pos.herokuapp.com/orders').map(res => {
-
-      return res.json();
-
-    }).subscribe(data => {
-      console.dir(data);
-
-    });
-    console.log(this.orders.order);
     if (!this.orders.order._id) {
       this.orders.order.list_order.forEach(element => {
         element.totalprice = element.piece * element.price;
@@ -170,12 +167,27 @@ export class ProductSellPage {
         return res.json();
 
       }).subscribe(data => {
-
         console.dir(data);
         this.returnMessage = data.message;
         console.log(this.returnMessage);
 
+        this.http.get('https://cyber-pos.herokuapp.com/orders').map(res => {
+
+          return res.json();
+
+        }).subscribe(data2 => {
+          console.dir(data2);
+          for (let i = 0; i < data2.length; i++) {
+            if (data._id == data2[i]._id) {
+              this.orders.order._id = data2[i]._id;
+              console.log(this.orders.order._id);
+              break;
+            }
+          }
+        });
+
       });
+
 
     } else if (this.orders.order._id) {
       this.orders.order.list_order.forEach(element => {
@@ -203,9 +215,11 @@ export class ProductSellPage {
       });
     }
     //this.navCtrl.pop();
+
+    console.log(this.orders.order);
     this.navCtrl.push(TablePage, {});
     this.navCtrl.remove(2, 3);
-    console.log(this.orders);
+
   }
 
   arrayIndexOf(myArr, key) {

@@ -571,9 +571,11 @@ var ProductSellPage = (function () {
         console.log(this.orders.order);
         this.id_cus = "-";
         this.orders.order.id_cus = this.id_cus;
-        this.id_order = 'O-' + this.uuid.slice(0, 8);
-        console.log(this.id_order);
-        this.orders.order.id_order = this.id_order;
+        if (!this.orders.order.id_order) {
+            this.id_order = 'O-' + this.uuid.slice(0, 8);
+            console.log(this.id_order);
+            this.orders.order.id_order = this.id_order;
+        }
         var today = new Date();
         var dd = today.getDate();
         console.log(dd);
@@ -608,12 +610,6 @@ var ProductSellPage = (function () {
     };
     ProductSellPage.prototype.TablePage = function () {
         var _this = this;
-        this.http.get('https://cyber-pos.herokuapp.com/orders').map(function (res) {
-            return res.json();
-        }).subscribe(function (data) {
-            console.dir(data);
-        });
-        console.log(this.orders.order);
         if (!this.orders.order._id) {
             this.orders.order.list_order.forEach(function (element) {
                 element.totalprice = element.piece * element.price;
@@ -634,6 +630,18 @@ var ProductSellPage = (function () {
                 console.dir(data);
                 _this.returnMessage = data.message;
                 console.log(_this.returnMessage);
+                _this.http.get('https://cyber-pos.herokuapp.com/orders').map(function (res) {
+                    return res.json();
+                }).subscribe(function (data2) {
+                    console.dir(data2);
+                    for (var i = 0; i < data2.length; i++) {
+                        if (data._id == data2[i]._id) {
+                            _this.orders.order._id = data2[i]._id;
+                            console.log(_this.orders.order._id);
+                            break;
+                        }
+                    }
+                });
             });
         }
         else if (this.orders.order._id) {
@@ -659,9 +667,9 @@ var ProductSellPage = (function () {
             });
         }
         //this.navCtrl.pop();
+        console.log(this.orders.order);
         this.navCtrl.push(table_1.TablePage, {});
         this.navCtrl.remove(2, 3);
-        console.log(this.orders);
     };
     ProductSellPage.prototype.arrayIndexOf = function (myArr, key) {
         var result = -1;

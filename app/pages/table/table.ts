@@ -20,9 +20,11 @@ export class TablePage {
   fillData: any = [];
   _id: any;
   id_cus: any;
-  list_order :any = [];
-
+  list_order: any = [];
+  orders: any;
   constructor(private navCtrl: NavController, public http: Http, public navParam: NavParams) {
+
+    
     this.user_name = navParam.get("user_name");
     console.log(this.user_name);
     this.http.get('https://cyber-pos.herokuapp.com/tables').map(res => {
@@ -35,7 +37,6 @@ export class TablePage {
       console.dir(data);
       this.tables = data;
       console.log(this.tables);
-
       this.tables.forEach(element => {
         console.log(element);
         this.http.get('https://cyber-pos.herokuapp.com/orders/bytable/' + element.name_table).map(res => {
@@ -59,6 +60,7 @@ export class TablePage {
   }
 
   ProductSellPage(_item) {
+    
     function createGuid() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -78,7 +80,8 @@ export class TablePage {
         paid: this.paid,
         list_order: []
       };
-    } 
+    }
+
     this.navCtrl.push(ProductSellPage, { 'item': _item, 'uuid': uuid });
     console.log(_item);
   }
